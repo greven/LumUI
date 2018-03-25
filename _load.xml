@@ -1,0 +1,13 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file='init.lua' />
+	<Script file='config.lua' />
+
+	<Script file='core\core.lua' />
+	<Script file='core\utils.lua' />
+
+	<Script file='mods\auras.lua' />
+	<Script file='mods\cooldowns.lua' />
+	<Script file='mods\minimap.lua' />
+
+	<Script file='elements\stats.lua' />
+</Ui>
