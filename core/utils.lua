@@ -6,9 +6,47 @@ local L, C, G = unpack(select(2, ...))
 -- > FUNCTIONS
 -- -----------------------------------
 
+function L:ShortNumber(v)
+  if v > 1E10 then
+    return (floor(v/1E9)).."|cffbbbbbbb|r"
+  elseif v > 1E9 then
+    return (floor((v/1E9)*10)/10).."|cffbbbbbbb|r"
+  elseif v > 1E7 then
+    return (floor(v/1E6)).."|cffbbbbbbm|r"
+  elseif v > 1E6 then
+    return (floor((v/1E6)*10)/10).."|cffbbbbbbm|r"
+  elseif v > 1E4 then
+    return (floor(v/1E3)).."|cffbbbbbbk|r"
+  elseif v > 1E3 then
+    return (floor((v/1E3)*10)/10).."|cffbbbbbbk|r"
+  else
+    return v
+  end
+end
+
+function L:FormatInt(number)
+  local i, j, minus, int, fraction = tostring(number):find('([-]?)(%d+)([.]?%d*)')
+  int = int:reverse():gsub("(%d%d%d)", "%1,")
+  return minus .. int:reverse():gsub("^,", "") .. fraction
+end
+
+
+-- Format Money
+function L:FormatMoney(money)
+  local gold = math.floor(money / 1e4)
+  local silver = math.floor((money / 1e2) % 1e2)
+  local copper = math.floor(money % 1e2)
+
+  local output = string.format('|cffffff66%d|r', gold)
+  output = string.format('%s.|cffc0c0c0%d|r', output, silver)
+  output = string.format('%s.|cffcc9900%d|r', output, copper)
+
+  return output
+end
+
 -- Create Panel
 function L:CreatePanel(classColored, hasShadow, fname, fparent, fwidth, fheight, fpoints, ftilesize, fedgesize, finsect, shadowalpha)
-  local f = CreateFrame("Frame","Drop_"..fname,UIParent)
+  local f = CreateFrame("Frame", fname .. "Border", UIParent)
   if classColored then bColor = G.classColor else bColor = C.color.border end
   f:SetParent(fparent)
   f:SetFrameStrata("BACKGROUND")
@@ -46,4 +84,6 @@ function L:CreatePanel(classColored, hasShadow, fname, fparent, fwidth, fheight,
     s:SetBackdropColor(C.color.bg.r, C.color.bg.g, C.color.bg.b, C.color.bg.a)
     s:SetBackdropBorderColor(0, 0, 0, shadowalpha)
   end
+
+  return f
 end

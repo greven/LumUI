@@ -166,6 +166,19 @@ function lm:SetPos(margin)
   Minimap:SetPoint(mPoint, mParent, mParentPoint, mPosx, mPosy - margin)
 end
 
+-- Set Minimap Position based on top Margin elements
+function lm:SetMinimapPosition()
+  local margin = 0
+
+  -- Order Hall
+  if OrderHallCommandBar then
+    if OrderHallCommandBar:IsShown() then
+      margin = margin + OrderHallCommandBar.Background:GetHeight()
+    end
+  end
+  lm:SetPos(margin)
+end
+
 -- Mousewheel Scrolling (p3lim)
 function lm:MouseScroll()
   MinimapZoomIn:Hide()
@@ -209,14 +222,28 @@ function GetMinimapShape()
   return 'SQUARE'
 end
 
+function lm:PLAYER_LOGIN(event)
+  lm:TextColor()
+  zone:SetText(GetMinimapZoneText())
+  lm:SetMinimapPosition()
+end
+
+function lm:PLAYER_ENTERING_WORLD()
+  lm:TextColor()
+  zone:SetText(GetMinimapZoneText())
+  lm:SetMinimapPosition()
+end
+
 function lm:ZONE_CHANGED(event)
   lm:TextColor()
   zone:SetText(GetMinimapZoneText())
+  lm:SetMinimapPosition()
 end
 
 function lm:ZONE_CHANGED_INDOORS(event)
   lm:TextColor()
   zone:SetText(GetMinimapZoneText())
+  lm:SetMinimapPosition()
 end
 
 function lm:ZONE_CHANGED_NEW_AREA(event)
@@ -225,20 +252,20 @@ function lm:ZONE_CHANGED_NEW_AREA(event)
   end
   lm:TextColor()
   zone:SetText(GetMinimapZoneText())
+  lm:SetMinimapPosition()
 end
 
 
 function lm:ADDON_LOADED(event, addon,...)
   if (addon == "lumUI") then
     lm:Init()
+    lm:RegisterEvent("PLAYER_LOGIN")
+    lm:RegisterEvent("PLAYER_ENTERING_WORLD")
     lm:RegisterEvent("ZONE_CHANGED")
     lm:RegisterEvent("ZONE_CHANGED_INDOORS")
     lm:RegisterEvent("ZONE_CHANGED_NEW_AREA")
   end
-
-  if(addon == "Blizzard_OrderHallUI") then
-    lm:SetPos(25)
-  end
+  lm:SetMinimapPosition()
 end
 
 -- ---------------------------------

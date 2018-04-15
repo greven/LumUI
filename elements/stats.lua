@@ -161,7 +161,6 @@ end
 
 	-- Count Free Bags Free Slots
 	function st:bagsSlotsFree()
-
 		local free = 0
 		for i = 0, NUM_BAG_SLOTS do
 			free = free + GetContainerNumFreeSlots(i)
@@ -190,7 +189,7 @@ end
 		local silver = math.floor((money / 1e2) % 1e2)
 		local copper = math.floor(money % 1e2)
 
-		local output = format('|cffffff66%d|r', gold)
+		local output = format('|cffffff66%s|r', L:FormatInt(gold))
 		output = format('%s.|cffc0c0c0%d|r', output, silver)
 		output = format('%s.|cffcc9900%d|r', output, copper)
 		return output
@@ -203,7 +202,7 @@ end
 		local silver = math.floor((profit / 1e2) % 1e2)
 		local copper = math.floor(profit % 1e2)
 
-		local output = format('|cffffff66%d|r', gold)
+		local output = format('|cffffff66%s|r', L:FormatInt(gold))
 		output = format('%s.|cffc0c0c0%d|r', output, silver)
 		output = format('%s.|cffcc9900%d|r', output, copper)
 
@@ -230,11 +229,20 @@ end
 		end
 	end
 
+	-- Loot Specialization
+	function st:LootSpec()
+		local lootSpecId = GetLootSpecialization()
+		local lootSpec = select(2, GetSpecializationInfo(GetSpecialization()))
+		
+		if lootSpecId ~= 0 then
+			lootSpec = select(2, GetSpecializationInfoByID(lootSpecId))
+		end
+		return ("%s%s|r"):format(Hex(lColor), lootSpec) 
+	end
+
 	-- Talent Tree
 	function st:Talents()
-
 		PlayerLevel = UnitLevel("PLAYER")
-
 		-- Specialization
 		if PlayerLevel >= 10 then -- If Level is inferior to Level 10 player has no specialization yet
 			local specID = GetSpecialization()
@@ -270,7 +278,6 @@ end
 
 	-- Flashing Event
 	function st:FlashingText(elapsed)
-
 		local flashIndex = TWOPI * flashTimer * INVITE_PULSE_SEC
 		local flashValue = max(0.0, 0.5 + 0.5*cos(flashIndex))
 
@@ -327,6 +334,9 @@ function st:leftTooltip()
 			GameTooltip:AddDoubleLine('Haste', format("%d%%", (floor(GetHaste() + 0.5))), 1, 1, 1, 0.75, 0.75, 0.75)
 			GameTooltip:AddDoubleLine('Mastery', format("%d%%", select(1, GetMasteryEffect())), 1, 1, 1, 0.75, 0.75, 0.75)
 			GameTooltip:AddDoubleLine('Versatility', format("%d%% / %d%%", GetCombatRatingBonus(29), GetCombatRatingBonus(31)), 1, 1, 1, 0.75, 0.75, 0.75)
+
+			GameTooltip:AddLine(" ")
+			GameTooltip:AddDoubleLine('Loot Spec', st:LootSpec(), 1, 1, 1)
 			
 			GameTooltip:AddLine(" ")
 			if unspentTalents and unspentTalents > 0 then
@@ -341,7 +351,6 @@ end
 
 	-- Memory Tooltip Function (LynStats)
 	function st:centerTooltip()
-
 		if not InCombatLockdown() then -- Don't Show in Combat
 			local addons, total, nr, name = {}, 0, 0
 			GameTooltip:SetOwner(self, "ANCHOR_NONE")
@@ -440,7 +449,6 @@ end
 
 	-- Update Function
 	function st:Update(elapsed)
-
 		-- Time
 		if show_clock then
 			if time24 then
@@ -518,37 +526,30 @@ end
 	end
 
 	function st:BAG_UPDATE(event,...)
-
 		slotsfree = st:bagsSlotsFree()
 	end
 
 	function st:PLAYER_TALENT_UPDATE(event,...)
-
 		curSpec = st:Talents()
 	end
 
 	function st:CHARACTER_POINTS_CHANGED(event,...)
-
 		curSpec = st:Talents()
 	end
 
 	function st:UPDATE_INVENTORY_DURABILITY(event,...)
-
 		lowdur = st:Durability()
 	end
 
 	function st:UPDATE_PENDING_MAIL(event,...)
-
 		gotMail = (HasNewMail() or nil)
 	end
 
 	function st:CALENDAR_UPDATE_PENDING_INVITES(event,...)
-
 		newEvent = CalendarGetNumPendingInvites()
 	end
 
 	function st:PLAYER_ENTERING_WORLD(event,...)
-
 		slotsfree = st:bagsSlotsFree()
 		lowdur = st:Durability()
 		gotMail = (HasNewMail() or nil)
@@ -557,7 +558,6 @@ end
 	end
 
 	function st:PLAYER_LOGIN(event,...)
-
 		slotsfree = st:bagsSlotsFree()
 		lowdur = st:Durability()
 		gotMail = (HasNewMail() or nil)
@@ -571,7 +571,6 @@ end
 	end
 
 	function st:ADDON_LOADED(event,...)
-
 		-- Events
 		st:RegisterEvent("PLAYER_LOGIN")
 		st:RegisterEvent("PLAYER_ENTERING_WORLD")
