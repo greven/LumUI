@@ -23,8 +23,8 @@ local mParent = "UIParent" -- Minimap Parent
 local mParentPoint = "TOPRIGHT" -- Minimap Anchor
 local mPoint = "TOPRIGHT" -- Minimap Set Point
 
-local mWidth = 200 -- Minimap Width 
-local mHeight = 200 -- Minimap Height 
+local mWidth = 200 -- Minimap Width
+local mHeight = 200 -- Minimap Height
 local mPosx = -20 -- Minimap Horizontal Position
 local mPosy = -20 -- Minimap Vertical Position
 local mScale = 1.0 -- Minimap Scale
@@ -91,8 +91,7 @@ function lm:Init(event)
   -- Position and Scale
   Minimap:ClearAllPoints()
   Minimap:SetScale(mScale)
-  Minimap:SetSize(mWidth,mHeight)
-  Minimap:SetFrameLevel(1)
+  Minimap:SetSize(mWidth, mHeight)
   Minimap:SetMaskTexture('Interface/Buttons/WHITE8X8')   -- Make Minimap Square!
   lm:SetPos() -- Set Minimap Position
 
