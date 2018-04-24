@@ -7,11 +7,11 @@
 
 	<Script file='mods\auras.lua' />
 	<Script file='mods\combatText.lua' />
-	<Script file='mods\cooldownsCount.lua' />
-	<Script file='mods\cooldownsPulse.lua' />
 	<Script file='mods\minimap.lua' />
 	<Script file='mods\skins.lua' />
 	<Script file='mods\tweaks.lua' />
 
+	<Script file='elements\cooldownsCount.lua' />
+	<Script file='elements\cooldownsPulse.lua' />
 	<Script file='elements\stats.lua' />
 </Ui>
