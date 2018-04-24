@@ -12,6 +12,8 @@ local L, C, G = unpack(select(2, ...))
 
 G.font = "Interface\\AddOns\\lumUI\\media\\Fonts\\Myriad.ttf"
 G.numFont = "Interface\\AddOns\\lumUI\\media\\Fonts\\Expressway.ttf"
+G.symbolsFont = "Interface\\AddOns\\lumUI\\media\\Fonts\\FontAwesomeProSolid.otf"
+G.symbolsLightFont = "Interface\\AddOns\\lumUI\\media\\Fonts\\FontAwesomeProLight.otf"
 
 G.media = {
   bg = "Interface\\AddOns\\lumUI\\media\\Textures\\background_flat",
@@ -28,5 +30,10 @@ G.classColor = RAID_CLASS_COLORS[G.playerClass] -- Class Colors
 
 -- !ClassColors addon
 if(IsAddOnLoaded('!ClassColors') and CUSTOM_CLASS_COLORS) then
-  G.cColor = CUSTOM_CLASS_COLORS[G.playerClass]
+  G.classColor = CUSTOM_CLASS_COLORS[G.playerClass]
 end
+
+-- Screen size
+G.resolution = GetCVar("gxFullscreenResolution")
+G.screenheight = tonumber(string.match(G.resolution, "%d+x(%d+)"))
+G.screenwidth = tonumber(string.match(G.resolution, "(%d+)x+%d"))
