@@ -33,6 +33,7 @@ local showZone = true -- Shows the Zone Location
 local PvPcolor = true -- Colors the Location zone based on zone pvp info
 local locationTextOnHover = false -- Location text is hidden, shows on mouse hover
 local clockOnHover = true -- Clock is hidden, shows on mouse hover
+local customizeQuestTracker = true -- Move and customize the quest tracker frame
 
 -- ---------------------------------
 -- > Functions
@@ -84,7 +85,9 @@ function lm:Init(event)
 
   lm:MouseScroll()
 
-  lm:MoveQuestTracker()
+  if customizeQuestTracker then
+    lm:MoveQuestTracker()
+  end
 
   lm:MoveDurability()
 
@@ -192,17 +195,138 @@ function lm:MouseScroll()
   end)
 end
 
--- Quest Tracker
+-- Quest Tracker (Credit: Nibelheim)
 function lm:MoveQuestTracker()
-  ObjectiveTrackerBlocksFrame:SetParent(Minimap)
-  ObjectiveTrackerBlocksFrame:SetPoint("TOPLEFT", Minimap, "BOTTOMLEFT", -125, -155)
-  ObjectiveTrackerFrame.HeaderMenu.MinimizeButton:SetPoint("TOPRIGHT", Minimap, "BOTTOMRIGHT", -116 ,-159)
+  local anchor = CreateFrame("Frame", "lumUI_WatchFrame", UIParent)
+  local tracker = ObjectiveTrackerFrame
+  local tint = 1.25
 
-  -- Hide Stuff
-  ObjectiveTrackerBlocksFrame.QuestHeader.Background:Hide()
-  ObjectiveTrackerBlocksFrame.QuestHeader.Background.Show = noop
-  ObjectiveTrackerBlocksFrame.AchievementHeader.Background:Hide()
-  ObjectiveTrackerBlocksFrame.AchievementHeader.Background.Show = noop
+  anchor:SetSize(240, 20)
+  anchor:SetPoint("TOPRIGHT", "Minimap", "BOTTOMRIGHT", -20, -45)
+
+  tracker:ClearAllPoints()
+  tracker:SetPoint("TOPLEFT", anchor, "TOPLEFT")
+  tracker:SetHeight(G.screenheight - 400)
+  -- tracker:SetFrameStrata("MEDIUM")
+  tracker:SetFrameLevel(15)
+  tracker.ClearAllPoints = function() end
+  tracker.SetPoint = function() end
+
+  -- Minimize button
+  tracker.HeaderMenu.MinimizeButton:Hide()
+  local toggleButton = CreateFrame('Button', 'lumUIWFButton')
+  toggleButton:SetPoint("CENTER", anchor, "TOPRIGHT", -2, -8)
+  toggleButton:SetSize(18, 18)
+  toggleButton.text = toggleButton:CreateFontString(nil, "ARTWORK")
+  toggleButton.text:SetPoint('CENTER', toggleButton, 'CENTER', 0, 0)
+  toggleButton.text:SetFont(G.symbolsFont, 10, "OUTLINE")
+  toggleButton.text:SetTextColor(2/3, 2/3, 2/3)
+  toggleButton.text:SetShadowOffset(1, -1)
+  toggleButton.text:SetShadowColor(0, 0, 0, 1)
+
+  toggleButton:SetScript("OnClick", function(self)
+    if tracker.collapsed then
+      ObjectiveTracker_Expand()
+      toggleButton.text:SetText("")
+    else
+      ObjectiveTracker_Collapse()
+      toggleButton.text:SetText("")
+    end
+  end)
+
+  if IsAddOnLoaded("Blizzard_ObjectiveTracker") then
+    -- Update toggle button status
+    if tracker.collapsed then
+      toggleButton.text:SetText("")
+    else
+      toggleButton.text:SetText("")
+    end
+
+    hooksecurefunc("ObjectiveTracker_Update", function(reason, id)
+      if tracker.MODULES then
+        for i = 1, #tracker.MODULES do
+          tracker.MODULES[i].Header.Background:SetAtlas(nil)
+          tracker.MODULES[i].Header.Text:SetFont(G.font, 16, "OUTLINE")
+          tracker.MODULES[i].Header.Text:ClearAllPoints()
+          tracker.MODULES[i].Header.Text:SetPoint("LEFT", tracker.MODULES[i].Header, 10, 0)
+          tracker.MODULES[i].Header.Text:SetJustifyH("LEFT")
+        end
+      end
+      tracker.HeaderMenu.Title:SetFont(G.font, 16, "OUTLINE")
+    end)
+  end
+
+  hooksecurefunc(QUEST_TRACKER_MODULE, "SetBlockHeader", function(_, block)
+	   block.HeaderText:SetFont(G.font, 14, "OUTLINE")
+     block.HeaderText:SetShadowColor(0, 0, 0, 1)
+     block.HeaderText:SetTextColor(G.classColor.r * tint, G.classColor.g * tint, G.classColor.b * tint)
+     block.HeaderText:SetJustifyH("LEFT")
+     block.HeaderText:SetWidth(200)
+     block.HeaderText:SetHeight(15)
+	   local heightcheck = block.HeaderText:GetNumLines()
+     if heightcheck==2 then
+       local height = block:GetHeight()
+       block:SetHeight(height + 2)
+     end
+  end)
+
+  local function hoverquest(_, block)
+  	block.HeaderText:SetTextColor(G.classColor.r * tint, G.classColor.g * tint, G.classColor.b * tint)
+  end
+
+  hooksecurefunc(QUEST_TRACKER_MODULE, "OnBlockHeaderEnter", hoverquest)
+  hooksecurefunc(QUEST_TRACKER_MODULE, "OnBlockHeaderLeave", hoverquest)
+
+  hooksecurefunc(ACHIEVEMENT_TRACKER_MODULE, "SetBlockHeader", function(_, block)
+    local trackedAchievements = {GetTrackedAchievements()}
+
+    for i = 1, #trackedAchievements do
+		local achieveID = trackedAchievements[i]
+		local _, achievementName, _, completed, _, _, _, description, _, icon, _, _, wasEarnedByMe = GetAchievementInfo(achieveID)
+
+		if not wasEarnedByMe then
+        block.HeaderText:SetFont(G.font, 14, "OUTLINE")
+        block.HeaderText:SetShadowColor(0, 0, 0, 1)
+        block.HeaderText:SetTextColor(0, 0.5, 0.9)
+        block.HeaderText:SetJustifyH("LEFT")
+        block.HeaderText:SetWidth(200)
+      end
+  	end
+  end)
+
+  local function hoverachieve(_, block)
+  	block.HeaderText:SetTextColor(0, 0.5, 0.9)
+  end
+
+  hooksecurefunc(ACHIEVEMENT_TRACKER_MODULE, "OnBlockHeaderEnter", hoverachieve)
+  hooksecurefunc(ACHIEVEMENT_TRACKER_MODULE, "OnBlockHeaderLeave", hoverachieve)
+
+  ScenarioStageBlock:HookScript("OnShow", function()
+  	if not ScenarioStageBlock.skinned then
+  		ScenarioStageBlock.NormalBG:SetAlpha(0)
+  		ScenarioStageBlock.FinalBG:SetAlpha(0)
+  		ScenarioStageBlock.GlowTexture:SetTexture(nil)
+
+  		ScenarioStageBlock.Stage:SetFont(G.font, 16, "OUTLINE")
+  		ScenarioStageBlock.Stage:SetTextColor(1, 1, 1)
+
+  		ScenarioStageBlock.Name:SetFont(G.font, 14, "OUTLINE")
+
+  		ScenarioStageBlock.CompleteLabel:SetFont(G.font, 16, "OUTLINE")
+  		ScenarioStageBlock.CompleteLabel:SetTextColor(1, 1, 1)
+  		ScenarioStageBlock.skinned = true
+  	end
+  end)
+
+  -- Collapse Quest Tracker in instance
+  -- Callback PLAYER_ENTERING_WORLD
+  L:RegisterCallback("PLAYER_ENTERING_WORLD", function()
+    if IsInInstance() then
+      ObjectiveTracker_Collapse()
+    else
+      ObjectiveTracker_Expand()
+    end
+  end)
 end
 
 -- Durability Frame
