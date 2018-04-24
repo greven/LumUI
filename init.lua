@@ -8,6 +8,8 @@ ns[1] = {} -- functions, constants, variables
 ns[2] = {} -- config
 ns[3] = {} -- globals
 
+lumuiDB = {}
+
 local L, C, G = unpack(select(2, ...))
 
 G.font = "Interface\\AddOns\\lumUI\\media\\Fonts\\Myriad.ttf"

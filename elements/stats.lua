@@ -47,7 +47,6 @@ local CalendarEventWarning = true -- Flashes the hour if there is a new event on
 
 local hour, mail, fps, lag, bags, dur, spec
 local refresh_timer, newEvent, slotsfree, memBefore, memAfter, memory, entry, BlizzMem, gotMail, lowdur, PlayerLevel, curSpec, unspentTalents, numSpecs, specNum = 0, 0
-local initialMoney
 
 -- Copy Global functions to speed references
 local GetContainerNumFreeSlots, GetInventorySlotInfo, GetInventoryItemDurability = GetContainerNumFreeSlots, GetInventorySlotInfo, GetInventoryItemDurability
@@ -197,7 +196,7 @@ end
 
 	-- Session Profit
 	function st:Profit()
-		local profit = GetMoney() - initialMoney
+		local profit = GetMoney() - lumuiDB.initialMoney
 		local gold = math.floor(profit / 1e4)
 		local silver = math.floor((profit / 1e2) % 1e2)
 		local copper = math.floor(profit % 1e2)
@@ -392,7 +391,6 @@ end
 	function st:Init()
 
 		curSpec = st:Talents()
-		initialMoney = GetMoney()
 
 		if not show_clock then CalendarEventWarning = false end -- Disables hour flashing for new events if hour is not showing
 
@@ -563,6 +561,7 @@ end
 		gotMail = (HasNewMail() or nil)
 		curSpec = st:Talents()
 		newEvent = CalendarGetNumPendingInvites()
+		lumuiDB.initialMoney = GetMoney()
 	end
 
 	function st:MAIL_CLOSED(event,...)

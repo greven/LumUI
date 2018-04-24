@@ -3,6 +3,7 @@
 ## Version: 1.0
 ## Notes: Lumen UI
 ## Author: greven
+## SavedVariables: lumuiDB
 ## RequiredDeps: Blizzard_CombatText
 ## LoadWith: Blizzard_CombatText
 
