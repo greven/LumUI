@@ -257,17 +257,17 @@ function lm:MoveQuestTracker()
   end
 
   hooksecurefunc(QUEST_TRACKER_MODULE, "SetBlockHeader", function(_, block)
-	   block.HeaderText:SetFont(G.font, 14, "OUTLINE")
-     block.HeaderText:SetShadowColor(0, 0, 0, 1)
-     block.HeaderText:SetTextColor(G.classColor.r * tint, G.classColor.g * tint, G.classColor.b * tint)
-     block.HeaderText:SetJustifyH("LEFT")
-     block.HeaderText:SetWidth(200)
-     block.HeaderText:SetHeight(15)
-	   local heightcheck = block.HeaderText:GetNumLines()
-     if heightcheck==2 then
-       local height = block:GetHeight()
-       block:SetHeight(height + 2)
-     end
+	  block.HeaderText:SetFont(G.font, 14, "OUTLINE")
+    block.HeaderText:SetShadowColor(0, 0, 0, 1)
+    block.HeaderText:SetTextColor(G.classColor.r * tint, G.classColor.g * tint, G.classColor.b * tint)
+    block.HeaderText:SetJustifyH("LEFT")
+    block.HeaderText:SetWidth(200)
+    block.HeaderText:SetHeight(15)
+	  local heightcheck = block.HeaderText:GetNumLines()
+    if heightcheck==2 then
+      local height = block:GetHeight()
+      block:SetHeight(height + 2)
+    end
   end)
 
   local function hoverquest(_, block)
@@ -285,11 +285,11 @@ function lm:MoveQuestTracker()
 		local _, achievementName, _, completed, _, _, _, description, _, icon, _, _, wasEarnedByMe = GetAchievementInfo(achieveID)
 
 		if not wasEarnedByMe then
-        block.HeaderText:SetFont(G.font, 14, "OUTLINE")
-        block.HeaderText:SetShadowColor(0, 0, 0, 1)
-        block.HeaderText:SetTextColor(0, 0.5, 0.9)
-        block.HeaderText:SetJustifyH("LEFT")
-        block.HeaderText:SetWidth(200)
+      block.HeaderText:SetFont(G.font, 14, "OUTLINE")
+      block.HeaderText:SetShadowColor(0, 0, 0, 1)
+      block.HeaderText:SetTextColor(0, 0.5, 0.9)
+      block.HeaderText:SetJustifyH("LEFT")
+      block.HeaderText:SetWidth(200)
       end
   	end
   end)
@@ -303,18 +303,18 @@ function lm:MoveQuestTracker()
 
   ScenarioStageBlock:HookScript("OnShow", function()
   	if not ScenarioStageBlock.skinned then
-  		ScenarioStageBlock.NormalBG:SetAlpha(0)
-  		ScenarioStageBlock.FinalBG:SetAlpha(0)
-  		ScenarioStageBlock.GlowTexture:SetTexture(nil)
+      ScenarioStageBlock.NormalBG:SetAlpha(0)
+      ScenarioStageBlock.FinalBG:SetAlpha(0)
+      ScenarioStageBlock.GlowTexture:SetTexture(nil)
 
-  		ScenarioStageBlock.Stage:SetFont(G.font, 16, "OUTLINE")
-  		ScenarioStageBlock.Stage:SetTextColor(1, 1, 1)
+      ScenarioStageBlock.Stage:SetFont(G.font, 16, "OUTLINE")
+      ScenarioStageBlock.Stage:SetTextColor(1, 1, 1)
 
-  		ScenarioStageBlock.Name:SetFont(G.font, 14, "OUTLINE")
+      ScenarioStageBlock.Name:SetFont(G.font, 14, "OUTLINE")
 
-  		ScenarioStageBlock.CompleteLabel:SetFont(G.font, 16, "OUTLINE")
-  		ScenarioStageBlock.CompleteLabel:SetTextColor(1, 1, 1)
-  		ScenarioStageBlock.skinned = true
+      ScenarioStageBlock.CompleteLabel:SetFont(G.font, 16, "OUTLINE")
+      ScenarioStageBlock.CompleteLabel:SetTextColor(1, 1, 1)
+      ScenarioStageBlock.skinned = true
   	end
   end)
 
