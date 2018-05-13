@@ -202,7 +202,7 @@ function lm:MoveQuestTracker()
   local tint = 1.25
 
   anchor:SetSize(240, 20)
-  anchor:SetPoint("TOPRIGHT", "Minimap", "BOTTOMRIGHT", -20, -45)
+  anchor:SetPoint("TOPRIGHT", "Minimap", "BOTTOMRIGHT", -50, -45)
 
   tracker:ClearAllPoints()
   tracker:SetPoint("TOPLEFT", anchor, "TOPLEFT")
@@ -213,35 +213,20 @@ function lm:MoveQuestTracker()
   tracker.SetPoint = function() end
 
   -- Minimize button
-  tracker.HeaderMenu.MinimizeButton:Hide()
-  local toggleButton = CreateFrame('Button', 'lumUIWFButton')
-  toggleButton:SetPoint("CENTER", anchor, "TOPRIGHT", -2, -8)
-  toggleButton:SetSize(18, 18)
-  toggleButton.text = toggleButton:CreateFontString(nil, "ARTWORK")
-  toggleButton.text:SetPoint('CENTER', toggleButton, 'CENTER', 0, 0)
-  toggleButton.text:SetFont(G.symbolsFont, 10, "OUTLINE")
-  toggleButton.text:SetTextColor(2/3, 2/3, 2/3)
-  toggleButton.text:SetShadowOffset(1, -1)
-  toggleButton.text:SetShadowColor(0, 0, 0, 1)
+  local minBtn = tracker.HeaderMenu.MinimizeButton
+  minBtn:SetNormalTexture''
+  minBtn:SetPushedTexture''
+  minBtn.icon = minBtn:CreateFontString(nil, 'OVERLAY')
+  minBtn.icon:SetPoint('CENTER', minBtn, 'CENTER', 0, 2)
+  minBtn.icon:SetFont(G.symbolsFont, 12, "OUTLINE")
+  minBtn.icon:SetText("")
+  minBtn.icon:SetShadowOffset(1, -1)
+  minBtn.icon:SetShadowColor(0, 0, 0, 0.25)
 
-  toggleButton:SetScript("OnClick", function(self)
-    if tracker.collapsed then
-      ObjectiveTracker_Expand()
-      toggleButton.text:SetText("")
-    else
-      ObjectiveTracker_Collapse()
-      toggleButton.text:SetText("")
-    end
-  end)
+  hooksecurefunc('ObjectiveTracker_Collapse', function() minBtn.icon:SetText("") end)
+  hooksecurefunc('ObjectiveTracker_Expand',   function() minBtn.icon:SetText("") end)
 
   if IsAddOnLoaded("Blizzard_ObjectiveTracker") then
-    -- Update toggle button status
-    if tracker.collapsed then
-      toggleButton.text:SetText("")
-    else
-      toggleButton.text:SetText("")
-    end
-
     hooksecurefunc("ObjectiveTracker_Update", function(reason, id)
       if tracker.MODULES then
         for i = 1, #tracker.MODULES do
