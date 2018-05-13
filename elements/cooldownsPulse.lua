@@ -29,8 +29,9 @@ local blacklist = {
 -- Threshold to watch spells (seconds)
 local thresholdByClass = {
 	DEATHKNIGHT = 10,
+	DEMONHUNTER = 5,
 	DRUID = 5,
-	HUNTER = 5, 
+	HUNTER = 5,
 	MAGE = 5,
 	MONK = 5,
 	PALADIN = 5,
@@ -64,9 +65,11 @@ f.icon = f:CreateTexture(nil, 'BACKGROUND')
 f.icon:SetTexCoord(.08, .92, .08, .92)
 f.icon:SetAllPoints(f)
 
-f.border = L:CreatePanel(true, true, 'lumCDA', 'lumCDA', f:GetWidth() + 6, f:GetHeight() + 6, 
+f.border = L:CreatePanel(true, true, 'lumCDA', 'lumCDA', f:GetWidth() + 6, f:GetHeight() + 6,
 	{{'TOPLEFT', f, 'TOPLEFT', -3, 3}}, 32, 8, 0, 0.6)
 f.border:Hide()
+
+-- ---------------------------------
 
 -- Utils
 local function tcount(tab)
@@ -101,10 +104,6 @@ local function OnUpdate(_, update)
 					name = GetItemInfo(i)
 					texture = v[3]
 					start, duration, enabled = GetItemCooldown(i)
-				-- elseif (v[2] == "pet") then
-				-- 	name, _, texture = GetPetActionInfo(v[3])
-				-- 	start, duration, enabled = GetPetActionCooldown(v[3])
-				-- 	isPet = true
 				end
 
 				if ignoredSpells[name] then
@@ -122,6 +121,12 @@ local function OnUpdate(_, update)
 			end
 		end
 
+		-- Update timers
+		-- for i,v in pairs(cooldowns) do
+		-- 	_, duration = GetSpellCooldown(v[5])
+		-- 	print(duration)
+		-- end
+
 		for i,v in pairs(cooldowns) do
 				local remaining = v[2]-(GetTime()-v[1])
 				if (remaining <= 0) then
@@ -129,7 +134,7 @@ local function OnUpdate(_, update)
 						cooldowns[i] = nil
 				end
 		end
-			
+
 		elapsed = 0
 		if (#animating == 0 and tcount(watching) == 0 and tcount(cooldowns) == 0) then
 				f:SetScript("OnUpdate", nil)
@@ -156,7 +161,6 @@ local function OnUpdate(_, update)
 						if animating[1][2] then
 							f.icon:SetVertexColor(unpack({1, 1, 1}))
 						end
-						-- PlaySoundFile("Interface\\AddOns\\Doom_CooldownPulse\\lubdub.wav")
 				end
 				local alpha = maxAlpha
 				if (runtimer < fadeInTime) then
@@ -174,14 +178,12 @@ local function OnUpdate(_, update)
 	end
 end
 
--- Events
+-- Events --
 function f:ADDON_LOADED(addon)
 	setIgnoredSpells()
 	self:UnregisterEvent("ADDON_LOADED")
 end
 f:RegisterEvent("ADDON_LOADED")
-
-
 
 function f:UNIT_SPELLCAST_SUCCEEDED(unit, spell, rank, lineID, spellID)
 	if (unit == 'player') then
@@ -203,47 +205,26 @@ function f:PLAYER_ENTERING_WORLD()
 end
 f:RegisterEvent("PLAYER_ENTERING_WORLD")
 
--- function f:COMBAT_LOG_EVENT_UNFILTERED(...)
--- 	local _,event,_,_,_,sourceFlags,_,_,_,_,_,spellID = ...
--- 	if (event == "SPELL_CAST_SUCCESS") then
--- 			if (bit.band(sourceFlags,COMBATLOG_OBJECT_TYPE_PET) == COMBATLOG_OBJECT_TYPE_PET and bit.band(sourceFlags,COMBATLOG_OBJECT_AFFILIATION_MINE) == COMBATLOG_OBJECT_AFFILIATION_MINE) then
--- 					local name = GetSpellInfo(spellID)
--- 					local index = GetPetActionIndexByName(name)
--- 					if (index and not select(7,GetPetActionInfo(index))) then
--- 							watching[spellID] = {GetTime(),"pet",index}
--- 					elseif (not index and spellID) then
--- 							watching[spellID] = {GetTime(),"spell",spellID}
--- 					else
--- 							return
--- 					end
--- 					if (not self:IsMouseEnabled()) then
--- 							self:SetScript("OnUpdate", OnUpdate)
--- 					end
--- 			end
--- 	end
--- end
--- f:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
-
 hooksecurefunc("UseAction", function(slot)
-	local actionType,itemID = GetActionInfo(slot)
+	local actionType, itemID = GetActionInfo(slot)
 	if (actionType == "item") then
 			local texture = GetActionTexture(slot)
-			watching[itemID] = {GetTime(),"item",texture}
+			watching[itemID] = {GetTime(), "item", texture}
 	end
 end)
 
 hooksecurefunc("UseInventoryItem", function(slot)
-	local itemID = GetInventoryItemID("player", slot);
+	local itemID = GetInventoryItemID("player", slot)
 	if (itemID) then
 			local texture = GetInventoryItemTexture("player", slot)
-			watching[itemID] = {GetTime(),"item",texture}
+			watching[itemID] = {GetTime(), "item", texture}
 	end
 end)
 
-hooksecurefunc("UseContainerItem", function(bag,slot)
+hooksecurefunc("UseContainerItem", function(bag, slot)
 	local itemID = GetContainerItemID(bag, slot)
 	if (itemID) then
 			local texture = select(10, GetItemInfo(itemID))
-			watching[itemID] = {GetTime(),"item",texture}
+			watching[itemID] = {GetTime(), "item", texture}
 	end
 end)
