@@ -38,7 +38,7 @@ local debuffAnchor = {"BOTTOMRIGHT", "Minimap", "BOTTOMLEFT", posX, -posY}
 -- ---------------------------------
 
 local hasMainHandEnchant, _, _, hasOffHandEnchant, _, _, hasThrownEnchant = GetWeaponEnchantInfo()
-	
+
 -- ---------------------------------
 -- > Functions
 -- ---------------------------------
@@ -70,7 +70,7 @@ TempEnchant3:SetPoint("RIGHT", TempEnchant2, "LEFT", -iconSpacing, 0)
     f:SetPoint("CENTER", _G["TempEnchant"..i], "CENTER", 0, 0)
     f:SetBackdrop{bgFile = "Interface\\Tooltips\\UI-Tooltip-Background", edgeFile = border_tex, tile = true, tileSize = 32, edgeSize = 16, insets = {left = 0, right = 0, top = 0, bottom = 0}}
     f:SetFrameStrata("BACKGROUND")
-    
+
     local s = CreateFrame("Frame", nil, f)
     s:SetFrameLevel(0)
     s:SetPoint("TOPLEFT",f,"TOPLEFT", -4, 4)
@@ -78,10 +78,10 @@ TempEnchant3:SetPoint("RIGHT", TempEnchant2, "LEFT", -iconSpacing, 0)
     s:SetBackdrop({bgFile = "Interface\\Tooltips\\UI-Tooltip-Background", edgeFile = shadow_tex, tile = false, tileSize = 32, edgeSize = 5, insets = {left = -5, right = -5, top = -5, bottom = -5}})
     s:SetBackdropColor(0, 0, 0, 0)
     s:SetBackdropBorderColor(0, 0, 0, shadowAlpha)
-    
+
     _G["TempEnchant"..i.."Border"]:Hide()
     _G["TempEnchant"..i]:SetHeight(buffSize)
-    _G["TempEnchant"..i]:SetWidth(buffSize)	
+    _G["TempEnchant"..i]:SetWidth(buffSize)
     _G["TempEnchant"..i.."Icon"]:SetTexCoord(.08, .92, .08, .92)
     _G["TempEnchant"..i.."Icon"]:SetPoint("TOPLEFT", _G["TempEnchant"..i], iconborder, -iconborder)
     _G["TempEnchant"..i.."Icon"]:SetPoint("BOTTOMRIGHT", _G["TempEnchant"..i], -iconborder, iconborder)
@@ -97,60 +97,60 @@ local function StyleBuffs(buttonName, index)
   local border = _G[buttonName..index.."Border"]
   local duration = _G[buttonName..index.."Duration"]
   local count = _G[buttonName..index.."Count"]
-  
+
   if icon and not _G[buttonName..index.."Container"] then
-  
+
     local container = CreateFrame("Frame", buttonName..index.."Container", buff)
-    
+
     icon:SetTexCoord(.08, .92, .08, .92)
     icon:SetPoint("TOPLEFT", buff, iconborder, -iconborder)
     icon:SetPoint("BOTTOMRIGHT", buff, -iconborder, iconborder)
-    
+
     duration:ClearAllPoints()
     duration:SetPoint("BOTTOM", 2, -16)
     duration:SetFont(font, 14, outline)
     duration:SetJustifyH('CENTER')
-    
+
     count:ClearAllPoints()
     count:SetPoint("TOPRIGHT", 1, 2)
     count:SetFont(font, 12, outline)
-    
+
     container:SetPoint("CENTER", buff, "CENTER", 0, 0)
     container:SetBackdrop{bgFile = "Interface\\Tooltips\\UI-Tooltip-Background", edgeFile = border_tex, tile = true, tileSize = 32, edgeSize = 16, insets = {left = 0, right = 0, top = 0, bottom = 0}}
     container:SetBackdropBorderColor(bColor.r,bColor.g,bColor.b)
     container:SetFrameLevel(buff:GetFrameLevel() - 1)
     container:SetFrameStrata(buff:GetFrameStrata())
-    
-    if buttonName == 'BuffButton' then			
+
+    if buttonName == 'BuffButton' then
       buff:SetHeight(buffSize)
-      buff:SetWidth(buffSize)				
+      buff:SetWidth(buffSize)
       container:SetSize(buffSize,buffSize)
-    elseif buttonName == 'DebuffButton' then			
+    elseif buttonName == 'DebuffButton' then
       buff:SetHeight(debuffSize)
-      buff:SetWidth(debuffSize)			
+      buff:SetWidth(debuffSize)
       container:SetSize(debuffSize,debuffSize)
     end
-    
+
     local s = CreateFrame("Frame", buttonName..index.."Shadow", container)
     s:SetFrameLevel(0)
     s:SetPoint("TOPLEFT",container,"TOPLEFT", -4, 4)
     s:SetPoint("BOTTOMRIGHT",container,"BOTTOMRIGHT", 4, -4)
     s:SetBackdrop({bgFile = "Interface\\Tooltips\\UI-Tooltip-Background", edgeFile = shadow_tex, tile = false, tileSize = 32, edgeSize = 5, insets = {left = -5, right = -5, top = -5, bottom = -5}})
     s:SetBackdropColor(0, 0, 0, 0)
-    s:SetBackdropBorderColor(0, 0, 0, shadowAlpha)		
+    s:SetBackdropBorderColor(0, 0, 0, shadowAlpha)
   end
-  
+
   if border then border:Hide() end
 end
 
 local function UpdateBuffs()
   local buff, previousBuff, aboveBuff
   local numBuffs = 0
-  
+
   for index = 1, BUFF_ACTUAL_DISPLAY do
     local buff = _G["BuffButton"..index]
     StyleBuffs("BuffButton", index)
-    
+
     if ( buff.consolidated ) then
       if ( buff.parent == BuffFrame ) then
         buff:SetParent(ConsolidatedBuffsContainer)
@@ -181,34 +181,33 @@ local function UpdateBuffs()
         buff:SetPoint("RIGHT", previousBuff, "LEFT", -iconSpacing, 0)
       end
       previousBuff = buff
-    end		
+    end
   end
 end
 
 local function UpdateDebuffs(buttonName, index)
-
   local debuff = _G[buttonName..index]
   StyleBuffs(buttonName, index)
-  local dtype = select(5, UnitDebuff("player",index))      
+  local debuffType = select(4, UnitAura("player", index))
   local color
-  
+
   -- Debuff Coloring
-  if (dtype ~= nil) then
-    color = DebuffTypeColor[dtype]
+  if (debuffType ~= nil) then
+    color = DebuffTypeColor[debuffType]
   else
     color = DebuffTypeColor["none"]
   end
-  
+
   _G[buttonName..index.."Container"]:SetBackdropBorderColor(color.r, color.g, color.b)
   debuff:ClearAllPoints()
-  
+
   if index == 1 then
     debuff:SetPoint(unpack(debuffAnchor))
   else
     debuff:SetPoint("RIGHT", _G[buttonName..(index-1)], "LEFT", -iconSpacing, 0)
   end
 end
-	
+
 -- ---------------------------------
 -- > Events
 -- ---------------------------------

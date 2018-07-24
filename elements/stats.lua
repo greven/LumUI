@@ -566,7 +566,7 @@ function st:UPDATE_PENDING_MAIL(event,...)
 end
 
 function st:CALENDAR_UPDATE_PENDING_INVITES(event,...)
-	newEvent = CalendarGetNumPendingInvites()
+	newEvent = C_Calendar.GetNumPendingInvites()
 end
 
 function st:PLAYER_ENTERING_WORLD(event,...)
@@ -574,7 +574,7 @@ function st:PLAYER_ENTERING_WORLD(event,...)
 	lowdur = st:Durability()
 	gotMail = (HasNewMail() or nil)
 	curSpec = st:Talents()
-	newEvent = CalendarGetNumPendingInvites()
+	newEvent = C_Calendar.GetNumPendingInvites()
 end
 
 function st:PLAYER_LOGIN(event,...)
@@ -582,7 +582,7 @@ function st:PLAYER_LOGIN(event,...)
 	lowdur = st:Durability()
 	gotMail = (HasNewMail() or nil)
 	curSpec = st:Talents()
-	newEvent = CalendarGetNumPendingInvites()
+	newEvent = C_Calendar.GetNumPendingInvites()
 	lumuiDB.initialMoney = GetMoney()
 	lumuiDB.loginTime = GetTime()
 end

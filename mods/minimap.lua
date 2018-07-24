@@ -355,9 +355,9 @@ function lm:ZONE_CHANGED_INDOORS(event)
 end
 
 function lm:ZONE_CHANGED_NEW_AREA(event)
-  if event == "ZONE_CHANGED_NEW_AREA" and not WorldMapFrame:IsShown() then
-    SetMapToCurrentZone() -- Sets Map to Current Zone so Text Updates Correctly
-  end
+  -- if event == "ZONE_CHANGED_NEW_AREA" and not WorldMapFrame:IsShown() then
+  --   SetMapToCurrentZone() -- Sets Map to Current Zone so Text Updates Correctly
+  -- end
   lm:TextColor()
   zone:SetText(GetMinimapZoneText())
   lm:SetMinimapPosition()

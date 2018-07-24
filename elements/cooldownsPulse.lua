@@ -185,7 +185,7 @@ function f:ADDON_LOADED(addon)
 end
 f:RegisterEvent("ADDON_LOADED")
 
-function f:UNIT_SPELLCAST_SUCCEEDED(unit, spell, rank, lineID, spellID)
+function f:UNIT_SPELLCAST_SUCCEEDED(unit, lineID, spellID)
 	if (unit == 'player') then
 		watching[spellID] = {GetTime(), 'spell', spellID}
 		if (not self:IsMouseEnabled()) then
