@@ -1,3 +1,7 @@
+### Version 8.0.2
+
+* Update Addons.
+
 ### Version 8.0.1
 
 * First fixes for BFA pre-patch.
