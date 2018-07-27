@@ -1,3 +1,11 @@
+### Version 8.0.4
+
+* Fix the packager.
+
+### Version 8.0.3
+
+* Bug fixes.
+
 ### Version 8.0.2
 
 * Update Addons.

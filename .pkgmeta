@@ -7,12 +7,9 @@ externals:
   addons/Butsu:
     url: git://github.com/greven/Butsu
     tag: latest
-  addons/rLib:
-    url: svn://github.com/zorker/rothui/wow8.0/rLib
-  addons/rActionBar:
-    url: https://github.com/zorker/rothui/trunk/wow8.0/rActionBar
-  addons/rButtonTemplate:
-    url: https://github.com/zorker/rothui/trunk/wow8.0/rButtonTemplate
+
+move-folders:
+  temp/*: .release
 
 manual-changelog:
   filename: CHANGELOG.md
