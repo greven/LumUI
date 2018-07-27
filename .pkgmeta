@@ -8,11 +8,6 @@ externals:
     url: git://github.com/greven/Butsu
     tag: latest
 
-move-folders:
-  ~/temp/rLib: rLib
-  ~/temp/rActionBar: rActionBar
-  ~/temp/rButtonTemplate: rButtonTemplate
-
 manual-changelog:
   filename: CHANGELOG.md
   markup-type: markdown

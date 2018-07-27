@@ -6,13 +6,6 @@ addons:
     packages:
     - pandoc
 
-before_script:
-  - mkdir addons
-  - cd addons
-  - svn export https://github.com/zorker/rothui/trunk/wow8.0/rLib rLib
-  - svn export https://github.com/zorker/rothui/trunk/wow8.0/rActionBar rActionBar
-  - svn export https://github.com/zorker/rothui/trunk/wow8.0/rButtonTemplate rButtonTemplate
-
 script: curl -s https://raw.githubusercontent.com/oUF-wow/packager/master/release.sh | bash
  
 branches:
