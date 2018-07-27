@@ -1,6 +1,32 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
-	<Script file="addons/Butsu/butsu.lua"/>
-	<Script file="addons/BonusRollPreview/BonusRollPreview.lua"/>
-	<Script file="addons/ls_Toasts/init.lua"/>
-  <Script file="addons/Molinari/Molinari.lua"/>
+  <!-- oUF_Lumen -->
+	<Include file='addons\oUF_Lumen\embeds\_embeds.xml' />
+	<Script file='addons\oUF_Lumen\media\media.lua' />
+	<Include file='addons\oUF_Lumen\config\_config.xml' />
+	<Include file='addons\oUF_Lumen\core\_core.xml' />
+	<Include file='addons\oUF_Lumen\elements\_elements.xml' />
+	<Script file='addons\oUF_Lumen\oUF_Lumen.lua' />
+	<Include file='addons\oUF_Lumen\units\_units.xml' /> 
+
+  <!-- Butsu -->
+	<Script file='addons\Butsu\locale.lua' />
+	<Script file='addons\Butsu\butsu.lua' />
+	<Script file='addons\Butsu\layout.lua' />
+	<Script file='addons\Butsu\slots.lua' />
+	<Script file='addons\Butsu\hooks.lua' />
+	<Script file='addons\Butsu\config.lua' />
+
+  <!-- rLib -->
+	<Script file='addons\rLib\core.lua' />
+	<Script file='addons\rLib\dragframe.lua' />
+	<Script file='addons\rLib\framefader.lua' />
+
+  <!-- rActionBar -->
+	<Script file='addons\rActionBar\core.lua' />
+	<Script file='addons\rActionBar\blizzard.lua' />
+	<Script file='addons\rActionBar\bars.lua' />
+
+  <!-- rButtonTemplate -->
+	<Script file='addons\rButtonTemplate\core.lua' />
+
 </Ui>

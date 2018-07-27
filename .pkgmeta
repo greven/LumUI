@@ -1,20 +1,11 @@
 package-as: LumUI
 
 externals:
-  addons/Butsu:
+  addons/oUF_Lumen:
     url: git://github.com/greven/oUF_Lumen
     tag: latest
   addons/Butsu:
     url: git://github.com/greven/Butsu
-    tag: latest
-  addons/BonusRollPreview:
-    url: git://github.com/p3lim-wow/BonusRollPreview
-    tag: latest
-  addons/ls_Toasts:
-    url: git://github.com/ls-/ls_Toasts
-    tag: latest
-  addons/Molinari:
-    url: git://github.com/p3lim-wow/Molinari
     tag: latest
   addons/rLib:
     url: svn://github.com/zorker/rothui/wow8.0/rLib
