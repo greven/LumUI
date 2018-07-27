@@ -1,0 +1,13 @@
+package-as: LumUI
+
+externals:
+  addons/Butsu:
+    url: git://github.com/greven/Butsu
+    tag: latest
+
+manual-changelog:
+  filename: CHANGELOG.md
+  markup-type: markdown
+
+ignore:
+  - README.md
