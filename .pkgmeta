@@ -10,9 +10,9 @@ externals:
   addons/rLib:
     url: svn://github.com/zorker/rothui/wow8.0/rLib
   addons/rActionBar:
-    url: svn://github.com/zorker/rothui/wow8.0/rActionBar
+    url: https://github.com/zorker/rothui/trunk/wow8.0/rActionBar
   addons/rButtonTemplate:
-    url: svn://github.com/zorker/rothui/wow8.0/rButtonTemplate
+    url: https://github.com/zorker/rothui/trunk/wow8.0/rButtonTemplate
 
 manual-changelog:
   filename: CHANGELOG.md
