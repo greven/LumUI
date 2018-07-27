@@ -17,16 +17,16 @@
 	<Script file='addons\Butsu\config.lua' />
 
   <!-- rLib -->
-	<Script file='addons\rLib\core.lua' />
-	<Script file='addons\rLib\dragframe.lua' />
-	<Script file='addons\rLib\framefader.lua' />
+	<Script file='embeds\rLib\core.lua' />
+	<Script file='embeds\rLib\dragframe.lua' />
+	<Script file='embeds\rLib\framefader.lua' />
 
   <!-- rActionBar -->
-	<Script file='addons\rActionBar\core.lua' />
-	<Script file='addons\rActionBar\blizzard.lua' />
-	<Script file='addons\rActionBar\bars.lua' />
+	<Script file='embeds\rActionBar\core.lua' />
+	<Script file='embeds\rActionBar\blizzard.lua' />
+	<Script file='embeds\rActionBar\bars.lua' />
 
   <!-- rButtonTemplate -->
-	<Script file='addons\rButtonTemplate\core.lua' />
+	<Script file='embeds\rButtonTemplate\core.lua' />
 
 </Ui>
