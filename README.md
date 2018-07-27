@@ -1,4 +1,4 @@
-# lumUI
+# LumUI
 
 My _World of Warcraft_ UI addons.
 
