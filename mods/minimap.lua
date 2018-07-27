@@ -2,11 +2,11 @@
 -- Credits: Katae, p3lim, Zork.
 -- --------------------------------------------
 
-local _, ns = ...
+local A, ns = ...
 
 local L, C, G = unpack(select(2, ...))
 
-local lm = CreateFrame("Frame", "lumMinimap", UIParent)
+local lm = CreateFrame("Frame", A.."Minimap", UIParent)
 
 -- ---------------------------------
 -- > Variables
@@ -197,7 +197,7 @@ end
 
 -- Quest Tracker (Credit: Nibelheim)
 function lm:MoveQuestTracker()
-  local anchor = CreateFrame("Frame", "lumUI_WatchFrame", UIParent)
+  local anchor = CreateFrame("Frame", "A..WatchFrame", UIParent)
   local tracker = ObjectiveTrackerFrame
   local tint = 1.25
 
@@ -365,7 +365,7 @@ end
 
 
 function lm:ADDON_LOADED(event, addon,...)
-  if (addon == "lumUI") then
+  if (addon == A) then
     lm:Init()
     lm:RegisterEvent("PLAYER_LOGIN")
     lm:RegisterEvent("PLAYER_ENTERING_WORLD")
