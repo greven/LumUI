@@ -7,7 +7,7 @@
 ## RequiredDeps: Blizzard_CombatText
 ## LoadWith: Blizzard_CombatText
 
-## X-WoWI-ID: 18616
+
 
 _load.xml
 addons\_addons.xml
