@@ -1,10 +1,13 @@
 ## Interface: 80000
-## Title: |cFF0d87d5l|r|cFF85419cu|r|cFFf20269m|rUI
-## Version: 1.0
+## Title: |cFF0d87d5L|r|cFF85419cu|r|cFFf20269m|rUI
+## Version: @project-version@
 ## Notes: Lumen UI
 ## Author: greven
 ## SavedVariables: lumuiDB
 ## RequiredDeps: Blizzard_CombatText
 ## LoadWith: Blizzard_CombatText
 
+## X-WoWI-ID: 18616
+
 _load.xml
+addons\_addons.xml
