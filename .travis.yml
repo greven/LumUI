@@ -6,15 +6,14 @@ addons:
     packages:
     - pandoc
 
-before_script:
-  - mkdir temp
- 
 script:
-  - svn export https://github.com/zorker/rothui/trunk/wow8.0/rLib temp/rLib
-  - svn export https://github.com/zorker/rothui/trunk/wow8.0/rActionBar temp/rActionBar
-  - svn export https://github.com/zorker/rothui/trunk/wow8.0/rButtonTemplate temp/rButtonTemplate
+  - curl -s https://raw.githubusercontent.com/oUF-wow/packager/master/release.sh | bash
 
-script: curl -s https://raw.githubusercontent.com/oUF-wow/packager/master/release.sh | bash
+after_script:
+  - cd greven/lumUI/.release
+  - svn export https://github.com/zorker/rothui/trunk/wow8.0/rLib rLib
+  - svn export https://github.com/zorker/rothui/trunk/wow8.0/rActionBar rActionBar
+  - svn export https://github.com/zorker/rothui/trunk/wow8.0/rButtonTemplate rButtonTemplate
  
 branches:
   only:
