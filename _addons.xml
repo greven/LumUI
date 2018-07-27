@@ -1,0 +1,6 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="addons/Butsu/butsu.lua"/>
+	<Script file="addons/BonusRollPreview/BonusRollPreview.lua"/>
+	<Script file="addons/ls_Toasts/init.lua"/>
+  <Script file="addons/Molinari/Molinari.lua"/>
+</Ui>
