@@ -1,3 +1,8 @@
+### Version 8.0.9
+
+* Embed base addons (actionbars and buttons [roth]).
+* Hopefully everything will be package nicelly..
+
 ### Version 8.0.3
 
 * Bug fixes.
