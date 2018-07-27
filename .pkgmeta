@@ -9,7 +9,9 @@ externals:
     tag: latest
 
 move-folders:
-  temp/*: .release
+  ~/temp/rLib: rLib
+  ~/temp/rActionBar: rActionBar
+  ~/temp/rButtonTemplate: rButtonTemplate
 
 manual-changelog:
   filename: CHANGELOG.md

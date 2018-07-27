@@ -1,3 +1,7 @@
+### Version 8.0.6
+
+* Fix the packager... again!
+
 ### Version 8.0.5
 
 * Fix the packager... again!
