@@ -14,7 +14,7 @@ local A, L = ...
 -- mediapath
 -----------------------------
 
-local mediapath = "interface\\addons\\"..A.."\\media\\"
+local mediapath = "interface\\addons\\"..A.."\\media\\Textures"
 
 -----------------------------
 -- copyTable
