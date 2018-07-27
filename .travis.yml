@@ -7,8 +7,8 @@ addons:
     - pandoc
 
 before_script:
-  - mkdir temp
-  - cd temp
+  - mkdir addons
+  - cd addons
   - svn export https://github.com/zorker/rothui/trunk/wow8.0/rLib rLib
   - svn export https://github.com/zorker/rothui/trunk/wow8.0/rActionBar rActionBar
   - svn export https://github.com/zorker/rothui/trunk/wow8.0/rButtonTemplate rButtonTemplate
