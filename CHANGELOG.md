@@ -1,3 +1,7 @@
+### Version 8.0.10
+
+* First working release for BFA
+
 ### Version 8.0.9
 
 * Embed base addons (actionbars and buttons [roth]).

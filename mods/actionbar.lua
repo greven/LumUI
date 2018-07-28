@@ -10,237 +10,252 @@
 
 local A, L = ...
 
------------------------------
--- Fader
------------------------------
+local f = CreateFrame("Frame")
 
-local fader = {
-  fadeInAlpha = 1,
-  fadeInDuration = 0.2,
-  fadeInSmooth = "OUT",
-  fadeOutAlpha = 0,
-  fadeOutDuration = 0.2,
-  fadeOutSmooth = "OUT",
-}
+f:SetScript('OnEvent', function(self, event, ...)
+	f[event](self, ...)
+end)
 
------------------------------
--- BagBar
------------------------------
+f:RegisterEvent("ADDON_LOADED")
+function f:ADDON_LOADED(addon)
+  if addon == 'rActionBar' then
+    f:styleBars()
+  end
+end
 
-local bagbar = {
-  framePoint      = { "BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -5, 5 },
-  frameScale      = 1,
-  framePadding    = 5,
-  buttonWidth     = 33,
-  buttonHeight    = 33,
-  buttonMargin    = 3,
-  numCols         = 6, --number of buttons per column
-  startPoint      = "BOTTOMRIGHT", --start postion of first button: BOTTOMLEFT, TOPLEFT, TOPRIGHT, BOTTOMRIGHT
-  fader           = nil,
-}
---create
--- rActionBar:CreateBagBar(A, bagbar)
+function f:styleBars()
+  -----------------------------
+  -- Fader
+  -----------------------------
 
------------------------------
--- MicroMenuBar
------------------------------
+  local fader = {
+    fadeInAlpha = 1,
+    fadeInDuration = 0.2,
+    fadeInSmooth = "OUT",
+    fadeOutAlpha = 0,
+    fadeOutDuration = 0.2,
+    fadeOutSmooth = "OUT",
+  }
 
-local micromenubar = {
-  framePoint      = { "TOP", UIParent, "TOP", 0, 0 },
-  frameScale      = 0.8,
-  framePadding    = 5,
-  buttonWidth     = 28,
-  buttonHeight    = 40,
-  buttonMargin    = 0,
-  numCols         = 12,
-  startPoint      = "BOTTOMLEFT",
-  fader           = fader,
-}
---create
-rActionBar:CreateMicroMenuBar(A, micromenubar)
+  -----------------------------
+  -- BagBar
+  -----------------------------
 
------------------------------
--- Bar1
------------------------------
+  local bagbar = {
+    framePoint      = { "BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -5, 5 },
+    frameScale      = 1,
+    framePadding    = 5,
+    buttonWidth     = 33,
+    buttonHeight    = 33,
+    buttonMargin    = 3,
+    numCols         = 6, --number of buttons per column
+    startPoint      = "BOTTOMRIGHT", --start postion of first button: BOTTOMLEFT, TOPLEFT, TOPRIGHT, BOTTOMRIGHT
+    fader           = nil,
+  }
+  --create
+  -- rActionBar:CreateBagBar(A, bagbar)
 
-local bar1 = {
-  framePoint      = { "BOTTOM", UIParent, "BOTTOM", 0, 22 },
-  frameScale      = 1,
-  framePadding    = 2,
-  buttonWidth     = 33,
-  buttonHeight    = 33,
-  buttonMargin    = 3,
-  numCols         = 12,
-  startPoint      = "BOTTOMLEFT",
-  fader           = nil,
-  frameVisibility = "[combat][mod][@target,exists,nodead][@vehicle,exists][overridebar][shapeshift][vehicleui][possessbar] show; hide"
-}
---create
-rActionBar:CreateActionBar1(A, bar1)
+  -----------------------------
+  -- MicroMenuBar
+  -----------------------------
 
------------------------------
--- Bar2
------------------------------
+  local micromenubar = {
+    framePoint      = { "TOP", UIParent, "TOP", 0, 0 },
+    frameScale      = 0.8,
+    framePadding    = 5,
+    buttonWidth     = 28,
+    buttonHeight    = 40,
+    buttonMargin    = 0,
+    numCols         = 12,
+    startPoint      = "BOTTOMLEFT",
+    fader           = fader,
+  }
+  --create
+  rActionBar:CreateMicroMenuBar(A, micromenubar)
 
-local bar2 = {
-  framePoint      = { "BOTTOM", A.."Bar1", "TOP", 0, 0 },
-  frameScale      = 1,
-  framePadding    = 2,
-  buttonWidth     = 33,
-  buttonHeight    = 33,
-  buttonMargin    = 3,
-  numCols         = 12,
-  startPoint      = "BOTTOMLEFT",
-  fader           = nil,
-  frameVisibility = "[petbattle][overridebar][vehicleui][possessbar][shapeshift] hide; [combat][mod][@target,exists,nodead] show; hide"
-}
---create
-rActionBar:CreateActionBar2(A, bar2)
+  -----------------------------
+  -- Bar1
+  -----------------------------
 
------------------------------
--- Bar3
------------------------------
+  local bar1 = {
+    framePoint      = { "BOTTOM", UIParent, "BOTTOM", 0, 22 },
+    frameScale      = 1,
+    framePadding    = 2,
+    buttonWidth     = 33,
+    buttonHeight    = 33,
+    buttonMargin    = 3,
+    numCols         = 12,
+    startPoint      = "BOTTOMLEFT",
+    fader           = nil,
+    frameVisibility = "[combat][mod][@target,exists,nodead][@vehicle,exists][overridebar][shapeshift][vehicleui][possessbar] show; hide"
+  }
+  --create
+  rActionBar:CreateActionBar1(A, bar1)
 
-local bar3 = {
-  framePoint      = { "BOTTOM", A.."Bar2", "TOP", 0, 0 },
-  frameScale      = 1,
-  framePadding    = 2,
-  buttonWidth     = 33,
-  buttonHeight    = 33,
-  buttonMargin    = 3,
-  numCols         = 12,
-  startPoint      = "BOTTOMLEFT",
-  fader           = nil,
-  frameVisibility = "[petbattle][overridebar][vehicleui][possessbar][shapeshift] hide; [combat][mod][@target,exists,nodead] show; hide"
-}
---create
-rActionBar:CreateActionBar3(A, bar3)
+  -----------------------------
+  -- Bar2
+  -----------------------------
 
------------------------------
--- Bar4
------------------------------
+  local bar2 = {
+    framePoint      = { "BOTTOM", A.."Bar1", "TOP", 0, 0 },
+    frameScale      = 1,
+    framePadding    = 2,
+    buttonWidth     = 33,
+    buttonHeight    = 33,
+    buttonMargin    = 3,
+    numCols         = 12,
+    startPoint      = "BOTTOMLEFT",
+    fader           = nil,
+    frameVisibility = "[petbattle][overridebar][vehicleui][possessbar][shapeshift] hide; [combat][mod][@target,exists,nodead] show; hide"
+  }
+  --create
+  rActionBar:CreateActionBar2(A, bar2)
 
-local bar4 = {
-  framePoint      = { "RIGHT", UIParent, "RIGHT", -5, 0 },
-  frameScale      = 1,
-  framePadding    = 2,
-  buttonWidth     = 33,
-  buttonHeight    = 33,
-  buttonMargin    = 3,
-  numCols         = 1,
-  startPoint      = "TOPRIGHT",
-  fader           = fader,
-}
---create
-rActionBar:CreateActionBar4(A, bar4)
+  -----------------------------
+  -- Bar3
+  -----------------------------
 
------------------------------
--- Bar5
------------------------------
+  local bar3 = {
+    framePoint      = { "BOTTOM", A.."Bar2", "TOP", 0, 0 },
+    frameScale      = 1,
+    framePadding    = 2,
+    buttonWidth     = 33,
+    buttonHeight    = 33,
+    buttonMargin    = 3,
+    numCols         = 12,
+    startPoint      = "BOTTOMLEFT",
+    fader           = nil,
+    frameVisibility = "[petbattle][overridebar][vehicleui][possessbar][shapeshift] hide; [combat][mod][@target,exists,nodead] show; hide"
+  }
+  --create
+  rActionBar:CreateActionBar3(A, bar3)
 
-local bar5 = {
-  framePoint      = { "RIGHT", A.."Bar4", "LEFT", 0, 0 },
-  frameScale      = 1,
-  framePadding    = 2,
-  buttonWidth     = 33,
-  buttonHeight    = 33,
-  buttonMargin    = 3,
-  numCols         = 1,
-  startPoint      = "TOPRIGHT",
-  fader           = fader,
-}
---create
-rActionBar:CreateActionBar5(A, bar5)
+  -----------------------------
+  -- Bar4
+  -----------------------------
 
------------------------------
--- StanceBar
------------------------------
+  local bar4 = {
+    framePoint      = { "RIGHT", UIParent, "RIGHT", -5, 0 },
+    frameScale      = 1,
+    framePadding    = 2,
+    buttonWidth     = 33,
+    buttonHeight    = 33,
+    buttonMargin    = 3,
+    numCols         = 1,
+    startPoint      = "TOPRIGHT",
+    fader           = fader,
+  }
+  --create
+  rActionBar:CreateActionBar4(A, bar4)
 
-local stancebar = {
-  framePoint      = { "BOTTOM", A.."Bar3", "TOP", 0, 18 },
-  frameScale      = 0.8,
-  framePadding    = 2,
-  buttonWidth     = 33,
-  buttonHeight    = 33,
-  buttonMargin    = 3,
-  numCols         = 12,
-  startPoint      = "BOTTOMLEFT",
-  fader           = nil,
-  frameVisibility = "[petbattle][overridebar][vehicleui][possessbar][shapeshift][nomod] hide; show"
-}
---create
-rActionBar:CreateStanceBar(A, stancebar)
+  -----------------------------
+  -- Bar5
+  -----------------------------
 
------------------------------
--- PetBar
------------------------------
+  local bar5 = {
+    framePoint      = { "RIGHT", A.."Bar4", "LEFT", 0, 0 },
+    frameScale      = 1,
+    framePadding    = 2,
+    buttonWidth     = 33,
+    buttonHeight    = 33,
+    buttonMargin    = 3,
+    numCols         = 1,
+    startPoint      = "TOPRIGHT",
+    fader           = fader,
+  }
+  --create
+  rActionBar:CreateActionBar5(A, bar5)
 
---petbar
-local petbar = {
-  framePoint      = { "BOTTOM", A.."Bar3", "TOP", 0, 18 },
-  frameScale      = 0.8,
-  framePadding    = 2,
-  buttonWidth     = 33,
-  buttonHeight    = 33,
-  buttonMargin    = 3,
-  numCols         = 12,
-  startPoint      = "BOTTOMLEFT",
-  fader           = fader,
-  frameVisibility = "[petbattle][overridebar][vehicleui][possessbar][shapeshift] hide; [pet,mod] show; hide"
-}
---create
-rActionBar:CreatePetBar(A, petbar)
+  -----------------------------
+  -- StanceBar
+  -----------------------------
 
------------------------------
--- ExtraBar
------------------------------
+  local stancebar = {
+    framePoint      = { "BOTTOM", A.."Bar3", "TOP", 0, 18 },
+    frameScale      = 0.8,
+    framePadding    = 2,
+    buttonWidth     = 33,
+    buttonHeight    = 33,
+    buttonMargin    = 3,
+    numCols         = 12,
+    startPoint      = "BOTTOMLEFT",
+    fader           = nil,
+    frameVisibility = "[petbattle][overridebar][vehicleui][possessbar][shapeshift][nomod] hide; show"
+  }
+  --create
+  rActionBar:CreateStanceBar(A, stancebar)
 
-local extrabar = {
-  framePoint      = { "BOTTOMRIGHT", A.."Bar1", "BOTTOMLEFT", -5, 0 },
-  frameScale      = 1,
-  framePadding    = 2,
-  buttonWidth     = 33,
-  buttonHeight    = 33,
-  buttonMargin    = 3,
-  numCols         = 1,
-  startPoint      = "BOTTOMLEFT",
-  fader           = nil,
-}
---create
-rActionBar:CreateExtraBar(A, extrabar)
+  -----------------------------
+  -- PetBar
+  -----------------------------
 
------------------------------
--- VehicleExitBar
------------------------------
+  --petbar
+  local petbar = {
+    framePoint      = { "BOTTOM", A.."Bar3", "TOP", 0, 18 },
+    frameScale      = 0.8,
+    framePadding    = 2,
+    buttonWidth     = 33,
+    buttonHeight    = 33,
+    buttonMargin    = 3,
+    numCols         = 12,
+    startPoint      = "BOTTOMLEFT",
+    fader           = fader,
+    frameVisibility = "[petbattle][overridebar][vehicleui][possessbar][shapeshift] hide; [pet,mod] show; hide"
+  }
+  --create
+  rActionBar:CreatePetBar(A, petbar)
 
-local vehicleexitbar = {
-  framePoint      = { "BOTTOMLEFT", A.."Bar1", "BOTTOMRIGHT", 5, 0 },
-  frameScale      = 1,
-  framePadding    = 2,
-  buttonWidth     = 33,
-  buttonHeight    = 33,
-  buttonMargin    = 3,
-  numCols         = 1,
-  startPoint      = "BOTTOMLEFT",
-  fader           = nil,
-}
---create
-rActionBar:CreateVehicleExitBar(A, vehicleexitbar)
+  -----------------------------
+  -- ExtraBar
+  -----------------------------
 
------------------------------
--- PossessExitBar
------------------------------
+  local extrabar = {
+    framePoint      = { "BOTTOMRIGHT", A.."Bar1", "BOTTOMLEFT", -5, 0 },
+    frameScale      = 1,
+    framePadding    = 2,
+    buttonWidth     = 33,
+    buttonHeight    = 33,
+    buttonMargin    = 3,
+    numCols         = 1,
+    startPoint      = "BOTTOMLEFT",
+    fader           = nil,
+  }
+  --create
+  rActionBar:CreateExtraBar(A, extrabar)
 
-local possessexitbar = {
-  framePoint      = { "BOTTOMLEFT", A.."Bar1", "BOTTOMRIGHT", 5, 0 },
-  frameScale      = 1,
-  framePadding    = 2,
-  buttonWidth     = 33,
-  buttonHeight    = 33,
-  buttonMargin    = 3,
-  numCols         = 1,
-  startPoint      = "BOTTOMLEFT",
-  fader           = nil,
-}
---create
-rActionBar:CreatePossessExitBar(A, possessexitbar)
+  -----------------------------
+  -- VehicleExitBar
+  -----------------------------
+
+  local vehicleexitbar = {
+    framePoint      = { "BOTTOMLEFT", A.."Bar1", "BOTTOMRIGHT", 5, 0 },
+    frameScale      = 1,
+    framePadding    = 2,
+    buttonWidth     = 33,
+    buttonHeight    = 33,
+    buttonMargin    = 3,
+    numCols         = 1,
+    startPoint      = "BOTTOMLEFT",
+    fader           = nil,
+  }
+  --create
+  rActionBar:CreateVehicleExitBar(A, vehicleexitbar)
+
+  -----------------------------
+  -- PossessExitBar
+  -----------------------------
+
+  local possessexitbar = {
+    framePoint      = { "BOTTOMLEFT", A.."Bar1", "BOTTOMRIGHT", 5, 0 },
+    frameScale      = 1,
+    framePadding    = 2,
+    buttonWidth     = 33,
+    buttonHeight    = 33,
+    buttonMargin    = 3,
+    numCols         = 1,
+    startPoint      = "BOTTOMLEFT",
+    fader           = nil,
+  }
+  --create
+  rActionBar:CreatePossessExitBar(A, possessexitbar)
+end

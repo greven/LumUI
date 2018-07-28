@@ -1,6 +1,6 @@
 ## Interface: 80000
 ## Title: |cFF0d87d5L|r|cFF85419cu|r|cFFf20269m|rUI
-## Version: @project-version@
+## Version: 8.0.10
 ## Notes: Lumen UI
 ## Author: greven
 ## SavedVariables: lumuiDB
@@ -10,4 +10,3 @@
 ## X-WoWI-ID: 18616
 
 _load.xml
-addons\_addons.xml

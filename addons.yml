@@ -1,0 +1,22 @@
+--
+addons:
+  - 
+    name: oUF_Lumen
+    url: https://github.com/greven/oUF_Lumen
+    type: zip
+  - 
+    name: Butsu
+    url: git://github.com/greven/Butsu
+    type: latest
+  - 
+    name: rLib
+    url: https://github.com/zorker/rothui/trunk/wow8.0/rLib
+    type: svn
+  - 
+    name: rActionBar
+    url: https://github.com/zorker/rothui/trunk/wow8.0/rActionBar
+    type: svn
+  - 
+    name: rButtonTemplate
+    url: https://github.com/zorker/rothui/trunk/wow8.0/rButtonTemplate
+    type: svn

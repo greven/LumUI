@@ -16,6 +16,6 @@ end)
 f:RegisterEvent("ADDON_LOADED")
 function f:ADDON_LOADED(addon)
   if addon == 'LumUI' then
-    print(addon)
+    -- print(addon)
   end
 end
