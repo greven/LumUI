@@ -8,7 +8,7 @@
 	<Script file='mods\actionbar.lua' />
 	<Script file='mods\auras.lua' />
 	<Script file='mods\buttons.lua' />
-	<Script file='mods\chat.lua' />
+	<!-- <Script file='mods\chat.lua' /> -->
 	<Script file='mods\combatText.lua' />
 	<Script file='mods\minimap.lua' />
 	<!-- <Script file='mods\skins.lua' /> -->
