@@ -7,16 +7,28 @@ addons:
   - 
     name: Butsu
     url: git://github.com/greven/Butsu
-    type: latest
+    type: master
   - 
     name: rLib
     url: https://github.com/zorker/rothui/trunk/wow8.0/rLib
-    type: svn
+    type: folder
   - 
     name: rActionBar
     url: https://github.com/zorker/rothui/trunk/wow8.0/rActionBar
-    type: svn
+    type: folder
   - 
     name: rButtonTemplate
     url: https://github.com/zorker/rothui/trunk/wow8.0/rButtonTemplate
-    type: svn
+    type: folder
+  - 
+    name: tullaRange
+    url: git://github.com/tullamods/tullaRange
+    type: master
+  - 
+    name: tullaRange_Config
+    url: git://github.com/tullamods/tullaRange_Config
+    type: master
+  - 
+    name: ls_Toasts
+    url: git://github.com/tullamods/tullaRange_Config
+    type: tag
