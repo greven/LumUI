@@ -119,7 +119,9 @@ get_addon() {
   local url=$2
   local type=$3 
 
-  if [ "$type" = "latest" ]; then
+  if [ "$type" = "master" ]; then
+    git clone -q --depth 1 "$url" "$checkout_dir/$name"
+  elif [ "$type" = "tag" ]; then
     git clone -q --depth 50 "$url" "$checkout_dir/$name"
     if [ $? -ne 0 ]; then return 1; fi
     local tag=$( git -C "$checkout_dir/$name" for-each-ref refs/tags --sort=-taggerdate --format=%\(refname:short\) --count=1 )
@@ -131,7 +133,7 @@ get_addon() {
 		fi
   elif [ "$type" = "zip" ]; then
     fetch_git_asset $url $name
-  elif [ "$type" = "svn" ]; then
+  elif [ "$type" = "folder" ]; then
     svn export -q $url "$checkout_dir/$name"
     echo "Checked out $name"
 	fi
