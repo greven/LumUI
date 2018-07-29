@@ -30,5 +30,9 @@ addons:
     type: master
   - 
     name: ls_Toasts
-    url: git://github.com/tullamods/tullaRange_Config
-    type: tag
+    url: https://github.com/ls-/ls_Toasts
+    type: zip
+  - 
+    name: PhanxChat
+    url: https://github.com/phanx-wow/PhanxChat
+    type: zip
