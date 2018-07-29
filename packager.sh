@@ -170,6 +170,18 @@ copy_fonts() {
  cp -r $root_dir/Fonts $release_dir/Fonts
 }
 
+# Clean unnecessary files (.git, .md and .sh files/dirs)
+clean() {
+  for f in $(find $addons_dir -name '.git' -or -name '*.md'); 
+  do
+    if [ -d $f ]; then
+      rm -rf $f
+    else
+      rm $f
+    fi
+  done
+}
+
 zip_release() {
   package=$basedir
   archive_package_name="${package//[^A-Za-z0-9._-]/_}"
@@ -194,6 +206,7 @@ package() {
   copy_directory_tree
   copy_fonts
   download_addons
+  clean
   zip_release
 }
 
