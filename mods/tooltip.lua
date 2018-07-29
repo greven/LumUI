@@ -18,12 +18,36 @@ if C.options.tooltip.show then
   local GameTooltipTextLeft1, GameTooltipTextLeft2, GameTooltipTextLeft3, GameTooltipTextLeft4, GameTooltipTextLeft5, GameTooltipTextLeft6, GameTooltipTextLeft7, GameTooltipTextLeft8 = GameTooltipTextLeft1, GameTooltipTextLeft2, GameTooltipTextLeft3, GameTooltipTextLeft4, GameTooltipTextLeft5, GameTooltipTextLeft6, GameTooltipTextLeft7, GameTooltipTextLeft8
   local classColorHex, factionColorHex = {}, {}
 
+  -- Talents (Credit: TipTac)
+  local tt = CreateFrame("Frame","TooltipTalents")
+  local gtt = GameTooltip
+  local cache = {}
+  local current = {}
+
+  -- String Constants
+  local TALENTS_PREFIX = TALENTS..":|cffffffff "	-- MoP: Could be changed from TALENTS to SPECIALIZATION
+  local TALENTS_NA = NOT_APPLICABLE:lower()
+  local TALENTS_NONE = NO.." "..TALENTS
+
+  -- Option Constants
+  local CACHE_SIZE = 25	-- Change cache size here (Default 25)
+  local INSPECT_DELAY = 0.2	-- The time delay for the scheduled inspection
+  local INSPECT_FREQ = 2		-- How often after an inspection are we allowed to inspect again?
+
+  local lastInspectRequest = 0
+
+  tt:Hide()
+
   -----------------------------
   -- Config
   -----------------------------
 
   local cfg = {}
   cfg.showSpellID = false
+  cfg.talents = {
+    show = true,
+    onlyParty = false
+  }
   cfg.textColor = {0.4,0.4,0.4}
   cfg.bossColor = {1,0,0}
   cfg.eliteColor = {1,0,0.5}
@@ -76,10 +100,56 @@ if C.options.tooltip.show then
     end
   end
 
+  -- Talents
+  local function IsInspectFrameOpen() return (InspectFrame and InspectFrame:IsShown()) or (Examiner and Examiner:IsShown()) end
+  
+  local function GatherTalents(isInspect)
+    local spec = isInspect and GetInspectSpecialization(current.unit) or GetSpecialization()
+    if (not spec or spec == 0) then
+      current.format = TALENTS_NONE
+    elseif (isInspect) then
+      local _, specName = GetSpecializationInfoByID(spec)
+      current.format = specName or TALENTS_NA
+    else
+      local _, specName = GetSpecializationInfo(spec)
+      current.format = specName or TALENTS_NA
+    end
+
+    if (not isInspect) then
+      gtt:AddLine(TALENTS_PREFIX..current.format)
+    elseif (gtt:GetUnit()) then
+      for i = 2, gtt:NumLines() do
+        if ((_G["GameTooltipTextLeft"..i]:GetText() or ""):match("^"..TALENTS_PREFIX)) then
+          _G["GameTooltipTextLeft"..i]:SetFormattedText("%s%s",TALENTS_PREFIX,current.format)
+          -- Do not call Show() if the tip is fading out, this only works with TipTac, if TipTacTalents are used alone, it might still bug the fadeout
+          if (not gtt.fadeOut) then
+            gtt:Show()
+          end
+          break
+        end
+      end
+    end
+
+    -- Organise Cache
+    local cacheSize = CACHE_SIZE
+    for i = #cache, 1, -1 do
+      if (current.name == cache[i].name) then
+        tremove(cache,i)
+        break
+      end
+    end
+    if (#cache > cacheSize) then
+      tremove(cache,1)
+    end
+    -- Cache the new entry
+    if (cacheSize > 0) then
+      cache[#cache + 1] = CopyTable(current)
+    end
+  end
+
   local function OnTooltipSetUnit(self)
     local unitName, unit = self:GetUnit()
     if not unit then return end
-    --color tooltip textleft2..8
     GameTooltipTextLeft2:SetTextColor(unpack(cfg.textColor))
     GameTooltipTextLeft3:SetTextColor(unpack(cfg.textColor))
     GameTooltipTextLeft4:SetTextColor(unpack(cfg.textColor))
@@ -87,11 +157,6 @@ if C.options.tooltip.show then
     GameTooltipTextLeft6:SetTextColor(unpack(cfg.textColor))
     GameTooltipTextLeft7:SetTextColor(unpack(cfg.textColor))
     GameTooltipTextLeft8:SetTextColor(unpack(cfg.textColor))
-    --position raidicon
-    --local raidIconIndex = GetRaidTargetIndex(unit)
-    --if raidIconIndex then
-    --  GameTooltipTextLeft1:SetText(("%s %s"):format(ICON_LIST[raidIconIndex].."14|t", unitName))
-    --end
     if not UnitIsPlayer(unit) then
       --unit is not a player
       --color textleft1 and statusbar by faction color
@@ -148,18 +213,73 @@ if C.options.tooltip.show then
       local l = UnitLevel(unit)
       local color = GetCreatureDifficultyColor((l > 0) and l or 999)
       levelLine:SetTextColor(color.r,color.g,color.b)
-      --afk?
+      -- afk?
       if UnitIsAFK(unit) then
         self:AppendText((" |cff%s<AFK>|r"):format(cfg.afkColorHex))
       end
     end
-    --dead?
+    -- dead?
     if UnitIsDeadOrGhost(unit) then
       GameTooltipTextLeft1:SetTextColor(unpack(cfg.deadColor))
     end
-    --target line
+    -- target line
     if (UnitExists(unit.."target")) then
       GameTooltip:AddDoubleLine(("|cff%s%s|r"):format(cfg.targetColorHex, "Target"),GetTarget(unit.."target") or "Unknown")
+    end
+
+    -- Talents
+    if cfg.talents.show == false then
+      return
+    end
+    -- Abort any delayed inspect in progress
+    tt:Hide()
+    -- Get the unit -- Check the UnitFrame unit if this tip is from a concated unit, such as "targettarget".
+    if (not unit) then
+      local mFocus = GetMouseFocus()
+      if (mFocus) and (mFocus.unit) then
+        unit = mFocus.unit
+      end
+    end
+    -- No Unit or not a Player
+    if (not unit) or (not UnitIsPlayer(unit)) then
+      return
+    end
+    -- Show only talents for people in your party/raid
+    if (cfg.talents.onlyParty and not UnitInParty(unit) and not UnitInRaid(unit)) then
+      return
+    end
+    -- Only bother for players over level 9
+    local level = UnitLevel(unit)
+    if (level > 9 or level == -1) then
+      -- Wipe Current Record
+      wipe(current)
+      current.unit = unit
+      current.name = UnitName(unit)
+      current.guid = UnitGUID(unit)
+      -- No need for inspection on the player
+      if (UnitIsUnit(unit,"player")) then
+        GatherTalents()
+        return
+      end
+      -- Show Cached Talents, If Available
+      local cacheLoaded = false
+      for _, entry in ipairs(cache) do
+        if (current.name == entry.name) then
+          self:AddLine(TALENTS_PREFIX..entry.format)
+          current.format = entry.format
+          cacheLoaded = true
+          break
+        end
+      end
+      -- Queue an inspect request
+      if (CanInspect(unit)) and (not IsInspectFrameOpen()) then
+        local lastInspectTime = (GetTime() - lastInspectRequest)
+        tt.nextUpdate = (lastInspectTime > INSPECT_FREQ) and INSPECT_DELAY or (INSPECT_FREQ - lastInspectTime + INSPECT_DELAY)
+        tt:Show()
+        if (not cacheLoaded) then
+          self:AddLine(TALENTS_PREFIX.."Loading...")
+        end
+      end
     end
   end
 
@@ -291,9 +411,6 @@ if C.options.tooltip.show then
     if tooltip:HasScript("OnTooltipCleared") then
       tooltip:HookScript("OnTooltipCleared", OnTooltipCleared)
     end
-    --if tooltip:HasScript("OnUpdate") then
-      --tooltip:HookScript("OnUpdate", OnUpdate)
-    --end
   end
 
   --loop over menues
@@ -342,4 +459,26 @@ if C.options.tooltip.show then
       TooltipAddSpellID(self,select(3,self:GetSpell()))
     end)
   end
+
+  -- Talents Events
+  tt:SetScript("OnEvent", function(self,event,guid)
+    self:UnregisterEvent(event)
+    if (guid == current.guid) then
+      GatherTalents(1)
+    end
+  end)
+
+  -- OnUpdate
+  tt:SetScript("OnUpdate", function(self,elapsed)
+    self.nextUpdate = (self.nextUpdate - elapsed)
+    if (self.nextUpdate <= 0) then
+      self:Hide()
+      -- Make sure the mouseover unit is still our unit
+      if (UnitGUID("mouseover") == current.guid) and (not IsInspectFrameOpen()) then
+        lastInspectRequest = GetTime()
+        self:RegisterEvent("INSPECT_READY")
+        NotifyInspect(current.unit)
+      end
+    end
+  end)
 end
