@@ -1,3 +1,12 @@
+### Version 8.0.12
+
+* Update addons
+* Add Chat Addon
+
+### Version 8.0.11
+
+* Cleanup
+
 ### Version 8.0.10
 
 * First working release for BFA
