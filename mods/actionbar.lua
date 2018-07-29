@@ -87,7 +87,7 @@ function f:styleBars()
     numCols         = 12,
     startPoint      = "BOTTOMLEFT",
     fader           = nil,
-    frameVisibility = "[combat][mod][@target,exists,nodead][@vehicle,exists][overridebar][shapeshift][vehicleui][possessbar] show; hide"
+    -- frameVisibility = "[combat][mod][@target,exists,nodead][@vehicle,exists][overridebar][shapeshift][vehicleui][possessbar] show; hide"
   }
   --create
   rActionBar:CreateActionBar1(A, bar1)
@@ -106,7 +106,7 @@ function f:styleBars()
     numCols         = 12,
     startPoint      = "BOTTOMLEFT",
     fader           = nil,
-    frameVisibility = "[petbattle][overridebar][vehicleui][possessbar][shapeshift] hide; [combat][mod][@target,exists,nodead] show; hide"
+    -- frameVisibility = "[petbattle][overridebar][vehicleui][possessbar][shapeshift] hide; [combat][mod][@target,exists,nodead] show; hide"
   }
   --create
   rActionBar:CreateActionBar2(A, bar2)
@@ -125,7 +125,7 @@ function f:styleBars()
     numCols         = 12,
     startPoint      = "BOTTOMLEFT",
     fader           = nil,
-    frameVisibility = "[petbattle][overridebar][vehicleui][possessbar][shapeshift] hide; [combat][mod][@target,exists,nodead] show; hide"
+    -- frameVisibility = "[petbattle][overridebar][vehicleui][possessbar][shapeshift] hide; [combat][mod][@target,exists,nodead] show; hide"
   }
   --create
   rActionBar:CreateActionBar3(A, bar3)
