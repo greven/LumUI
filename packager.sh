@@ -174,9 +174,9 @@ zip_release() {
   package=$basedir
   archive_package_name="${package//[^A-Za-z0-9._-]/_}"
   archive_version="$project_version"
-	archive_name="$archive_package_name-$project_version.zip"
+	archive_name="$archive_package_name-$archive_version.zip"
 	archive="$release_dir/$archive_name"
-  
+
   echo "Creating archive: $archive_name"
 
 	if [ -f "$archive" ]; then
