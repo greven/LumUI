@@ -11,11 +11,57 @@ local _, ns = ...
 local L, C, G = unpack(select(2, ...))
 
 if C.options.tooltip.show then
+
+  -----------------------------
+  -- Config
+  -----------------------------
+
+  local cfg = {}
+  cfg.showSpellID = true
+  cfg.talents = {
+    show = true,
+    onlyParty = false
+  }
+  cfg.textColor = {0.4,0.4,0.4}
+  cfg.bossColor = {1,0,0}
+  cfg.eliteColor = {1,0,0.5}
+  cfg.rareeliteColor = {1,0.5,0}
+  cfg.rareColor = {1,0.5,0}
+  cfg.levelColor = {0.8,0.8,0.5}
+  cfg.deadColor = {0.5,0.5,0.5}
+  cfg.targetColor = {1,0.5,0.5}
+  cfg.guildColor = {1,0,1}
+  cfg.afkColor = {0,1,1}
+  cfg.scale = 1
+  cfg.fontFamily = STANDARD_TEXT_FONT
+  cfg.backdrop = {
+    bgFile = "Interface\\Buttons\\WHITE8x8",
+    edgeFile = [[Interface\AddOns\lumUI\media\Textures\border_squared]],
+    tiled = true,
+    edgeSize = 10,
+    insets = { left = 0, right = 0, top = 0, bottom = 0 }
+  }
+  cfg.backdrop.bgColor = {0.05,0.05,0.05,0.9}
+  cfg.backdrop.borderColor = {0.1,0.1,0.1,1}
+
+  -- Position
+  -- cfg.pos = "ANCHOR_CURSOR"
+  cfg.pos = { "BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -20, 20 }
+
+
+  -----------------------------
+  -- Variables
+  -----------------------------
+
   local unpack, type = unpack, type
   local RAID_CLASS_COLORS, FACTION_BAR_COLORS, ICON_LIST = RAID_CLASS_COLORS, FACTION_BAR_COLORS, ICON_LIST
   local GameTooltip, GameTooltipStatusBar = GameTooltip, GameTooltipStatusBar
-  local GameTooltipTextRight1, GameTooltipTextRight2, GameTooltipTextRight3, GameTooltipTextRight4, GameTooltipTextRight5, GameTooltipTextRight6, GameTooltipTextRight7, GameTooltipTextRight8 = GameTooltipTextRight1, GameTooltipTextRight2, GameTooltipTextRight3, GameTooltipTextRight4, GameTooltipTextRight5, GameTooltipTextRight6, GameTooltipTextRight7, GameTooltipTextRight8
-  local GameTooltipTextLeft1, GameTooltipTextLeft2, GameTooltipTextLeft3, GameTooltipTextLeft4, GameTooltipTextLeft5, GameTooltipTextLeft6, GameTooltipTextLeft7, GameTooltipTextLeft8 = GameTooltipTextLeft1, GameTooltipTextLeft2, GameTooltipTextLeft3, GameTooltipTextLeft4, GameTooltipTextLeft5, GameTooltipTextLeft6, GameTooltipTextLeft7, GameTooltipTextLeft8
+  local GameTooltipTextRight1, GameTooltipTextRight2, GameTooltipTextRight3, GameTooltipTextRight4, GameTooltipTextRight5,
+    GameTooltipTextRight6, GameTooltipTextRight7, GameTooltipTextRight8 = GameTooltipTextRight1, GameTooltipTextRight2,
+    GameTooltipTextRight3, GameTooltipTextRight4, GameTooltipTextRight5, GameTooltipTextRight6, GameTooltipTextRight7, GameTooltipTextRight8
+  local GameTooltipTextLeft1, GameTooltipTextLeft2, GameTooltipTextLeft3, GameTooltipTextLeft4,
+    GameTooltipTextLeft5, GameTooltipTextLeft6, GameTooltipTextLeft7, GameTooltipTextLeft8 = GameTooltipTextLeft1, GameTooltipTextLeft2,
+    GameTooltipTextLeft3, GameTooltipTextLeft4, GameTooltipTextLeft5, GameTooltipTextLeft6, GameTooltipTextLeft7, GameTooltipTextLeft8
   local classColorHex, factionColorHex = {}, {}
 
   -- Talents (Credit: TipTac)
@@ -37,42 +83,6 @@ if C.options.tooltip.show then
   local lastInspectRequest = 0
 
   tt:Hide()
-
-  -----------------------------
-  -- Config
-  -----------------------------
-
-  local cfg = {}
-  cfg.showSpellID = false
-  cfg.talents = {
-    show = true,
-    onlyParty = false
-  }
-  cfg.textColor = {0.4,0.4,0.4}
-  cfg.bossColor = {1,0,0}
-  cfg.eliteColor = {1,0,0.5}
-  cfg.rareeliteColor = {1,0.5,0}
-  cfg.rareColor = {1,0.5,0}
-  cfg.levelColor = {0.8,0.8,0.5}
-  cfg.deadColor = {0.5,0.5,0.5}
-  cfg.targetColor = {1,0.5,0.5}
-  cfg.guildColor = {1,0,1}
-  cfg.afkColor = {0,1,1}
-  cfg.scale = 1
-  cfg.fontFamily = STANDARD_TEXT_FONT
-  cfg.backdrop = { 
-    bgFile = "Interface\\Buttons\\WHITE8x8", 
-    edgeFile = [[Interface\AddOns\lumUI\media\Textures\border_squared]],  
-    tiled = true, 
-    edgeSize = 10, 
-    insets = { left = 0, right = 0, top = 0, bottom = 0 } 
-  }
-  cfg.backdrop.bgColor = {0.05,0.05,0.05,0.9}
-  cfg.backdrop.borderColor = {0.1,0.1,0.1,1}
-
-  -- Position
-  -- cfg.pos = "ANCHOR_CURSOR"
-  cfg.pos = { "BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -20, 20 }
 
   -----------------------------
   -- Functions
@@ -102,7 +112,7 @@ if C.options.tooltip.show then
 
   -- Talents
   local function IsInspectFrameOpen() return (InspectFrame and InspectFrame:IsShown()) or (Examiner and Examiner:IsShown()) end
-  
+
   local function GatherTalents(isInspect)
     local spec = isInspect and GetInspectSpecialization(current.unit) or GetSpecialization()
     if (not spec or spec == 0) then
@@ -287,12 +297,12 @@ if C.options.tooltip.show then
     backdrop.backdropColor:SetRGBA(unpack(backdrop.bgColor))
     backdrop.backdropBorderColor:SetRGBA(unpack(backdrop.borderColor))
   end
-  
+
   local function SetBackdropColor(self)
     self:SetBackdropColor(backdrop.backdropColor:GetRGBA())
     self:SetBackdropBorderColor(backdrop.backdropBorderColor:GetRGBA())
   end
-  
+
   --OnShow
   local function OnShow(self)
     ResetBackdropColor()
@@ -306,28 +316,28 @@ if C.options.tooltip.show then
     end
     SetBackdropColor(self)
   end
-  
+
   --OnHide
   local function OnHide(self)
     ResetBackdropColor()
   end
-  
+
   --OnTooltipCleared
   local function OnTooltipCleared(self)
     SetBackdropColor(self)
   end
-  
+
   --OnUpdate
   local function OnUpdate(self)
     SetBackdropColor(self)
   end
-  
+
   local function FixBarColor(self,r,g,b)
     if not cfg.barColor then return end
     if r == cfg.barColor.r and g == cfg.barColor.g and b == cfg.barColor.b then return end
     self:SetStatusBarColor(cfg.barColor.r,cfg.barColor.g,cfg.barColor.b)
   end
-  
+
   local function ResetTooltipPosition(self,parent)
     if not cfg.pos then return end
     if type(cfg.pos) == "string" then
