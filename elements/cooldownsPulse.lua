@@ -111,7 +111,7 @@ local function OnUpdate(_, update)
 				else
 					if (enabled ~= 0) then
 							if (duration and duration > threshold and texture) then
-									cooldowns[i] = { start, duration, texture, isPet, name }
+									cooldowns[i] = { texture, isPet, name }
 							end
 					end
 					if (not (enabled == 0 and v[2] == "spell")) then
@@ -121,16 +121,11 @@ local function OnUpdate(_, update)
 			end
 		end
 
-		-- Update timers
-		-- for i,v in pairs(cooldowns) do
-		-- 	_, duration = GetSpellCooldown(v[5])
-		-- 	print(duration)
-		-- end
-
 		for i,v in pairs(cooldowns) do
-				local remaining = v[2]-(GetTime()-v[1])
+				local start, duration = GetSpellCooldown(v[3])
+				local remaining = start + duration - GetTime()
 				if (remaining <= 0) then
-						tinsert(animating, {v[3],v[4],v[5]})
+						tinsert(animating, {v[1],v[2],v[3]})
 						cooldowns[i] = nil
 				end
 		end
