@@ -200,6 +200,12 @@ function f:PLAYER_ENTERING_WORLD()
 end
 f:RegisterEvent("PLAYER_ENTERING_WORLD")
 
+function f:PLAYER_TALENT_UPDATE()
+	wipe(cooldowns)
+	wipe(watching)
+end
+f:RegisterEvent("PLAYER_TALENT_UPDATE")
+
 hooksecurefunc("UseAction", function(slot)
 	local actionType, itemID = GetActionInfo(slot)
 	if (actionType == "item") then
