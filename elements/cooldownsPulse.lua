@@ -123,10 +123,12 @@ local function OnUpdate(_, update)
 
 		for i,v in pairs(cooldowns) do
 				local start, duration = GetSpellCooldown(v[3])
-				local remaining = start + duration - GetTime()
-				if (remaining <= 0) then
-						tinsert(animating, {v[1],v[2],v[3]})
-						cooldowns[i] = nil
+				if (start and duration) then
+					local remaining = start + duration - GetTime()
+					if (remaining <= 0) then
+							tinsert(animating, {v[1],v[2],v[3]})
+							cooldowns[i] = nil
+					end
 				end
 		end
 
