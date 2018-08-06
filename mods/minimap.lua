@@ -132,6 +132,9 @@ function lm:Init(event)
   TimeManagerClockTicker:SetPoint('CENTER', TimeManagerClockButton, 0, 0)
   TimeManagerClockTicker:SetShadowOffset(0, 0)
 
+  -- Vehicle Position Indicator
+  VehicleSeatIndicator:SetAlpha(0)
+
   -- Tracking Button
   MiniMapTracking:ClearAllPoints()
   MiniMapTracking:SetParent(Minimap)
