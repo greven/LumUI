@@ -219,7 +219,7 @@ function st:GetGoldHour()
 	local output = format('|cffffff66%s|r', L:FormatInt(gold))
 	output = format('%s.|cffc0c0c0%d|r', output, silver)
 	output = format('%s.|cffcc9900%d|r', output, copper)
-	
+
 	if profit ~= 0 then
 		return output
 	else
@@ -247,11 +247,11 @@ end
 function st:LootSpec()
 	local lootSpecId = GetLootSpecialization()
 	local lootSpec = select(2, GetSpecializationInfo(GetSpecialization()))
-	
+
 	if lootSpecId ~= 0 then
 		lootSpec = select(2, GetSpecializationInfoByID(lootSpecId))
 	end
-	return ("%s%s|r"):format(Hex(lColor), lootSpec) 
+	return ("%s%s|r"):format(Hex(lColor), lootSpec)
 end
 
 function st:GetSessionTime()
@@ -332,13 +332,13 @@ function st:rightTooltip()
 		GameTooltip:AddDoubleLine('Profit', st:Profit(), 0.6, 0.6, 0.6)
 		GameTooltip:AddDoubleLine('Gold/Hour', st:GetGoldHour(), 0.4, 0.4, 0.4)
 		GameTooltip:AddLine(" ")
-		
+
 		GameTooltip:AddDoubleLine('Session', timeFormat(st:GetSessionTime()), 0, 0.6, 0.9, 0, 0.8, 0.9)
 		GameTooltip:AddLine(" ")
 
 		GameTooltip:AddLine("Left click to show the Calendar")
 		GameTooltip:AddLine("Right click to open Friends List")
-		
+
 		GameTooltip:Show()
 	end
 end
@@ -352,7 +352,7 @@ function st:leftTooltip()
 
 			GameTooltip:AddDoubleLine('iLevel', st:iLevel(), 0.75, 0.7, 0.45, 1, 1, 1)
 			GameTooltip:AddLine("----", 0.5, 0.5, 0.5)
-			
+
 			GameTooltip:AddDoubleLine('Crit', format("%d%%", (floor(GetCritChance() + 0.5))), 1, 1, 1, 0.75, 0.75, 0.75)
 			GameTooltip:AddDoubleLine('Haste', format("%d%%", (floor(GetHaste() + 0.5))), 1, 1, 1, 0.75, 0.75, 0.75)
 			GameTooltip:AddDoubleLine('Mastery', format("%d%%", select(1, GetMasteryEffect())), 1, 1, 1, 0.75, 0.75, 0.75)
@@ -360,7 +360,7 @@ function st:leftTooltip()
 
 			GameTooltip:AddLine(" ")
 			GameTooltip:AddDoubleLine('Loot Spec', st:LootSpec(), 0.6, 0.6, 0.6, 1, 1, 1)
-			
+
 			GameTooltip:AddLine(" ")
 			if unspentTalents and unspentTalents > 0 then
 				GameTooltip:AddLine(format("You have %d unspent talent points", unspentTalents), 1,0,0.42)
