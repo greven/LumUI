@@ -199,9 +199,9 @@ if C.options.tooltip.show then
         --GameTooltipTextLeft1:SetText(("%s%s"):format("|TInterface\\TargetingFrame\\UI-TargetingFrame-Skull:14:14|t", unitName))
         GameTooltipTextLeft2:SetTextColor(unpack(cfg.bossColor))
       elseif unitClassification == "rare" then
-        self:AppendText(" |TInterface\\AddOns\\rTooltip\\media\\diablo:14:14:0:0:16:16:0:14:0:14|t")
+        self:AppendText(" |TInterface\\AddOns\\LumUI\\media\\Textures\\icons:14:14:0:0:16:16:0:14:0:14|t")
       elseif unitClassification == "rareelite" then
-        self:AppendText(" |TInterface\\AddOns\\rTooltip\\media\\diablo:14:14:0:0:16:16:0:14:0:14|t")
+        self:AppendText(" |TInterface\\AddOns\\LumUI\\media\\Textures\\icons:14:14:0:0:16:16:0:14:0:14|t")
       elseif unitClassification == "elite" then
         self:AppendText(" |TInterface\\HelpFrame\\HotIssueIcon:14:14|t")
       end
