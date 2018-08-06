@@ -1,0 +1,10 @@
+--
+libs:
+  -
+    name: Wasabi
+    url: git://github.com/p3lim-wow/Wasabi
+    type: tag
+  -
+    name: LibStub
+    url: https://repos.wowace.com/wow/libstub/trunk
+    type: svn

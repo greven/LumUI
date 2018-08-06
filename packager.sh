@@ -2,6 +2,7 @@ root_dir=../../..
 top_dir=.
 release_dir=.release
 checkout_dir="$release_dir/.checkout"
+libs_dir="libs"
 addons_dir="$release_dir/Interface/AddOns"
 
 basedir=$( cd "$topdir" && pwd )
@@ -35,7 +36,7 @@ parse_yaml() {
                   printf("%s%s%s%s=(\"%s\")\n", "'"$prefix"'",vn, $2, conj[indent-1],$3);
               }
           }' |
-          
+
       sed -e 's/_=/+=/g' |
       awk 'BEGIN {
                 FS="=";
@@ -114,34 +115,44 @@ fetch_git_asset() {
   rm -v "$checkout_dir/$name"/*.zip
 }
 
+fetch_resouce() {
+  local name=$1
+  local url=$2
+  local type=$3
+  local directory=$4
+
+  if [ "$type" = "master" ]; then
+    git clone -q --depth 1 "$url" "$directory/$name"
+  elif [ "$type" = "tag" ]; then
+    git clone -q --depth 50 "$url" "$directory/$name"
+    if [ $? -ne 0 ]; then return 1; fi
+    local tag=$( git -C "$directory/$name" for-each-ref refs/tags --sort=-taggerdate --format=%\(refname:short\) --count=1 )
+    if [ -n "$tag" ]; then
+      echo "Fetching tag \"$tag\" from external $url"
+      git -C "$directory/$name" checkout -q "$tag"
+    else
+      echo "Fetching latest version of external $url"
+    fi
+  elif [ "$type" = "zip" ]; then
+    fetch_git_asset $url $name
+  elif [ "$type" = "svn" ]; then
+    svn export $url "$directory/$name"
+    echo "Checked out $name"
+  elif [ "$type" = "folder" ]; then
+    svn export -q $url "$directory/$name"
+    echo "Checked out $name"
+  fi
+}
+
 get_addon() {
   local name=$1
   local url=$2
-  local type=$3 
+  local type=$3
 
-  if [ "$type" = "master" ]; then
-    git clone -q --depth 1 "$url" "$checkout_dir/$name"
-  elif [ "$type" = "tag" ]; then
-    git clone -q --depth 50 "$url" "$checkout_dir/$name"
-    if [ $? -ne 0 ]; then return 1; fi
-    local tag=$( git -C "$checkout_dir/$name" for-each-ref refs/tags --sort=-taggerdate --format=%\(refname:short\) --count=1 )
-    if [ -n "$tag" ]; then
-			echo "Fetching tag \"$tag\" from external $url"
-			git -C "$checkout_dir/$name" checkout -q "$tag"
-		else
-			echo "Fetching latest version of external $url"
-		fi
-  elif [ "$type" = "zip" ]; then
-    fetch_git_asset $url $name
-  elif [ "$type" = "folder" ]; then
-    svn export -q $url "$checkout_dir/$name"
-    echo "Checked out $name"
-	fi
-
+  fetch_resouce $name $url $type $checkout_dir
   # Move the checkout into the AddOns folder
   echo "Move .checkout/$name to AddOns folder"
   mv "$checkout_dir/$name" "$addons_dir"
-
 }
 
 download_addons() {
@@ -155,6 +166,33 @@ download_addons() {
     get_addon $name $url $type
   done
   rm -rf $checkout_dir
+}
+
+get_lib() {
+  local name=$1
+  local url=$2
+  local type=$3
+
+  fetch_resouce $name $url $type $libs_dir
+}
+
+download_libs() {
+  read_addons "libs.yml"
+  local COUNT=${#libs__name[*]}
+
+  # Clean current libs directory
+  rm -rf libs/
+
+  for (( i=0; i<${COUNT}; i++ )); do
+    local name=${libs__name[$i]}
+    local url=${libs__url[$i]}
+    local type=${libs__type[$i]}
+    get_lib $name $url $type
+  done
+
+  # Copy the LumUI libs folder into the release folder
+  echo "Copy Libs to release directory"
+  cp -r "libs" "$addons_dir/LumUI"
 }
 
 copy_directory_tree() {
@@ -172,7 +210,7 @@ copy_fonts() {
 
 # Clean unnecessary files (.git, .md and .sh files/dirs)
 clean() {
-  for f in $(find $addons_dir -name '.git' -or -name '*.md'); 
+  for f in $(find $addons_dir -name '.git' -or -name '*.md');
   do
     if [ -d $f ]; then
       rm -rf $f
@@ -206,6 +244,7 @@ package() {
   copy_directory_tree
   copy_fonts
   download_addons
+  download_libs
   clean
   zip_release
 }
