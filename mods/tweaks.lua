@@ -15,7 +15,6 @@ end)
 -- > Config
 -- ---------------------------------
 
-local collect = true
 local autoRepair = true
 local autoRepairGuild = true
 local autoSell = true
@@ -24,28 +23,11 @@ local acceptRes = true
 local battlegroundRes = true
 local acceptFriendlyInvites = true
 
--- ---------------------------------
--- > Collect Garbage
--- ---------------------------------
-if collect then
-	local eventcount = 0 
-	local a = CreateFrame("Frame") 
-	a:RegisterAllEvents() 
-	a:SetScript("OnEvent", function(self, event) 
-		eventcount = eventcount + 1 
-		if InCombatLockdown() then return end 
-		if eventcount > 6000 or event == "PLAYER_ENTERING_WORLD" then 
-			collectgarbage("collect") 
-			eventcount = 0
-		end 
-	end)
-end
-
 -- ----------------------------------
 -- > Auto repair and sell grey items
 -- ----------------------------------
 local IDs = {}
-for _, slot in pairs({"Head", "Shoulder", "Chest", "Waist", "Legs", "Feet", "Wrist", "Hands", "MainHand", "SecondaryHand"}) do 	
+for _, slot in pairs({"Head", "Shoulder", "Chest", "Waist", "Legs", "Feet", "Wrist", "Hands", "MainHand", "SecondaryHand"}) do
 	IDs[slot] = GetInventorySlotInfo(slot .. "Slot")
 end
 
@@ -72,7 +54,7 @@ function eventframe:MERCHANT_SHOW()
 				end
 			elseif cost > 0 and GetMoney() > cost then
 				RepairAllItems()
-				print(format("Repair Cost: %s", L:FormatMoney(cost)))	
+				print(format("Repair Cost: %s", L:FormatMoney(cost)))
 			end
 		elseif cost > 0 and GetMoney() > cost then
 			RepairAllItems()
@@ -129,11 +111,11 @@ if acceptRes then
 				end
 			end
 		end
-		
+
 		local delay = GetCorpseRecoveryDelay()
 		if delay == 0 then
 			AcceptResurrect()
-			StaticPopup_Hide("RESURRECT") 
+			StaticPopup_Hide("RESURRECT")
 		end
 	end
 end
@@ -191,4 +173,157 @@ if acceptFriendlyInvites then
 			end
 		end
 	end
+end
+
+-- ---------------------------------
+-- > Other Stuff
+-- ---------------------------------
+
+-- Move Archeology Frame
+local function moveArcheologyFrame(addon)
+	if addon == 'Blizzard_ArchaeologyUI' then
+		ArcheologyDigsiteProgressBar:SetPoint("BOTTOM", 0, 700)
+		ArcheologyDigsiteProgressBar.ignoreFramePositionManager = true
+	end
+end
+
+-- Add Total Quest Count in WorldMap (Why Blizzard why...)
+local WMTQC = CreateFrame('Frame')
+WMTQC:SetParent(QuestScrollFrame)
+WMTQC:SetHeight(25)
+WMTQC:SetWidth(75)
+WMTQC.text = L:createText(WMTQC, 'OVERLAY', 13, 'OUTLINE', 'LEFT')
+WMTQC.text:SetPoint('TOPRIGHT', QuestScrollFrame, 'TOPRIGHT', -28, 19)
+
+local function updateTotalQuestCount()
+	local _, k = GetNumQuestLogEntries()
+	WMTQC.text:SetText(QUESTS_COLON.." "..k.."/25")
+	-- Conditional color
+	if k < 20 then
+		WMTQC.text:SetTextColor(237/255, 251/255, 119/255)
+	elseif k < 25 then
+		WMTQC.text:SetTextColor(251/255, 211/255, 119/255)
+	else
+		WMTQC.text:SetTextColor(251/255, 119/255, 119/255)
+	end
+end
+
+-- -----------------------------
+-- Character Frame items iLevel
+-- -----------------------------
+
+local iLvlF = CreateFrame('Frame')
+local slotStrings = {}
+local slotIDs = {
+	[1] = "HeadSlot",
+	[2] = "NeckSlot",
+	[3] = "ShoulderSlot",
+	[5] = "ChestSlot",
+	[6] = "WaistSlot",
+	[7] = "LegsSlot",
+	[8] = "FeetSlot",
+	[9] = "WristSlot",
+	[10] = "HandsSlot",
+	[11] = "Finger0Slot",
+	[12] = "Finger1Slot",
+	[13] = "Trinket0Slot",
+	[14] = "Trinket1Slot",
+	[15] = "BackSlot",
+	[16] = "MainHandSlot",
+	[17] = "SecondaryHandSlot"
+}
+
+function iLvlF:GetSlot(slotID)
+	return _G["Character" .. slotIDs[slotID]]
+end
+
+function iLvlF:GetSlotString(id, slot)
+	if not slotStrings[id] then
+		if not slot then
+			slot = iLvlF:GetSlot(id)
+		end
+		slotStrings[id] = L:createText(slot, 'OVERLAY', 17, 'OUTLINE', 'CENTER')
+		slotStrings[id]:SetPoint("TOP", slot, "TOP", 1, -6)
+	end
+	return slotStrings[id]
+end
+
+function iLvlF:Update(id, item)
+	if not item then
+		slotString[id]:SetText('')
+		return
+	else
+		local slotString = iLvlF:GetSlotString(id)
+		local itemRarity = select(3, GetItemInfo(item))
+		local iLevel = GetDetailedItemLevelInfo(item)
+		if itemRarity and iLevel then
+			local r, g, b = GetItemQualityColor(itemRarity)
+			slotString:SetText(iLevel)
+			slotString:SetTextColor(r, g, b)
+			slotString:Hide()
+		end
+	end
+end
+
+function iLvlF:UpdateAll()
+	for id, _ in pairs(slotIDs) do
+		local slotString = iLvlF:GetSlotString(id)
+		iLvlF:Update(id, GetInventoryItemLink("player", id), slotString)
+	end
+end
+
+function iLvlF:Toggle()
+	for id, string in pairs(slotStrings) do
+		local slot = iLvlF:GetSlot(id)
+		if IsShiftKeyDown() and PaperDollItemsFrame:IsShown() then
+			string:Show()
+		else
+			string:Hide()
+		end
+	end
+end
+
+-- ---------------------------------
+-- > Other Events
+-- ---------------------------------
+
+eventframe:RegisterEvent('ADDON_LOADED')
+function eventframe:ADDON_LOADED(addon)
+	if adddon == 'LumUI' then
+		moveArcheologyFrame(addon)
+		-- Items iLevel
+		iLvlF:UpdateAll()
+	end
+end
+
+eventframe:RegisterEvent('QUEST_LOG_UPDATE')
+function eventframe:QUEST_LOG_UPDATE()
+	-- Update Quest Count
+	updateTotalQuestCount()
+end
+
+eventframe:RegisterEvent('PLAYER_ENTERING_WORLD')
+function eventframe:PLAYER_ENTERING_WORLD()
+	-- Update Quest Count
+	updateTotalQuestCount()
+	-- Items iLevel
+	CharacterFrame:HookScript("OnShow", function()
+		eventframe:RegisterEvent('PLAYER_EQUIPMENT_CHANGED')
+		C_Timer.After(.2, function()
+			iLvlF:UpdateAll()
+		end)
+	end)
+
+	eventframe:UnregisterEvent("PLAYER_ENTERING_WORLD")
+end
+
+function eventframe:PLAYER_EQUIPMENT_CHANGED(slotID)
+	-- Update items iLevel
+	iLvlF:Update(slotID, GetInventoryItemLink("player", slotID))
+end
+
+eventframe:RegisterEvent('MODIFIER_STATE_CHANGED')
+function eventframe:MODIFIER_STATE_CHANGED(key)
+	-- Toggle items iLevel
+	iLvlF:Toggle()
 end
