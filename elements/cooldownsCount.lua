@@ -10,7 +10,7 @@ local L, C, G = unpack(select(2, ...))
 -- > Variables
 -- ---------------------------------
 
-local fontSize = 16
+local fontSize = 15
 
 -- 'Basic' version of OmniCC
 local format, floor, GetTime = string.format, math.floor, GetTime
@@ -57,20 +57,20 @@ hooksecurefunc(methods, "SetCooldown", function(self, start, duration)
 			return
 		end
 	end
-	
+
 	if (self:GetWidth() >= 15) and (self:GetHeight() >= 15) then
 		local s, d = tonumber(start), tonumber(duration)
 		if s and d then
-			if s > 0 and d > 2.5 then	
+			if s > 0 and d > 2.5 then
 				self.start = s
 				self.duration = d
 				self.nextUpdate = 0
-		
+
 				if (self:GetWidth() >= 25) and (self:GetHeight() >= 25) then
           if not self.text then
 						self.text = L:createNumber(self, "OVERLAY", fontSize, "OUTLINE", "CENTER")
 						self.text:SetTextColor(.4, .95, 1)
-						self.text:SetPoint("CENTER", 0, 0)					
+						self.text:SetPoint("CENTER", 0, 0)
 					else
 						self.text:SetFont(G.numFont, fontSize, "OUTLINE")
 					end
@@ -78,18 +78,18 @@ hooksecurefunc(methods, "SetCooldown", function(self, start, duration)
 					if not self.text then
 						self.text = L:createNumber(self, "OVERLAY", self:GetWidth()*.7+1, "OUTLINE", "CENTER")
 						self.text:SetTextColor(.4, .95, 1)
-						self.text:SetPoint("CENTER", 0, 0)						
+						self.text:SetPoint("CENTER", 0, 0)
 					else
 						self.text:SetFont(G.numFont, self:GetWidth()*.7+1, "OUTLINE")
 					end
 				end
-				
+
 				if not self:GetScript("OnUpdate") then
 					self:SetScript("OnUpdate", Timer_OnUpdate)
 				end
-				
+
 				self.text:Show()
-				
+
 			elseif self.text then
 				self.text:Hide()
 			end

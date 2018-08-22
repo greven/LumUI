@@ -5,6 +5,10 @@
 	<Script file='core\core.lua' />
 	<Script file='core\utils.lua' />
 
+	<Script file='elements\cooldownsCount.lua' />
+	<Script file='elements\cooldownsPulse.lua' />
+	<Script file='elements\stats.lua' />
+
 	<Script file='mods\actionbar.lua' />
 	<Script file='mods\auras.lua' />
 	<Script file='mods\buttons.lua' />
@@ -15,7 +19,5 @@
 	<Script file='mods\tooltip.lua' />
 	<Script file='mods\tweaks.lua' />
 
-	<Script file='elements\cooldownsCount.lua' />
-	<Script file='elements\cooldownsPulse.lua' />
-	<Script file='elements\stats.lua' />
+	<Script file='settings.lua' />
 </Ui>

@@ -3,10 +3,13 @@
 ## Version: 8.0.10
 ## Notes: Lumen UI
 ## Author: greven
-## SavedVariables: lumuiDB
+## SavedVariables: LumuiDB, LumuiConfig
 ## RequiredDeps: Blizzard_CombatText
 ## LoadWith: Blizzard_CombatText
 
 ## X-WoWI-ID: 18616
+
+libs\LibStub\LibStub.lua
+libs\Wasabi\embed.xml
 
 _load.xml
