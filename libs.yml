@@ -8,3 +8,7 @@ libs:
     name: LibStub
     url: https://repos.wowace.com/wow/libstub/trunk
     type: svn
+  -
+    name: PhanxConfig-Button
+    url: git://github.com/phanx-wow/PhanxConfig-Button
+    type: master

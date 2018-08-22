@@ -192,7 +192,7 @@ end
 
 -- Session Profit
 function st:Profit()
-	local profit = GetMoney() - lumuiDB.initialMoney
+	local profit = GetMoney() - LumuiDB.stats.initialMoney
 	local gold = math.floor(profit / 1e4)
 	local silver = math.floor((profit / 1e2) % 1e2)
 	local copper = math.floor(profit % 1e2)
@@ -209,7 +209,7 @@ function st:Profit()
 end
 
 function st:GetGoldHour()
-	local profit = GetMoney() - lumuiDB.initialMoney
+	local profit = GetMoney() - LumuiDB.stats.initialMoney
 	local goldHour = profit / (st:GetSessionTime() / 3600)
 
 	local gold = math.floor(goldHour / 1e4)
@@ -255,7 +255,7 @@ function st:LootSpec()
 end
 
 function st:GetSessionTime()
-	return GetTime() - lumuiDB.loginTime
+	return GetTime() - LumuiDB.stats.loginTime
 end
 
 -- Talent Tree
@@ -583,8 +583,11 @@ function st:PLAYER_LOGIN(event,...)
 	gotMail = (HasNewMail() or nil)
 	curSpec = st:Talents()
 	newEvent = C_Calendar.GetNumPendingInvites()
-	lumuiDB.initialMoney = GetMoney()
-	lumuiDB.loginTime = GetTime()
+	LumuiDB = LumuiDB or {}
+	LumuiDB.stats = {
+		initialMoney = GetMoney(),
+		loginTime = GetTime()
+	}
 end
 
 function st:MAIL_CLOSED(event,...)

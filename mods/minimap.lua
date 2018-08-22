@@ -95,7 +95,6 @@ function lm:Init(event)
   Minimap:ClearAllPoints()
   Minimap:SetScale(mScale)
   Minimap:SetSize(mWidth, mHeight)
-  Minimap:SetMaskTexture('Interface/Buttons/WHITE8X8')   -- Make Minimap Square!
   lm:SetPos() -- Set Minimap Position
 
   -- Hide Some Crap
@@ -145,6 +144,7 @@ function lm:Init(event)
   QueueStatusMinimapButton:ClearAllPoints()
   QueueStatusMinimapButton:SetParent(Minimap)
   QueueStatusMinimapButton:SetPoint("BOTTOMLEFT", Minimap, "BOTTOMLEFT", 0, 0)
+  QueueStatusMinimapButton:SetFrameLevel(15)
   QueueStatusMinimapButtonBorder:SetAlpha(0)
 
   -- Raid Difficulty
@@ -328,11 +328,6 @@ function lm:MoveDurability()
   end)
 end
 
--- For Other Addons to know the Shape of the Minimap
-function GetMinimapShape()
-  return 'SQUARE'
-end
-
 function lm:PLAYER_LOGIN(event)
   lm:TextColor()
   zone:SetText(GetMinimapZoneText())
@@ -368,15 +363,26 @@ end
 
 
 function lm:ADDON_LOADED(event, addon,...)
-  if (addon == A) then
+  -- Minimap Shape
+  if LumuiConfig.minimap then
+    -- Make Minimap Square
+    Minimap:SetMaskTexture('Interface\\Buttons\\WHITE8X8')
+  else
+    -- Revert the Minimap back to round!
+    Minimap:SetMaskTexture('Interface\\Addons\\LumUI\\media\\Textures\\circle')
+  end
+
+  if (addon == A and LumuiConfig.minimap) then
     lm:Init()
     lm:RegisterEvent("PLAYER_LOGIN")
     lm:RegisterEvent("PLAYER_ENTERING_WORLD")
     lm:RegisterEvent("ZONE_CHANGED")
     lm:RegisterEvent("ZONE_CHANGED_INDOORS")
     lm:RegisterEvent("ZONE_CHANGED_NEW_AREA")
+    lm:SetMinimapPosition()
+    -- Border
+    L:CreatePanel(false, true, "MinimapPanel", "Minimap", mWidth+8, mHeight+8, {{"TOPLEFT", Minimap, "TOPLEFT", -4,4}}, 32, 12, 0, 0.6)
   end
-  lm:SetMinimapPosition()
 end
 
 -- ---------------------------------
@@ -385,9 +391,3 @@ end
 
 lm:SetScript("OnEvent", function(self, event, ...) if self[event] then return self[event](self, event, ...) end end)
 lm:RegisterEvent("ADDON_LOADED")
-
--- ---------------------------------
--- > Border
--- ---------------------------------
-
-L:CreatePanel(false, true, "MinimapPanel", "Minimap", mWidth+8, mHeight+8, {{"TOPLEFT", Minimap, "TOPLEFT", -4,4}}, 32, 12, 0, 0.6)
