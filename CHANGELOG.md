@@ -1,3 +1,16 @@
+### Version 8.0.13
+
+* Update oUF_Lumen Frames (see the addon CHANGELOG for specific changes).
+* Update several addons.
+* Add Talents to tooltip when pressing Shift.
+* Added several UI tweaks (Move Archeology Frame, Add Talents to Tooltip on Shift Press, 
+  Add Total Quest Count to the World Map and Add iLevel to Character frame when pressing Shift).
+* Hide the vehicle Seat Indicator widget.
+* Fix the missing texture for the icons.
+* Fix some bugs with the cooldownPulse module.
+* Fix when changing specs or talents.
+* Cleanup.
+
 ### Version 8.0.12
 
 * Update addons
