@@ -43,17 +43,17 @@ function f:styleBars()
 
   local bagbar = {
     framePoint      = { "BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -5, 5 },
-    frameScale      = 1,
+    frameScale      = 0.8,
     framePadding    = 5,
     buttonWidth     = 33,
     buttonHeight    = 33,
     buttonMargin    = 3,
     numCols         = 6, --number of buttons per column
     startPoint      = "BOTTOMRIGHT", --start postion of first button: BOTTOMLEFT, TOPLEFT, TOPRIGHT, BOTTOMRIGHT
-    fader           = nil,
+    fader           = fader,
   }
   --create
-  -- rActionBar:CreateBagBar(A, bagbar)
+  rActionBar:CreateBagBar(A, bagbar)
 
   -----------------------------
   -- MicroMenuBar

@@ -180,11 +180,9 @@ end
 -- ---------------------------------
 
 -- Move Archeology Frame
-local function moveArcheologyFrame(addon)
-	if addon == 'Blizzard_ArchaeologyUI' then
-		ArcheologyDigsiteProgressBar:SetPoint("BOTTOM", 0, 700)
-		ArcheologyDigsiteProgressBar.ignoreFramePositionManager = true
-	end
+local function moveArcheologyFrame()
+	ArcheologyDigsiteProgressBar:SetPoint("BOTTOM", 0, 700)
+	ArcheologyDigsiteProgressBar.ignoreFramePositionManager = true
 end
 
 -- Add Total Quest Count in WorldMap (Why Blizzard why...)
@@ -249,10 +247,7 @@ function iLvlF:GetSlotString(id, slot)
 end
 
 function iLvlF:Update(id, item)
-	if not item then
-		slotString[id]:SetText('')
-		return
-	else
+	if item then
 		local slotString = iLvlF:GetSlotString(id)
 		local itemRarity = select(3, GetItemInfo(item))
 		local iLevel = GetDetailedItemLevelInfo(item)
@@ -262,6 +257,10 @@ function iLvlF:Update(id, item)
 			slotString:SetTextColor(r, g, b)
 			slotString:Hide()
 		end
+	else
+		local slotString = iLvlF:GetSlotString(id)
+		slotString:SetText('')
+		return
 	end
 end
 
@@ -290,9 +289,12 @@ end
 eventframe:RegisterEvent('ADDON_LOADED')
 function eventframe:ADDON_LOADED(addon)
 	if adddon == 'LumUI' then
-		moveArcheologyFrame(addon)
 		-- Items iLevel
 		iLvlF:UpdateAll()
+	end
+
+	if addon == 'Blizzard_ArchaeologyUI' then
+		moveArcheologyFrame()
 	end
 end
 

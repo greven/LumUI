@@ -35,6 +35,9 @@ local locationTextOnHover = false -- Location text is hidden, shows on mouse hov
 local clockOnHover = true -- Clock is hidden, shows on mouse hover
 local customizeQuestTracker = true -- Move and customize the quest tracker frame
 
+LumuiConfig = LumuiConfig or {}
+LumuiConfig.minimap = true
+
 -- ---------------------------------
 -- > Functions
 -- ---------------------------------
@@ -363,11 +366,10 @@ end
 
 
 function lm:ADDON_LOADED(event, addon,...)
-  -- Minimap Shape
-  if LumuiConfig.minimap then
-    -- Make Minimap Square
-    Minimap:SetMaskTexture('Interface\\Buttons\\WHITE8X8')
-  else
+  -- Make Minimap Square
+  Minimap:SetMaskTexture('Interface\\Buttons\\WHITE8X8')
+  
+  if LumuiConfig and not LumuiConfig.minimap then
     -- Revert the Minimap back to round!
     Minimap:SetMaskTexture('Interface\\Addons\\LumUI\\media\\Textures\\circle')
   end
