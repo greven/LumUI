@@ -10,9 +10,6 @@ local _, ns = ...
 
 local L, C, G = unpack(select(2, ...))
 
--- print(LumuiConfig.tooltip.show)
--- if LumUIConfig.tooltip.show then
-
 -----------------------------
 -- Config
 -----------------------------
@@ -47,9 +44,9 @@ local cfg = {
   }
 }
 
------------------------------
--- Variables
------------------------------
+-- -----------------------------
+-- -- Variables
+-- -----------------------------
 
 local unpack, type = unpack, type
 local RAID_CLASS_COLORS, FACTION_BAR_COLORS, ICON_LIST = RAID_CLASS_COLORS, FACTION_BAR_COLORS, ICON_LIST
@@ -83,9 +80,9 @@ local lastInspectRequest = 0
 
 tt:Hide()
 
------------------------------
+-- ---------------------------
 -- Functions
------------------------------
+-- ---------------------------
 
 local function GetHexColor(color)
   if color.r then
@@ -109,7 +106,7 @@ local function GetTarget(unit)
   end
 end
 
--- Talents
+-- -- Talents
 local function IsInspectFrameOpen() return (InspectFrame and InspectFrame:IsShown()) or (Examiner and Examiner:IsShown()) end
 
 local function GatherTalents(isInspect)
@@ -159,13 +156,13 @@ end
 local function OnTooltipSetUnit(self)
   local unitName, unit = self:GetUnit()
   if not unit then return end
-  GameTooltipTextLeft2:SetTextColor(unpack(cfg.textColor))
-  GameTooltipTextLeft3:SetTextColor(unpack(cfg.textColor))
-  GameTooltipTextLeft4:SetTextColor(unpack(cfg.textColor))
-  GameTooltipTextLeft5:SetTextColor(unpack(cfg.textColor))
-  GameTooltipTextLeft6:SetTextColor(unpack(cfg.textColor))
-  GameTooltipTextLeft7:SetTextColor(unpack(cfg.textColor))
-  GameTooltipTextLeft8:SetTextColor(unpack(cfg.textColor))
+  -- GameTooltipTextLeft2:SetTextColor(unpack(cfg.textColor))
+  -- GameTooltipTextLeft3:SetTextColor(unpack(cfg.textColor))
+  -- GameTooltipTextLeft4:SetTextColor(unpack(cfg.textColor))
+  -- GameTooltipTextLeft5:SetTextColor(unpack(cfg.textColor))
+  -- GameTooltipTextLeft6:SetTextColor(unpack(cfg.textColor))
+  -- GameTooltipTextLeft7:SetTextColor(unpack(cfg.textColor))
+  -- GameTooltipTextLeft8:SetTextColor(unpack(cfg.textColor))
   if not UnitIsPlayer(unit) then
     --unit is not a player
     --color textleft1 and statusbar by faction color
@@ -184,9 +181,9 @@ local function OnTooltipSetUnit(self)
     local levelLine
     if string.find(GameTooltipTextLeft2:GetText() or "empty", "%a%s%d") then
       levelLine = GameTooltipTextLeft2
-    elseif string.find(GameTooltipTextLeft3:GetText() or "empty", "%a%s%d") then
-      GameTooltipTextLeft2:SetTextColor(unpack(cfg.guildColor)) --seems like the npc has a description, use the guild color for this
-      levelLine = GameTooltipTextLeft3
+    -- elseif string.find(GameTooltipTextLeft3:GetText() or "empty", "%a%s%d") then
+    --   GameTooltipTextLeft2:SetTextColor(unpack(cfg.guildColor)) --seems like the npc has a description, use the guild color for this
+    --   levelLine = GameTooltipTextLeft3
     end
     if levelLine then
       local l = UnitLevel(unit)
