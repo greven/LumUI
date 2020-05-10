@@ -49,7 +49,7 @@ local threshold = thresholdByClass[G.playerClass] or 3.0
 local cooldowns, animating, watching, ignoredSpells = { }, { }, { }, { }
 local GetTime = GetTime
 
-local f = CreateFrame('Frame', 'lumCDA')
+local f = CreateFrame('Frame', 'LumPulse')
 f:SetScript('OnEvent', function(self, event, ...) self[event](self, ...) end)
 
 f:SetSize(size, size)
@@ -65,7 +65,7 @@ f.icon = f:CreateTexture(nil, 'BACKGROUND')
 f.icon:SetTexCoord(.08, .92, .08, .92)
 f.icon:SetAllPoints(f)
 
-f.border = L:CreatePanel(true, true, 'lumCDA', 'lumCDA', f:GetWidth() + 6, f:GetHeight() + 6,
+f.border = L:CreatePanel(true, true, 'LumPulse', 'LumPulse', f:GetWidth() + 6, f:GetHeight() + 6,
 	{{'TOPLEFT', f, 'TOPLEFT', -3, 3}}, 32, 8, 0, 0.6)
 f.border:Hide()
 

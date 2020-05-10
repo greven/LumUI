@@ -15,7 +15,7 @@ local L, C, G = unpack(select(2, ...))
 -----------------------------
 
 local cfg = {
-  pos = { "BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -20, 20 }, -- "ANCHOR_CURSOR"
+  pos = {"TOPRIGHT", "Minimap", "TOPLEFT", -16, 4}, -- "ANCHOR_CURSOR"
   showSpellID = true,
   talents = {
     show = true,
@@ -39,7 +39,7 @@ local cfg = {
     tiled = true,
     edgeSize = 10,
     insets = { left = 0, right = 0, top = 0, bottom = 0 },
-    bgColor = {0.05,0.05,0.05,0.9},
+    bgColor = {0.05,0.05,0.05,0.96},
     borderColor = {0.1,0.1,0.1,1}
   }
 }
@@ -171,8 +171,8 @@ local function OnTooltipSetUnit(self)
       local color = FACTION_BAR_COLORS[reaction]
       if color then
         cfg.barColor = color
-        GameTooltipStatusBar:SetStatusBarColor(color.r,color.g,color.b)
-        GameTooltipTextLeft1:SetTextColor(color.r,color.g,color.b)
+        GameTooltipStatusBar:SetStatusBarColor(color.r, color.g, color.b)
+        GameTooltipTextLeft1:SetTextColor(color.r, color.g, color.b)
       end
     end
     --color textleft2 by classificationcolor
@@ -188,18 +188,22 @@ local function OnTooltipSetUnit(self)
     if levelLine then
       local l = UnitLevel(unit)
       local color = GetCreatureDifficultyColor((l > 0) and l or 999)
-      levelLine:SetTextColor(color.r,color.g,color.b)
+      levelLine:SetTextColor(color.r, color.g, color.b)
     end
     if unitClassification == "worldboss" or UnitLevel(unit) == -1 then
-      self:AppendText(" |TInterface\\TargetingFrame\\UI-TargetingFrame-Skull:14:14|t")
+      -- self:AppendText(" |TInterface\\TargetingFrame\\UI-TargetingFrame-Skull:14:14|t")
       --GameTooltipTextLeft1:SetText(("%s%s"):format("|TInterface\\TargetingFrame\\UI-TargetingFrame-Skull:14:14|t", unitName))
+      self:AppendText(" |cffff0000{B}|r")
       GameTooltipTextLeft2:SetTextColor(unpack(cfg.bossColor))
     elseif unitClassification == "rare" then
-      self:AppendText(" |TInterface\\AddOns\\LumUI\\media\\Textures\\icons:14:14:0:0:16:16:0:14:0:14|t")
+      -- self:AppendText(" |TInterface\\AddOns\\LumUI\\media\\Textures\\icons:14:14:0:0:16:16:0:14:0:14|t")
+      self:AppendText(" |cffff9900{R}|r")
     elseif unitClassification == "rareelite" then
-      self:AppendText(" |TInterface\\AddOns\\LumUI\\media\\Textures\\icons:14:14:0:0:16:16:0:14:0:14|t")
+      -- self:AppendText(" |TInterface\\AddOns\\LumUI\\media\\Textures\\icons:14:14:0:0:16:16:0:14:0:14|t")
+      self:AppendText(" |cffff0000{R+}|r")
     elseif unitClassification == "elite" then
-      self:AppendText(" |TInterface\\HelpFrame\\HotIssueIcon:14:14|t")
+      -- self:AppendText(" |TInterface\\HelpFrame\\HotIssueIcon:14:14|t")
+      self:AppendText(" |cffff6666{E}|r")
     end
   else
     --unit is any player
@@ -207,8 +211,8 @@ local function OnTooltipSetUnit(self)
     --color textleft1 and statusbar by class color
     local color = RAID_CLASS_COLORS[unitClass]
     cfg.barColor = color
-    GameTooltipStatusBar:SetStatusBarColor(color.r,color.g,color.b)
-    GameTooltipTextLeft1:SetTextColor(color.r,color.g,color.b)
+    GameTooltipStatusBar:SetStatusBarColor(color.r, color.g, color.b)
+    GameTooltipTextLeft1:SetTextColor(color.r, color.g, color.b)
     --color textleft2 by guildcolor
     local unitGuild = GetGuildInfo(unit)
     if unitGuild then
@@ -218,7 +222,7 @@ local function OnTooltipSetUnit(self)
     local levelLine = unitGuild and GameTooltipTextLeft3 or GameTooltipTextLeft2
     local l = UnitLevel(unit)
     local color = GetCreatureDifficultyColor((l > 0) and l or 999)
-    levelLine:SetTextColor(color.r,color.g,color.b)
+    levelLine:SetTextColor(color.r, color.g, color.b)
     -- afk?
     if UnitIsAFK(unit) then
       self:AppendText((" |cff%s<AFK>|r"):format(cfg.afkColorHex))
@@ -309,7 +313,7 @@ local function OnShow(self)
     local _, _, itemRarity = GetItemInfo(itemLink)
     if itemRarity then
       local r,g,b = GetItemQualityColor(itemRarity)
-      backdrop.backdropBorderColor:SetRGBA(r,g,b,1)
+      backdrop.backdropBorderColor:SetRGBA(r, g, b, 1)
     end
   end
   SetBackdropColor(self)
@@ -333,7 +337,7 @@ end
 local function SetStatusBarColor(self, r, g, b)
   if not cfg.barColor then return end
    if r == cfg.barColor.r and g == cfg.barColor.g and b == cfg.barColor.b then return end
-   self:SetStatusBarColor(cfg.barColor.r,cfg.barColor.g,cfg.barColor.b)
+   self:SetStatusBarColor(cfg.barColor.r, cfg.barColor.g, cfg.barColor.b)
  end
 
 local function SetBackdropStyle(self,style)
@@ -433,8 +437,7 @@ hooksecurefunc("GameTooltip_SetBackdropStyle", SetBackdropStyle)
 GameTooltip:HookScript("OnTooltipSetUnit", OnTooltipSetUnit)
 
 --loop over tooltips
-local tooltips = { GameTooltip,ShoppingTooltip1,ShoppingTooltip2,ItemRefTooltip,ItemRefShoppingTooltip1,ItemRefShoppingTooltip2,WorldMapTooltip,
-WorldMapCompareTooltip1,WorldMapCompareTooltip2,SmallTextTooltip }
+local tooltips = { GameTooltip, ShoppingTooltip1, ShoppingTooltip2, ItemRefTooltip, ItemRefShoppingTooltip1, ItemRefShoppingTooltip2, WorldMapTooltip, WorldMapCompareTooltip1, WorldMapCompareTooltip2, SmallTextTooltip }
 for i, tooltip in next, tooltips do
   tooltip:SetScale(cfg.scale)
   if tooltip:HasScript("OnTooltipCleared") then

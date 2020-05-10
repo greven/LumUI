@@ -20,5 +20,20 @@ C.settings = {
   -- Elements
   cooldownsCount = true,
   cooldownsPulse = true,
-  stats = true
+  stats = {
+    enable = true,
+    showFPS = true,
+    showLag = true,
+    showMail = true,
+    showBags = true,
+    showDurability = true,
+    showTalentSpec = true,
+    width = 430,
+    height = 24,
+    classColored = true,
+    fontSize = 12,
+    textColor = {r = 0.92, g = 0.92, b = 0.92, a = 1},
+    fontShadow = true,
+    clock24 = true
+  }
 }

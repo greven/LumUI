@@ -42,7 +42,8 @@ function f:styleBars()
   -----------------------------
 
   local bagbar = {
-    framePoint      = { "BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -5, 5 },
+    -- framePoint      = { "BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -5, 5 },
+    framePoint      = { "TOPRIGHT", UIParent, "TOPRIGHT", -6, -6 },
     frameScale      = 0.8,
     framePadding    = 5,
     buttonWidth     = 33,
@@ -60,7 +61,7 @@ function f:styleBars()
   -----------------------------
 
   local micromenubar = {
-    framePoint      = { "TOP", UIParent, "TOP", 0, 0 },
+    framePoint      = { "TOP", "UIParent", "TOP", 0, 0 },
     frameScale      = 0.8,
     framePadding    = 5,
     buttonWidth     = 28,

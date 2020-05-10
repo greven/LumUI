@@ -3,6 +3,7 @@
 	<Script file='config.lua' />
 
 	<Script file='core\core.lua' />
+	<Script file='core\functions.lua' />
 	<Script file='core\utils.lua' />
 
 	<Script file='elements\cooldownsCount.lua' />
@@ -10,9 +11,11 @@
 	<Script file='elements\stats.lua' />
 
 	<Script file='mods\actionbar.lua' />
+	<Script file='mods\addons.lua' />
 	<Script file='mods\auras.lua' />
+	<Script file='mods\bindings.lua' />
 	<Script file='mods\buttons.lua' />
-	<!-- <Script file='mods\chat.lua' /> -->
+	<Script file='mods\chat.lua' />
 	<Script file='mods\combatText.lua' />
 	<Script file='mods\minimap.lua' />
 	<!-- <Script file='mods\skins.lua' /> -->

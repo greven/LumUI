@@ -6,7 +6,7 @@ local _, ns = ...
 
 local L, C, G = unpack(select(2, ...))
 
-local lb = CreateFrame("Frame")
+-- local lb = CreateFrame("Frame")
 
 -- ---------------------------------
 -- > Variables
@@ -27,11 +27,11 @@ local iconSpacing = 8 -- Spacing between buffs
 local iconborder = 3 -- Icon Texture Border Size
 local shadowAlpha = 0.5 -- The Alpha of The buttons shadow
 
-local posX = -16
-local posY = 3
-local buffAnchor = {"TOPRIGHT", "Minimap", "TOPLEFT", posX, posY}
-local buffAnchor2ndRow = {"TOPRIGHT", "Minimap", "TOPLEFT", posX, posY - buffSize - 20}
-local debuffAnchor = {"BOTTOMRIGHT", "Minimap", "BOTTOMLEFT", posX, -posY}
+local posX = -20
+local posY = -14
+local buffAnchor = {"BOTTOMRIGHT", "Minimap", "BOTTOMLEFT", posX, posY}
+local buffAnchor2ndRow = {"BOTTOMRIGHT", "Minimap", "BOTTOMLEFT", posX, posY + buffSize + 20}
+local debuffAnchor = {"BOTTOMRIGHT", "Minimap", "TOPRIGHT", 4, 28}
 
 -- ---------------------------------
 -- > Variables
