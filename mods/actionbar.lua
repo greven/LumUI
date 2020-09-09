@@ -61,7 +61,7 @@ function f:styleBars()
   -----------------------------
 
   local micromenubar = {
-    framePoint      = { "TOP", "UIParent", "TOP", 0, 0 },
+    framePoint      = { "TOPLEFT", "UIParent", "TOPLEFT", 8, -8 },
     frameScale      = 0.8,
     framePadding    = 5,
     buttonWidth     = 28,

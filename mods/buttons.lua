@@ -69,8 +69,8 @@ function f:styleButtons()
       top = 5,
       bottom = 5,
     },
-    backgroundColor = {0.3,0.3,0.3,0.9},
-    borderColor = {0,0,0,0.8},
+    backgroundColor = {0.2,0.2,0.2,0.9},
+    borderColor = {0.05,0.05,0.05,0.8},
     points = {
       {"TOPLEFT", -3, 3 },
       {"BOTTOMRIGHT", 3, -3 },
@@ -110,7 +110,7 @@ function f:styleButtons()
   --normalTexture
   actionButtonConfig.normalTexture = {
     file = mediapath.."normal",
-    color = {0.15,0.15,0.15,1},
+    color = {0.05,0.05,0.05,1},
     points = {
       {"TOPLEFT", 0, 0 },
       {"BOTTOMRIGHT", 0, 0 },
@@ -173,9 +173,9 @@ function f:styleButtons()
 
   --count
   actionButtonConfig.count = {
-    font = { STANDARD_TEXT_FONT, 11, "OUTLINE"},
+    font = { STANDARD_TEXT_FONT, 11, "THICKOUTLINE"},
     points = {
-      {"BOTTOMRIGHT", 0, 0 },
+      {"BOTTOMRIGHT", -1, 4 },
     },
   }
 

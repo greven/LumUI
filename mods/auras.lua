@@ -22,7 +22,7 @@ local bColor = C.color.border -- Default Border Color
 local scale = 1
 local buffSize = 30 -- Size of the Buff Icons
 local debuffSize = 30 -- Size of the Debuff Icons
-local iconsPerRow = 16 -- Number of Icons per Row
+local iconsPerRow = 14 -- Number of Icons per Row
 local iconSpacing = 8 -- Spacing between buffs
 local iconborder = 3 -- Icon Texture Border Size
 local shadowAlpha = 0.5 -- The Alpha of The buttons shadow
@@ -108,12 +108,12 @@ local function StyleBuffs(buttonName, index)
 
     duration:ClearAllPoints()
     duration:SetPoint("BOTTOM", 2, -16)
-    duration:SetFont(font, 14, outline)
+    duration:SetFont(font, 13, outline)
     duration:SetJustifyH('CENTER')
 
     count:ClearAllPoints()
-    count:SetPoint("TOPRIGHT", 1, 2)
-    count:SetFont(font, 12, outline)
+    count:SetPoint("TOPRIGHT", 6, 1)
+    count:SetFont(font, 12, 'THICKOUTLINE')
 
     container:SetPoint("CENTER", buff, "CENTER", 0, 0)
     container:SetBackdrop{bgFile = "Interface\\Tooltips\\UI-Tooltip-Background", edgeFile = border_tex, tile = true, tileSize = 32, edgeSize = 16, insets = {left = 0, right = 0, top = 0, bottom = 0}}
