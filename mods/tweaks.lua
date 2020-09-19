@@ -303,7 +303,7 @@ end
 function iLvlF:Toggle()
 	for id, string in pairs(slotStrings) do
 		local slot = iLvlF:GetSlot(id)
-		if IsShiftKeyDown() and PaperDollItemsFrame:IsShown() then
+		if IsAltKeyDown() and PaperDollItemsFrame:IsShown() then
 			string:Show()
 		else
 			string:Hide()

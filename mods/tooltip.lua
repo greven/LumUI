@@ -106,7 +106,7 @@ local function GetTarget(unit)
   end
 end
 
--- -- Talents
+-- Talents
 local function IsInspectFrameOpen() return (InspectFrame and InspectFrame:IsShown()) or (Examiner and Examiner:IsShown()) end
 
 local function GatherTalents(isInspect)
@@ -127,7 +127,6 @@ local function GatherTalents(isInspect)
     for i = 2, gtt:NumLines() do
       if ((_G["GameTooltipTextLeft"..i]:GetText() or ""):match("^"..TALENTS_PREFIX)) then
         _G["GameTooltipTextLeft"..i]:SetFormattedText("%s%s",TALENTS_PREFIX,current.format)
-        -- Do not call Show() if the tip is fading out, this only works with TipTac, if TipTacTalents are used alone, it might still bug the fadeout
         if (not gtt.fadeOut) then
           gtt:Show()
         end
@@ -156,16 +155,10 @@ end
 local function OnTooltipSetUnit(self)
   local unitName, unit = self:GetUnit()
   if not unit then return end
-  -- GameTooltipTextLeft2:SetTextColor(unpack(cfg.textColor))
-  -- GameTooltipTextLeft3:SetTextColor(unpack(cfg.textColor))
-  -- GameTooltipTextLeft4:SetTextColor(unpack(cfg.textColor))
-  -- GameTooltipTextLeft5:SetTextColor(unpack(cfg.textColor))
-  -- GameTooltipTextLeft6:SetTextColor(unpack(cfg.textColor))
-  -- GameTooltipTextLeft7:SetTextColor(unpack(cfg.textColor))
-  -- GameTooltipTextLeft8:SetTextColor(unpack(cfg.textColor))
+
   if not UnitIsPlayer(unit) then
-    --unit is not a player
-    --color textleft1 and statusbar by faction color
+    -- unit is not a player
+    -- color textleft1 and statusbar by faction color
     local reaction = UnitReaction(unit, "player")
     if reaction then
       local color = FACTION_BAR_COLORS[reaction]
@@ -175,15 +168,12 @@ local function OnTooltipSetUnit(self)
         GameTooltipTextLeft1:SetTextColor(color.r, color.g, color.b)
       end
     end
-    --color textleft2 by classificationcolor
+    -- color textleft2 by classificationcolor
     local unitClassification = UnitClassification(unit)
 
     local levelLine
     if string.find(GameTooltipTextLeft2:GetText() or "empty", "%a%s%d") then
       levelLine = GameTooltipTextLeft2
-    -- elseif string.find(GameTooltipTextLeft3:GetText() or "empty", "%a%s%d") then
-    --   GameTooltipTextLeft2:SetTextColor(unpack(cfg.guildColor)) --seems like the npc has a description, use the guild color for this
-    --   levelLine = GameTooltipTextLeft3
     end
     if levelLine then
       local l = UnitLevel(unit)
@@ -206,14 +196,14 @@ local function OnTooltipSetUnit(self)
       self:AppendText(" |cffff6666{E}|r")
     end
   else
-    --unit is any player
+    -- unit is any player
     local _, unitClass = UnitClass(unit)
-    --color textleft1 and statusbar by class color
+    -- color textleft1 and statusbar by class color
     local color = RAID_CLASS_COLORS[unitClass]
     cfg.barColor = color
     GameTooltipStatusBar:SetStatusBarColor(color.r, color.g, color.b)
     GameTooltipTextLeft1:SetTextColor(color.r, color.g, color.b)
-    --color textleft2 by guildcolor
+    -- color textleft2 by guildcolor
     local unitGuild = GetGuildInfo(unit)
     if unitGuild then
       GameTooltipTextLeft2:SetText("<"..unitGuild..">")
@@ -351,7 +341,7 @@ local function SetBackdropStyle(self,style)
    local _, _, itemRarity = GetItemInfo(itemLink)
    local r,g,b = 1,1,1
    if itemRarity then r,g,b = GetItemQualityColor(itemRarity) end
-   --use azerite coloring or item rarity
+   -- use azerite coloring or item rarity
    if azerite and cfg.backdrop.azeriteBorderColor then
      self:SetBackdropBorderColor(unpack(cfg.backdrop.azeriteBorderColor))
    else
@@ -416,13 +406,13 @@ Tooltip_Small:SetFont(cfg.fontFamily, 11, "NONE")
 Tooltip_Small:SetShadowOffset(1,-1)
 Tooltip_Small:SetShadowColor(0,0,0,0.9)
 
---gametooltip statusbar
+-- gametooltip statusbar
 GameTooltipStatusBar:ClearAllPoints()
 GameTooltipStatusBar:SetPoint("LEFT",5,0)
 GameTooltipStatusBar:SetPoint("RIGHT",-5,0)
 GameTooltipStatusBar:SetPoint("TOP",0,-2.5)
 GameTooltipStatusBar:SetHeight(4)
---gametooltip statusbar bg
+-- gametooltip statusbar bg
 GameTooltipStatusBar.bg = GameTooltipStatusBar:CreateTexture(nil,"BACKGROUND",nil,-8)
 GameTooltipStatusBar.bg:SetAllPoints()
 GameTooltipStatusBar.bg:SetColorTexture(1,1,1)
@@ -436,7 +426,7 @@ hooksecurefunc("GameTooltip_SetBackdropStyle", SetBackdropStyle)
 --OnTooltipSetUnit
 GameTooltip:HookScript("OnTooltipSetUnit", OnTooltipSetUnit)
 
---loop over tooltips
+-- loop over tooltips
 local tooltips = { GameTooltip, ShoppingTooltip1, ShoppingTooltip2, ItemRefTooltip, ItemRefShoppingTooltip1, ItemRefShoppingTooltip2, WorldMapTooltip, WorldMapCompareTooltip1, WorldMapCompareTooltip2, SmallTextTooltip }
 for i, tooltip in next, tooltips do
   tooltip:SetScale(cfg.scale)
@@ -445,7 +435,7 @@ for i, tooltip in next, tooltips do
   end
 end
 
---loop over menues
+-- loop over menues
 local menues = {
   DropDownList1MenuBackdrop,
   DropDownList2MenuBackdrop,
@@ -454,9 +444,8 @@ for idx, menu in ipairs(menues) do
   menu:SetScale(cfg.scale)
 end
 
---spellid line
+-- Spellid line
 if cfg.showSpellID then
-  --func TooltipAddSpellID
   local function TooltipAddSpellID(self,spellid)
     if not spellid then return end
     self:AddDoubleLine("|cff0099ffSpell ID|r",spellid)
@@ -488,7 +477,7 @@ if cfg.showSpellID then
 
   --HookScript GameTooltip OnTooltipSetSpell
   GameTooltip:HookScript("OnTooltipSetSpell", function(self)
-    TooltipAddSpellID(self,select(3,self:GetSpell()))
+    TooltipAddSpellID(self,select(2,self:GetSpell()))
   end)
 end -- END spellid line
 

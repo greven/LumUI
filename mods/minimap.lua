@@ -336,25 +336,25 @@ end
 function lm:PLAYER_LOGIN(event)
   lm:TextColor()
   zone:SetText(GetMinimapZoneText())
-  lm:SetMinimapPosition()
+  -- lm:SetMinimapPosition()
 end
 
 function lm:PLAYER_ENTERING_WORLD()
   lm:TextColor()
   zone:SetText(GetMinimapZoneText())
-  lm:SetMinimapPosition()
+  -- lm:SetMinimapPosition()
 end
 
 function lm:ZONE_CHANGED(event)
   lm:TextColor()
   zone:SetText(GetMinimapZoneText())
-  lm:SetMinimapPosition()
+  -- lm:SetMinimapPosition()
 end
 
 function lm:ZONE_CHANGED_INDOORS(event)
   lm:TextColor()
   zone:SetText(GetMinimapZoneText())
-  lm:SetMinimapPosition()
+  -- lm:SetMinimapPosition()
 end
 
 function lm:ZONE_CHANGED_NEW_AREA(event)
@@ -363,7 +363,7 @@ function lm:ZONE_CHANGED_NEW_AREA(event)
   -- end
   lm:TextColor()
   zone:SetText(GetMinimapZoneText())
-  lm:SetMinimapPosition()
+  -- lm:SetMinimapPosition()
 end
 
 
@@ -383,7 +383,7 @@ function lm:ADDON_LOADED(event, addon,...)
     lm:RegisterEvent("ZONE_CHANGED")
     lm:RegisterEvent("ZONE_CHANGED_INDOORS")
     lm:RegisterEvent("ZONE_CHANGED_NEW_AREA")
-    lm:SetMinimapPosition()
+    -- lm:SetMinimapPosition()
     -- Border
     L:CreatePanel(false, true, "MinimapPanel", "Minimap", mWidth+8, mHeight+8, {{"TOPLEFT", Minimap, "TOPLEFT", -4,4}}, 32, 12, 0, 0.6)
   end
