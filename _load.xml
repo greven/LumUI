@@ -6,6 +6,7 @@
 	<Script file='core\functions.lua' />
 	<Script file='core\utils.lua' />
 
+	<Script file='elements\align.lua' />
 	<Script file='elements\cooldownsCount.lua' />
 	<Script file='elements\cooldownsPulse.lua' />
 	<Script file='elements\stats.lua' />
