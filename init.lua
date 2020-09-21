@@ -2,15 +2,17 @@
 -- > lumUI (Kreoss @ Quel'Thalas EU) <
 -- --------------------------------------------
 
-local _, ns = ...
+local A, ns = ...
 
 ns[1] = {} -- functions, constants, variables
 ns[2] = {} -- config
 ns[3] = {} -- globals
 
-lumuiDB = {}
+local L, C, G = unpack(ns)
 
-local L, C, G = unpack(select(2, ...))
+L.addonName = A
+
+lumuiDB = {}
 
 G.font = "Interface\\AddOns\\lumUI\\media\\Fonts\\Myriad.ttf"
 G.numFont = "Interface\\AddOns\\lumUI\\media\\Fonts\\Expressway.ttf"

@@ -5,7 +5,10 @@
 	<Script file='core\core.lua' />
 	<Script file='core\functions.lua' />
 	<Script file='core\utils.lua' />
+	<Script file='core\dragframe.lua' />
+	<Script file='core\framefader.lua' />
 
+	<Script file='elements\actionbar.lua' />
 	<Script file='elements\align.lua' />
 	<Script file='elements\cooldownsCount.lua' />
 	<Script file='elements\cooldownsPulse.lua' />

@@ -18,7 +18,7 @@ end)
 
 f:RegisterEvent("ADDON_LOADED")
 function f:ADDON_LOADED(addon)
-  if addon == 'rButtonTemplate' then
+  if addon == 'rButtonTemplate' or addon == 'LumUI' then
     f:styleButtons()
   end
 end

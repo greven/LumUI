@@ -8,7 +8,8 @@
 -- Variables
 -----------------------------
 
-local A, L = ...
+local A, ns = ...
+local L, C, G = unpack(select(2, ...))
 
 local f = CreateFrame("Frame")
 
@@ -18,7 +19,7 @@ end)
 
 f:RegisterEvent("ADDON_LOADED")
 function f:ADDON_LOADED(addon)
-  if addon == 'rActionBar' then
+  if addon == 'rActionBar' or addon == 'LumUI' then
     f:styleBars()
   end
 end
@@ -54,7 +55,7 @@ function f:styleBars()
     fader           = fader,
   }
   --create
-  rActionBar:CreateBagBar(A, bagbar)
+  L:CreateBagBar(A, bagbar)
 
   -----------------------------
   -- MicroMenuBar
@@ -72,7 +73,7 @@ function f:styleBars()
     fader           = fader,
   }
   --create
-  rActionBar:CreateMicroMenuBar(A, micromenubar)
+  L:CreateMicroMenuBar(A, micromenubar)
 
   -----------------------------
   -- Bar1
@@ -91,7 +92,7 @@ function f:styleBars()
     -- frameVisibility = "[combat][mod][@target,exists,nodead][@vehicle,exists][overridebar][shapeshift][vehicleui][possessbar] show; hide"
   }
   --create
-  rActionBar:CreateActionBar1(A, bar1)
+  L:CreateActionBar1(A, bar1)
 
   -----------------------------
   -- Bar2
@@ -110,7 +111,7 @@ function f:styleBars()
     -- frameVisibility = "[petbattle][overridebar][vehicleui][possessbar][shapeshift] hide; [combat][mod][@target,exists,nodead] show; hide"
   }
   --create
-  rActionBar:CreateActionBar2(A, bar2)
+  L:CreateActionBar2(A, bar2)
 
   -----------------------------
   -- Bar3
@@ -129,7 +130,7 @@ function f:styleBars()
     -- frameVisibility = "[petbattle][overridebar][vehicleui][possessbar][shapeshift] hide; [combat][mod][@target,exists,nodead] show; hide"
   }
   --create
-  rActionBar:CreateActionBar3(A, bar3)
+  L:CreateActionBar3(A, bar3)
 
   -----------------------------
   -- Bar4
@@ -147,7 +148,7 @@ function f:styleBars()
     fader           = fader,
   }
   --create
-  rActionBar:CreateActionBar4(A, bar4)
+  L:CreateActionBar4(A, bar4)
 
   -----------------------------
   -- Bar5
@@ -165,7 +166,7 @@ function f:styleBars()
     fader           = fader,
   }
   --create
-  rActionBar:CreateActionBar5(A, bar5)
+  L:CreateActionBar5(A, bar5)
 
   -----------------------------
   -- StanceBar
@@ -184,7 +185,7 @@ function f:styleBars()
     frameVisibility = "[petbattle][overridebar][vehicleui][possessbar][shapeshift][nomod] hide; show"
   }
   --create
-  rActionBar:CreateStanceBar(A, stancebar)
+  L:CreateStanceBar(A, stancebar)
 
   -----------------------------
   -- PetBar
@@ -204,7 +205,7 @@ function f:styleBars()
     frameVisibility = "[petbattle][overridebar][vehicleui][possessbar][shapeshift] hide; [pet,mod] show; hide"
   }
   --create
-  rActionBar:CreatePetBar(A, petbar)
+  L:CreatePetBar(A, petbar)
 
   -----------------------------
   -- ExtraBar
@@ -222,7 +223,7 @@ function f:styleBars()
     fader           = nil,
   }
   --create
-  rActionBar:CreateExtraBar(A, extrabar)
+  L:CreateExtraBar(A, extrabar)
 
   -----------------------------
   -- VehicleExitBar
@@ -240,7 +241,7 @@ function f:styleBars()
     fader           = nil,
   }
   --create
-  rActionBar:CreateVehicleExitBar(A, vehicleexitbar)
+  L:CreateVehicleExitBar(A, vehicleexitbar)
 
   -----------------------------
   -- PossessExitBar
@@ -258,5 +259,5 @@ function f:styleBars()
     fader           = nil,
   }
   --create
-  rActionBar:CreatePossessExitBar(A, possessexitbar)
+  L:CreatePossessExitBar(A, possessexitbar)
 end
