@@ -95,7 +95,7 @@ function L:CreatePanel(
   fedgesize,
   finsect,
   shadowalpha)
-  local f = CreateFrame("Frame", fname .. "Border", UIParent)
+  local f = CreateFrame("Frame", fname .. "Border", UIParent, "BackdropTemplate")
   if classColored then
     bColor = G.classColor
   else
@@ -123,7 +123,7 @@ function L:CreatePanel(
   end
 
   if hasShadow then
-    local s = CreateFrame("Frame", nil, f)
+    local s = CreateFrame("Frame", nil, f, "BackdropTemplate")
     s:SetFrameStrata("BACKGROUND")
     s:SetFrameLevel(0)
     s:SetPoint("TOPLEFT", f, "TOPLEFT", -4, 4)
