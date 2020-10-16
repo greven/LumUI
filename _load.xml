@@ -10,13 +10,12 @@
 
 	<Script file='elements\actionbar.lua' />
 	<Script file='elements\align.lua' />
-	<Script file='elements\cooldownsCount.lua' />
+	<!-- <Script file='elements\cooldownsCount.lua' /> -->
 	<Script file='elements\cooldownsPulse.lua' />
 	<Script file='elements\stacks.lua' />
 	<Script file='elements\stats.lua' />
 
-	<Script file='mods\actionbar.lua' />
-	<Script file='mods\addons.lua' />
+	<!-- <Script file='mods\addons.lua' /> -->
 	<Script file='mods\auras.lua' />
 	<Script file='mods\bindings.lua' />
 	<Script file='mods\buttons.lua' />

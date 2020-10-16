@@ -401,10 +401,10 @@ function ls:SetCenterTooltip()
 				)
 				GameTooltip:AddLine("-------------", 0.3, 0.3, 0.3)
 
-				-- for i = 1, #BNetTable do
-					-- friendInfo = BNetTable[i]
-					-- GameTooltip:AddDoubleLine(friendInfo[3], friendInfo[4], 1, 1, 1)
-				-- end
+			-- for i = 1, #BNetTable do
+			-- friendInfo = BNetTable[i]
+			-- GameTooltip:AddDoubleLine(friendInfo[3], friendInfo[4], 1, 1, 1)
+			-- end
 			end
 		end
 
@@ -623,6 +623,12 @@ function ls:MAIL_CLOSED(event, ...)
 	gotMail = (HasNewMail() or nil)
 end
 
+-- function ls:CVAR_UPDATE(event, value)
+-- 	print(event, value)
+-- 	bottomLeftState, bottomRightState, sideRightState, sideRight2State = GetActionBarToggles()
+-- 	print(bottomRightState)
+-- end
+
 -- function ls:CALENDAR_UPDATE_PENDING_INVITES(event, ...)
 -- end
 
@@ -655,6 +661,7 @@ function ls:ADDON_LOADED(event, ...)
 	ls:RegisterEvent("CHARACTER_POINTS_CHANGED")
 	ls:RegisterEvent("UPDATE_INVENTORY_DURABILITY")
 	ls:RegisterEvent("MAIL_CLOSED")
+	-- ls:RegisterEvent("CVAR_UPDATE")
 	-- ls:RegisterEvent("CALENDAR_UPDATE_PENDING_INVITES")
 
 	ls:UnregisterEvent("ADDON_LOADED")

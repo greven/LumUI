@@ -1,0 +1,8 @@
+ActionBars:
+☐ When we hide bottom right bar
+  ☐ Make stats bottom bar read the CVar and adjust its width
+
+CooldownCount:
+  ☐ Implement our cooldown counter
+  ☐ Read CVars to see if we should display it or not
+  ☐ Use NDui as reference

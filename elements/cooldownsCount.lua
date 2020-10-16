@@ -14,6 +14,7 @@ local fontSize = 15
 
 -- 'Basic' version of OmniCC
 local format, floor, GetTime, pairs = string.format, math.floor, GetTime, pairs
+local hooksecurefunc = hooksecurefunc
 local Multiplier = 0.8
 
 local function GetFormattedTime(s)
@@ -146,7 +147,7 @@ local function cooldown_OnHide(self)
 	active[self] = nil
 end
 
-local function actionButton_Register(frame)
+local function ActionButton_Register(frame)
 	local cooldown = frame.cooldown
 	if not hooked[cooldown] then
 		cooldown:HookScript("OnShow", cooldown_OnShow)
@@ -156,7 +157,7 @@ local function actionButton_Register(frame)
 end
 
 for i, frame in pairs(ActionBarButtonEventsFrame.frames) do
-	actionButton_Register(frame)
+	ActionButton_Register(frame)
 end
 
-hooksecurefunc("ActionBarButtonEventsFrame_RegisterFrame", actionButton_Register)
+hooksecurefunc("ActionBarButtonEventsFrame_RegisterFrame", ActionButton_Register)

@@ -9,18 +9,6 @@ addons:
     url: git://github.com/greven/Butsu
     type: master
   -
-    name: rLib
-    url: https://github.com/zorker/rothui/trunk/wow8.0/rLib
-    type: folder
-  -
-    name: rActionBar
-    url: https://github.com/zorker/rothui/trunk/wow8.0/rActionBar
-    type: folder
-  -
-    name: rButtonTemplate
-    url: https://github.com/zorker/rothui/trunk/wow8.0/rButtonTemplate
-    type: folder
-  -
     name: tullaRange
     url: git://github.com/tullamods/tullaRange
     type: master
@@ -28,11 +16,3 @@ addons:
     name: tullaRange_Config
     url: git://github.com/tullamods/tullaRange_Config
     type: master
-  -
-    name: ls_Toasts
-    url: https://github.com/ls-/ls_Toasts
-    type: zip
-  -
-    name: PhanxChat
-    url: https://github.com/phanx-wow/PhanxChat
-    type: zip
