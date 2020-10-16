@@ -73,11 +73,15 @@ function L:GetLootSpec()
 end
 
 -- Return Number of total Bnet Friends and Favorites
+-- FIX: 9.01 Broken
 function L:GetBNetNumFriends()
-  local _, numBNetOnline, _, numBNetFavoriteOnline = BNGetNumFriends()
-  return numBNetOnline, numBNetFavoriteOnline
+  -- local _, numBNetOnline, _, numBNetFavoriteOnline = BNGetNumFriends()
+  -- return numBNetOnline, numBNetFavoriteOnline
+  return 0
 end
 
+-- FIX: 9.01 Broken
 function L:GetLocalNumFriends()
-  return select(2, GetNumFriends())
+  -- return select(2, GetNumFriends())
+  return 0
 end

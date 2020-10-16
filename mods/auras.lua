@@ -38,6 +38,7 @@ local debuffAnchor = {"BOTTOMRIGHT", "Minimap", "TOPRIGHT", 4, 28}
 -- ---------------------------------
 
 local hasMainHandEnchant, _, _, hasOffHandEnchant, _, _, hasThrownEnchant = GetWeaponEnchantInfo()
+local _G = _G
 
 -- ---------------------------------
 -- > Functions
@@ -65,13 +66,13 @@ TempEnchant2:SetPoint("RIGHT", TempEnchant1, "LEFT", -iconSpacing, 0)
 TempEnchant3:SetPoint("RIGHT", TempEnchant2, "LEFT", -iconSpacing, 0)
 
   for i = 1, 3 do
-    local f = CreateFrame("Frame", "TempEnchant"..i.."Container", _G["TempEnchant"..i])
+    local f = CreateFrame("Frame", "TempEnchant"..i.."Container", _G["TempEnchant"..i], "BackdropTemplate")
     f:SetSize(buffSize,buffSize)
     f:SetPoint("CENTER", _G["TempEnchant"..i], "CENTER", 0, 0)
     f:SetBackdrop{bgFile = "Interface\\Tooltips\\UI-Tooltip-Background", edgeFile = border_tex, tile = true, tileSize = 32, edgeSize = 16, insets = {left = 0, right = 0, top = 0, bottom = 0}}
     f:SetFrameStrata("BACKGROUND")
 
-    local s = CreateFrame("Frame", nil, f)
+    local s = CreateFrame("Frame", nil, f, "BackdropTemplate")
     s:SetFrameLevel(0)
     s:SetPoint("TOPLEFT",f,"TOPLEFT", -4, 4)
     s:SetPoint("BOTTOMRIGHT",f,"BOTTOMRIGHT", 4, -4)
@@ -100,7 +101,7 @@ local function StyleBuffs(buttonName, index)
 
   if icon and not _G[buttonName..index.."Container"] then
 
-    local container = CreateFrame("Frame", buttonName..index.."Container", buff)
+    local container = CreateFrame("Frame", buttonName..index.."Container", buff, "BackdropTemplate")
 
     icon:SetTexCoord(.08, .92, .08, .92)
     icon:SetPoint("TOPLEFT", buff, iconborder, -iconborder)
@@ -131,7 +132,7 @@ local function StyleBuffs(buttonName, index)
       container:SetSize(debuffSize,debuffSize)
     end
 
-    local s = CreateFrame("Frame", buttonName..index.."Shadow", container)
+    local s = CreateFrame("Frame", buttonName..index.."Shadow", container, "BackdropTemplate")
     s:SetFrameLevel(0)
     s:SetPoint("TOPLEFT",container,"TOPLEFT", -4, 4)
     s:SetPoint("BOTTOMRIGHT",container,"BOTTOMRIGHT", 4, -4)

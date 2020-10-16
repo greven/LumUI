@@ -20,6 +20,7 @@ G.symbolsFont = "Interface\\AddOns\\lumUI\\media\\Fonts\\FontAwesomeProSolid.otf
 G.symbolsLightFont = "Interface\\AddOns\\lumUI\\media\\Fonts\\FontAwesomeProLight.otf"
 
 G.media = {
+  statusbar = "Interface\\AddOns\\lumUI\\media\\Textures\\statusbar",
   bg = "Interface\\AddOns\\lumUI\\media\\Textures\\background_flat",
 	border = "Interface\\AddOns\\lumUI\\media\\Textures\\border_squared",
   glow = "Interface\\AddOns\\lumUI\\media\\Textures\\texture_glow",

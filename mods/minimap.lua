@@ -219,7 +219,7 @@ function lm:MoveQuestTracker()
 
   tracker:ClearAllPoints()
   tracker:SetPoint("TOPLEFT", anchor, "TOPLEFT")
-  tracker:SetHeight(G.screenheight - 600)
+  -- tracker:SetHeight(G.screenheight - 600)
   -- tracker:SetFrameStrata("MEDIUM")
   tracker:SetFrameLevel(15)
   tracker.ClearAllPoints = function() end
