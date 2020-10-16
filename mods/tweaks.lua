@@ -6,6 +6,17 @@ local _, ns = ...
 
 local L, C, G = unpack(select(2, ...))
 
+local C_QuestLog = C_QuestLog
+local GetRepairAllCost, CanGuildBankRepair, GetGuildBankWithdrawMoney =
+	GetRepairAllCost,
+	CanGuildBankRepair,
+	GetGuildBankWithdrawMoney
+local GetSlot, GetContainerNumSlots, GetContainerItemLink, GetContainerItemID =
+	GetSlot,
+	GetContainerNumSlots,
+	GetContainerItemLink,
+	GetContainerItemID
+
 local eventframe = CreateFrame("Frame")
 eventframe:SetScript(
 	"OnEvent",
@@ -29,6 +40,7 @@ local acceptFriendlyInvites = true
 -- ----------------------------------
 -- > Auto repair and sell grey items
 -- ----------------------------------
+
 local IDs = {}
 for _, slot in pairs(
 	{"Head", "Shoulder", "Chest", "Waist", "Legs", "Feet", "Wrist", "Hands", "MainHand", "SecondaryHand"}
@@ -82,6 +94,7 @@ end
 -- ---------------------------------
 -- > Say Sapped!
 -- ---------------------------------
+
 if saySapped then
 	eventframe:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
 	function eventframe:COMBAT_LOG_EVENT_UNFILTERED(...)
@@ -107,6 +120,7 @@ end
 -- ---------------------------------
 -- > Accept Res
 -- ---------------------------------
+
 if acceptRes then
 	eventframe:RegisterEvent("RESURRECT_REQUEST")
 	function eventframe:RESURRECT_REQUEST(name)
@@ -140,6 +154,7 @@ end
 -- ---------------------------------
 -- > Battleground Res
 -- ---------------------------------
+
 if battlegroundRes then
 	eventframe:RegisterEvent("PLAYER_DEAD")
 	function eventframe:PLAYER_DEAD()
@@ -154,6 +169,7 @@ end
 -- ---------------------------------
 -- > Accept Friendly Invites
 -- ---------------------------------
+
 if acceptFriendlyInvites then
 	eventframe:RegisterEvent("PARTY_INVITE_REQUEST")
 	function eventframe:PARTY_INVITE_REQUEST(arg1)
@@ -203,7 +219,7 @@ end
 -- ---------------------------------
 
 -- Move Archeology Frame
-local function moveArcheologyFrame()
+local function MoveArcheologyFrame()
 	ArcheologyDigsiteProgressBar:SetPoint("BOTTOM", 0, 700)
 	ArcheologyDigsiteProgressBar.ignoreFramePositionManager = true
 end
@@ -216,13 +232,13 @@ WMTQC:SetWidth(75)
 WMTQC.text = L:createText(WMTQC, "OVERLAY", 13, "OUTLINE", "LEFT")
 WMTQC.text:SetPoint("TOPRIGHT", QuestScrollFrame, "TOPRIGHT", -28, 19)
 
-local function updateTotalQuestCount()
-	local _, k = GetNumQuestLogEntries()
-	WMTQC.text:SetText(QUESTS_COLON .. " " .. k .. "/25")
+local function UpdateTotalQuestCount()
+	local _, numQuests = C_QuestLog.GetNumQuestLogEntries()
+	WMTQC.text:SetText(QUESTS_COLON .. " " .. numQuests .. "/25")
 	-- Conditional color
-	if k < 20 then
+	if numQuests < 20 then
 		WMTQC.text:SetTextColor(237 / 255, 251 / 255, 119 / 255)
-	elseif k < 25 then
+	elseif numQuests < 25 then
 		WMTQC.text:SetTextColor(251 / 255, 211 / 255, 119 / 255)
 	else
 		WMTQC.text:SetTextColor(251 / 255, 119 / 255, 119 / 255)
@@ -323,20 +339,20 @@ function eventframe:ADDON_LOADED(addon)
 	end
 
 	if addon == "Blizzard_ArchaeologyUI" then
-		moveArcheologyFrame()
+		MoveArcheologyFrame()
 	end
 end
 
 eventframe:RegisterEvent("QUEST_LOG_UPDATE")
 function eventframe:QUEST_LOG_UPDATE()
 	-- Update Quest Count
-	updateTotalQuestCount()
+	UpdateTotalQuestCount()
 end
 
 eventframe:RegisterEvent("PLAYER_ENTERING_WORLD")
 function eventframe:PLAYER_ENTERING_WORLD()
 	-- Update Quest Count
-	updateTotalQuestCount()
+	UpdateTotalQuestCount()
 	-- Items iLevel
 	CharacterFrame:HookScript(
 		"OnShow",
