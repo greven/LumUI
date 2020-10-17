@@ -7,6 +7,15 @@ local L, C, G = unpack(select(2, ...))
 
 local ls = CreateFrame("Button", "lumStats", UIParent)
 
+ls:SetScript(
+	"OnEvent",
+	function(self, event, ...)
+		if self[event] then
+			return self[event](self, event, ...)
+		end
+	end
+)
+
 -- ---------------------------------
 -- > Variables
 -- ---------------------------------
@@ -69,6 +78,9 @@ local durability, slotsFree, time, mail, fps, lag, spec = "-", "-"
 local FriendsTable = {}
 local BNetTable = {}
 local totalOnlineFriends, numLocalOnline, numBNetOnline, numBNetFavoriteOnline = 0, 0, 0, 0, 0
+
+local width = cfg.width
+local height = cfg.height - 10
 
 -- Font Strings
 local LeftText, CenterText, RightText
@@ -290,27 +302,33 @@ function ls:UpdateFriendsList()
 end
 
 function ls:SetupFrames()
-	local width = cfg.width
-	local height = cfg.height - 10
 	local margin = 4
 
 	self:SetWidth(width)
 	self:SetHeight(height)
 	self:SetPoint("CENTER", "UIParent", "BOTTOM", 0, 8)
 
-	self.leftFrame = CreateFrame("Button", nil, self)
+	if not self.leftFrame then
+		self.leftFrame = CreateFrame("Button", nil, self)
+	end
 	self.leftFrame:SetHeight(height)
 	self.leftFrame:SetPoint("LEFT", self, margin, 0)
-	self.leftFrame:SetWidth(100)
+	self.leftFrame:SetWidth(width / 3 - margin * 2)
 
+	if not self.centerFrame then
+		self.centerFrame = CreateFrame("Button", nil, self)
+	end
 	self.centerFrame = CreateFrame("Button", nil, self)
 	self.centerFrame:SetHeight(height)
-	self.centerFrame:SetWidth(100)
+	self.centerFrame:SetWidth(width / 3 - margin * 2)
 	self.centerFrame:SetPoint("CENTER", self, margin, 0)
 
+	if not self.rightFrame then
+		self.rightFrame = CreateFrame("Button", nil, self)
+	end
 	self.rightFrame = CreateFrame("Button", nil, self)
 	self.rightFrame:SetHeight(height)
-	self.rightFrame:SetWidth(100)
+	self.rightFrame:SetWidth(width / 3 - margin * 2)
 	self.rightFrame:SetPoint("RIGHT", self, -margin, 0)
 
 	-- Create Left Text
@@ -513,6 +531,21 @@ function ls:Init()
 	-- Tooltips
 	ls:SetupTooltips()
 
+	-- Create the Panel
+	L:CreatePanel(
+		cfg.classColored,
+		true,
+		"BottomPanel",
+		"UIParent",
+		width,
+		cfg.height,
+		{{"BOTTOM", "UIParent", "BOTTOM", 0, -4}},
+		32,
+		12,
+		0,
+		0.5
+	)
+
 	self:SetScript("OnUpdate", self.Update)
 end
 
@@ -584,21 +617,6 @@ function ls:Update(elapsed)
 	end
 end
 
--- Create the Panel
-L:CreatePanel(
-	cfg.classColored,
-	true,
-	"BottomPanel",
-	"UIParent",
-	cfg.width,
-	cfg.height,
-	{{"BOTTOM", "UIParent", "BOTTOM", 0, -4}},
-	32,
-	12,
-	0,
-	0.5
-)
-
 function ls:PLAYER_TALENT_UPDATE(event, ...)
 	spec = ls:GetSpecInfo()
 end
@@ -663,19 +681,9 @@ function ls:ADDON_LOADED(event, ...)
 	ls:RegisterEvent("MAIL_CLOSED")
 	-- ls:RegisterEvent("CVAR_UPDATE")
 	-- ls:RegisterEvent("CALENDAR_UPDATE_PENDING_INVITES")
-
 	ls:UnregisterEvent("ADDON_LOADED")
 end
 
 ls:Init() -- Begins the Magic!
-
-ls:SetScript(
-	"OnEvent",
-	function(self, event, ...)
-		if self[event] then
-			return self[event](self, event, ...)
-		end
-	end
-)
 
 ls:RegisterEvent("ADDON_LOADED")

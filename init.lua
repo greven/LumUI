@@ -22,7 +22,7 @@ G.symbolsLightFont = "Interface\\AddOns\\lumUI\\media\\Fonts\\FontAwesomeProLigh
 G.media = {
   statusbar = "Interface\\AddOns\\lumUI\\media\\Textures\\statusbar",
   bg = "Interface\\AddOns\\lumUI\\media\\Textures\\background_flat",
-	border = "Interface\\AddOns\\lumUI\\media\\Textures\\border_squared",
+  border = "Interface\\AddOns\\lumUI\\media\\Textures\\border_squared",
   glow = "Interface\\AddOns\\lumUI\\media\\Textures\\texture_glow",
   buffsBorder = "Interface\\AddOns\\lumUI\\media\\Textures\\border_buffs"
 }
@@ -34,7 +34,7 @@ G.playerClass = select(2, UnitClass("player"))
 G.classColor = RAID_CLASS_COLORS[G.playerClass] -- Class Colors
 
 -- !ClassColors addon
-if(IsAddOnLoaded('!ClassColors') and CUSTOM_CLASS_COLORS) then
+if (IsAddOnLoaded("!ClassColors") and CUSTOM_CLASS_COLORS) then
   G.classColor = CUSTOM_CLASS_COLORS[G.playerClass]
 end
 

@@ -341,42 +341,20 @@ local function buttonShowGrid(name, showgrid)
   end
 end
 
--- BagBar
-function L:CreateBagBar(addonName, cfg)
-  cfg.blizzardBar = nil
-  cfg.frameName = addonName .. "BagBar"
-  cfg.frameParent = cfg.frameParent or UIParent
-  cfg.frameTemplate = "SecureHandlerStateTemplate"
-  cfg.frameVisibility = cfg.frameVisibility or "[petbattle] hide; show"
-  local buttonList = {
-    MainMenuBarBackpackButton,
-    CharacterBag0Slot,
-    CharacterBag1Slot,
-    CharacterBag2Slot,
-    CharacterBag3Slot
-  }
-  local frame = L:CreateButtonFrame(cfg, buttonList)
-end
-
--- MicroMenuBar
-function L:CreateMicroMenuBar(addonName, cfg)
-  cfg.blizzardBar = nil
-  cfg.frameName = addonName .. "MicroMenuBar"
-  cfg.frameParent = cfg.frameParent or UIParent
-  cfg.frameTemplate = "SecureHandlerStateTemplate"
-  cfg.frameVisibility = cfg.frameVisibility or "[petbattle] hide; show"
-  local buttonList = {}
-  for idx, buttonName in next, MICRO_BUTTONS do
-    local button = _G[buttonName]
-    if button and button:IsShown() then
-      table.insert(buttonList, button)
-    end
+local function ToggleButtonGrid()
+  if InCombatLockdown() then
+    print("Grid toggle for actionbar1 is not possible in combat.")
+    return
   end
-  local frame = L:CreateButtonFrame(cfg, buttonList)
-  -- special
-  PetBattleFrame.BottomFrame.MicroButtonFrame:SetScript("OnShow", nil)
-  OverrideActionBar:SetScript("OnShow", nil)
-  MainMenuBar:SetScript("OnShow", nil)
+
+  local showgrid = tonumber(GetCVar("alwaysShowActionBars"))
+  buttonShowGrid("ActionButton", showgrid)
+  buttonShowGrid("MultiBarBottomRightButton", showgrid)
+  buttonShowGrid("NDui_CustomBarButton", showgrid)
+  if updateAfterCombat then
+    B:UnregisterEvent("PLAYER_REGEN_ENABLED", toggleButtonGrid)
+    updateAfterCombat = false
+  end
 end
 
 -- Bar1
@@ -395,21 +373,6 @@ function L:CreateActionBar1(addonName, cfg)
   local buttonList = L:GetButtonList(buttonName, numButtons)
   local frame = L:CreateButtonFrame(cfg, buttonList)
 
-  local function ToggleButtonGrid()
-    if InCombatLockdown() then
-      print("Grid toggle for actionbar1 is not possible in combat.")
-      return
-    end
-
-    local showgrid = tonumber(GetCVar("alwaysShowActionBars"))
-    buttonShowGrid("ActionButton", showgrid)
-    buttonShowGrid("MultiBarBottomRightButton", showgrid)
-    buttonShowGrid("NDui_CustomBarButton", showgrid)
-    if updateAfterCombat then
-      B:UnregisterEvent("PLAYER_REGEN_ENABLED", toggleButtonGrid)
-      updateAfterCombat = false
-    end
-  end
   hooksecurefunc("MultiActionBar_UpdateGridVisibility", ToggleButtonGrid)
 
   for i, button in next, buttonList do
@@ -586,11 +549,47 @@ function L:CreatePossessExitBar(addonName, cfg)
   PossessBackground2:SetTexture(nil)
 end
 
--- rButtonTemplate: core
--- zork, 2016
+-- BagBar
+function L:CreateBagBar(addonName, cfg)
+  cfg.blizzardBar = nil
+  cfg.frameName = addonName .. "BagBar"
+  cfg.frameParent = cfg.frameParent or UIParent
+  cfg.frameTemplate = "SecureHandlerStateTemplate"
+  cfg.frameVisibility = cfg.frameVisibility or "[petbattle] hide; show"
+  local buttonList = {
+    MainMenuBarBackpackButton,
+    CharacterBag0Slot,
+    CharacterBag1Slot,
+    CharacterBag2Slot,
+    CharacterBag3Slot
+  }
+  local frame = L:CreateButtonFrame(cfg, buttonList)
+end
+
+-- MicroMenuBar
+function L:CreateMicroMenuBar(addonName, cfg)
+  cfg.blizzardBar = nil
+  cfg.frameName = addonName .. "MicroMenuBar"
+  cfg.frameParent = cfg.frameParent or UIParent
+  cfg.frameTemplate = "SecureHandlerStateTemplate"
+  cfg.frameVisibility = cfg.frameVisibility or "[petbattle] hide; show"
+  local buttonList = {}
+  for idx, buttonName in next, MICRO_BUTTONS do
+    local button = _G[buttonName]
+    if button and button:IsShown() then
+      table.insert(buttonList, button)
+    end
+  end
+  local frame = L:CreateButtonFrame(cfg, buttonList)
+  -- special
+  PetBattleFrame.BottomFrame.MicroButtonFrame:SetScript("OnShow", nil)
+  OverrideActionBar:SetScript("OnShow", nil)
+  MainMenuBar:SetScript("OnShow", nil)
+end
 
 -----------------------------
 -- rButtonTemplate Global
+-- rButtonTemplate: core
 -----------------------------
 
 rButtonTemplate = {}
@@ -1062,31 +1061,27 @@ function rButtonTemplate:StyleAllAuraButtons(cfg)
   rButtonTemplate:StyleTempEnchants(cfg)
 end
 
------------------------------
+----------------------------------------
 -- Create Bars (rActionBar_Lum: layout)
------------------------------
+----------------------------------------
 
-local f = CreateFrame("Frame")
+local abl = CreateFrame("Frame")
 
-local f = CreateFrame("Frame")
-
-f:SetScript(
+abl:SetScript(
   "OnEvent",
   function(self, event, ...)
-    f[event](self, ...)
+    abl[event](self, ...)
   end
 )
 
-f:RegisterEvent("ADDON_LOADED")
-function f:ADDON_LOADED(addon)
+abl:RegisterEvent("ADDON_LOADED")
+function abl:ADDON_LOADED(addon)
   if addon == "rActionBar" or addon == "LumUI" then
-    f:styleBars()
+    abl:StyleBars()
   end
 end
 
-function f:styleBars()
-  L:CreateBagBar(A, settings.actionBars.bagbar)
-  L:CreateMicroMenuBar(A, settings.actionBars.micromenubar)
+function abl:StyleBars()
   L:CreateActionBar1(A, settings.actionBars.bar1)
   L:CreateActionBar2(A, settings.actionBars.bar2)
   L:CreateActionBar3(A, settings.actionBars.bar3)
@@ -1097,4 +1092,6 @@ function f:styleBars()
   L:CreateExtraBar(A, settings.actionBars.extrabar)
   L:CreateVehicleExitBar(A, settings.actionBars.vehicleexitbar)
   L:CreatePossessExitBar(A, settings.actionBars.possessexitbar)
+  L:CreateBagBar(A, settings.actionBars.bagbar)
+  L:CreateMicroMenuBar(A, settings.actionBars.micromenubar)
 end

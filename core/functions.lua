@@ -85,3 +85,12 @@ function L:GetLocalNumFriends()
   -- return select(2, GetNumFriends())
   return 0
 end
+
+function L:IsBottomRightActionBarEnabled()
+  _, bottomRightState = GetActionBarToggles()
+
+  if bottomRightState then
+    return true
+  end
+  return false
+end
