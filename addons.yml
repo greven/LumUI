@@ -1,18 +1,13 @@
---
 addons:
-  -
-    name: oUF_Lumen
+  - name: oUF_Lumen
     url: https://github.com/greven/oUF_Lumen
     type: zip
-  -
-    name: Butsu
+  - name: Butsu
     url: git://github.com/greven/Butsu
     type: master
-  -
-    name: tullaRange
+  - name: tullaRange
     url: git://github.com/tullamods/tullaRange
     type: master
-  -
-    name: tullaRange_Config
+  - name: tullaRange_Config
     url: git://github.com/tullamods/tullaRange_Config
     type: master

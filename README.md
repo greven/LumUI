@@ -25,10 +25,10 @@ My goal is to reduce the amount of configuration needed, the juggling of addons 
 
 Keeping addons to a minimum from now on. You can supplement the UI with other addons of your choice.
 
-- LumUI **Unit Frames**
-- oUF_Lumen
-- Butsu
-- tullaRange
+- LumUI **Action Bars and Mods**
+- oUF_Lumen **Unit Frames**
+- Butsu **Loot Frame**
+- tullaRange **Action Bar range coloring**
 
 ## Features
 
