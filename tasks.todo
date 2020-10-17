@@ -6,3 +6,6 @@ CooldownCount:
   ☐ Implement our cooldown counter
   ☐ Read CVars to see if we should display it or not
   ☐ Use NDui as reference
+
+Frames:
+  ☐ Raid Frames

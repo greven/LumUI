@@ -1,3 +1,8 @@
+### Version 9.0.1
+
+- First fixes pass for Shadowlands.
+- Split the settings into defaults and config (override settings here).
+
 ### Version 8.0.14
 
 - Hopefully fix some bugs for 8.2 in the tooltip mod.
@@ -7,13 +12,13 @@
 - Update oUF_Lumen Frames (see the addon CHANGELOG for specific changes).
 - Update several addons.
 - Add Talents to tooltip when pressing Shift.
-- Added several UI tweaks (Move Archeology Frame, Add Talents to Tooltip on Shift Press,
+- Added several UI tweaks (Move Archaeology Frame, Add Talents to Tooltip on Shift Press,
   Add Total Quest Count to the World Map and Add iLevel to Character frame when pressing Shift).
 - Hide the vehicle Seat Indicator widget.
 - Fix the missing texture for the icons.
 - Fix some bugs with the cooldownPulse module.
 - Fix when changing specs or talents.
-- Cleanup.
+- Clean up.
 
 ### Version 8.0.12
 
@@ -22,7 +27,7 @@
 
 ### Version 8.0.11
 
-- Cleanup
+- Clean up
 
 ### Version 8.0.10
 
@@ -31,7 +36,7 @@
 ### Version 8.0.9
 
 - Embed base addons (actionbars and buttons [roth]).
-- Hopefully everything will be package nicelly..
+- Hopefully everything will be package nicely..
 
 ### Version 8.0.3
 
