@@ -1,4 +1,3 @@
-
 -- rButtonTemplate_Lumen: theme
 -- zork, 2016
 
@@ -8,17 +7,26 @@
 -- Variables
 -----------------------------
 
-local A, L = ...
+local A, ns = ...
+
+local L, C, G = unpack(select(2, ...))
+
+local cfg = C.settings.actionBars
+
+--
 
 local f = CreateFrame("Frame")
 
-f:SetScript('OnEvent', function(self, event, ...)
-	f[event](self, ...)
-end)
+f:SetScript(
+  "OnEvent",
+  function(self, event, ...)
+    f[event](self, ...)
+  end
+)
 
 f:RegisterEvent("ADDON_LOADED")
 function f:ADDON_LOADED(addon)
-  if addon == 'rButtonTemplate' or addon == 'LumUI' then
+  if addon == "rButtonTemplate" or addon == "LumUI" then
     f:styleButtons()
   end
 end
@@ -27,7 +35,7 @@ end
 -- mediapath
 -----------------------------
 
-local mediapath = "interface\\addons\\"..A.."\\media\\textures\\"
+local mediapath = "interface\\addons\\" .. A .. "\\media\\textures\\"
 ---
 
 function f:styleButtons()
@@ -38,7 +46,7 @@ function f:styleButtons()
   local function copyTable(orig)
     local orig_type = type(orig)
     local copy
-    if orig_type == 'table' then
+    if orig_type == "table" then
       copy = {}
       for orig_key, orig_value in next, orig, nil do
         copy[copyTable(orig_key)] = copyTable(orig_value)
@@ -58,8 +66,8 @@ function f:styleButtons()
 
   --backdrop
   actionButtonConfig.backdrop = {
-    bgFile = mediapath.."backdrop",
-    edgeFile = mediapath.."backdropBorder",
+    bgFile = mediapath .. "backdrop",
+    edgeFile = mediapath .. "backdropBorder",
     tile = false,
     tileSize = 32,
     edgeSize = 5,
@@ -67,28 +75,28 @@ function f:styleButtons()
       left = 5,
       right = 5,
       top = 5,
-      bottom = 5,
+      bottom = 5
     },
-    backgroundColor = {0.2,0.2,0.2,0.9},
-    borderColor = {0.05,0.05,0.05,0.8},
+    backgroundColor = {0.2, 0.2, 0.2, 0.9},
+    borderColor = {0.05, 0.05, 0.05, 0.8},
     points = {
-      {"TOPLEFT", -3, 3 },
-      {"BOTTOMRIGHT", 3, -3 },
-    },
+      {"TOPLEFT", -3, 3},
+      {"BOTTOMRIGHT", 3, -3}
+    }
   }
 
   --icon
   actionButtonConfig.icon = {
-    texCoord = {0,1,0,1},
+    texCoord = {0, 1, 0, 1},
     points = {
-      {"TOPLEFT", 1, -1 },
-      {"BOTTOMRIGHT", -1, 1 },
-    },
+      {"TOPLEFT", 1, -1},
+      {"BOTTOMRIGHT", -1, 1}
+    }
   }
 
   --flyoutBorder
   actionButtonConfig.flyoutBorder = {
-    file = "",
+    file = ""
   }
 
   --flyoutBorderShadow
@@ -98,90 +106,89 @@ function f:styleButtons()
 
   --border
   actionButtonConfig.border = {
-    file = mediapath.."border",
+    file = mediapath .. "border",
     blendMode = "ADD",
-    texCoord = {0,1,0,1},
+    texCoord = {0, 1, 0, 1},
     points = {
-      {"TOPLEFT", 0, 0 },
-      {"BOTTOMRIGHT", 0, 0 },
-    },
+      {"TOPLEFT", 0, 0},
+      {"BOTTOMRIGHT", 0, 0}
+    }
   }
 
   --normalTexture
   actionButtonConfig.normalTexture = {
-    file = mediapath.."normal",
-    color = {0.05,0.05,0.05,1},
+    file = mediapath .. "normal",
+    color = {0.05, 0.05, 0.05, 1},
     points = {
-      {"TOPLEFT", 0, 0 },
-      {"BOTTOMRIGHT", 0, 0 },
-    },
+      {"TOPLEFT", 0, 0},
+      {"BOTTOMRIGHT", 0, 0}
+    }
   }
 
   --pushedTexture
   actionButtonConfig.pushedTexture = {
-    file = mediapath.."pushed",
+    file = mediapath .. "pushed",
     points = {
-      {"TOPLEFT", 0, 0 },
-      {"BOTTOMRIGHT", 0, 0 },
-    },
+      {"TOPLEFT", 0, 0},
+      {"BOTTOMRIGHT", 0, 0}
+    }
   }
   --highlightTexture
   actionButtonConfig.highlightTexture = {
-    file = mediapath.."highlight",
-    color = {0.3,0.3,0.3,0.8},
+    file = mediapath .. "highlight",
+    color = {0.3, 0.3, 0.3, 0.8},
     points = {
-      {"TOPLEFT", 0, 0 },
-      {"BOTTOMRIGHT", 0, 0 },
-    },
+      {"TOPLEFT", 0, 0},
+      {"BOTTOMRIGHT", 0, 0}
+    }
   }
   --checkedTexture
   actionButtonConfig.checkedTexture = {
-    file = mediapath.."checked",
+    file = mediapath .. "checked",
     points = {
-      {"TOPLEFT", 0, 0 },
-      {"BOTTOMRIGHT", 0, 0 },
-    },
+      {"TOPLEFT", 0, 0},
+      {"BOTTOMRIGHT", 0, 0}
+    }
   }
 
   --cooldown
   actionButtonConfig.cooldown = {
     points = {
-      {"TOPLEFT", 0, 0 },
-      {"BOTTOMRIGHT", 0, 0 },
-    },
+      {"TOPLEFT", 0, 0},
+      {"BOTTOMRIGHT", 0, 0}
+    }
   }
 
   --name (macro name fontstring)
   actionButtonConfig.name = {
-    font = { STANDARD_TEXT_FONT, 10, "OUTLINE"},
+    font = {STANDARD_TEXT_FONT, 10, "OUTLINE"},
     points = {
-      {"BOTTOMLEFT", 0, 0 },
-      {"BOTTOMRIGHT", 0, 0 },
+      {"BOTTOMLEFT", 0, 0},
+      {"BOTTOMRIGHT", 0, 0}
     },
-    alpha = 0,
+    alpha = cfg.macroTextAlpha
   }
 
   --hotkey
   actionButtonConfig.hotkey = {
-    font = { STANDARD_TEXT_FONT, 11, "OUTLINE"},
+    font = {STANDARD_TEXT_FONT, 11, "THICKOUTLINE"},
     points = {
-      {"TOPRIGHT", 0, 0 },
-      {"TOPLEFT", 0, 0 },
+      {"TOPRIGHT", 0, 0},
+      {"TOPLEFT", 0, 0}
     },
-    alpha = 0,
+    alpha = cfg.keybindsAlpha
   }
 
   --count
   actionButtonConfig.count = {
-    font = { STANDARD_TEXT_FONT, 11, "THICKOUTLINE"},
+    font = {STANDARD_TEXT_FONT, 11, "THICKOUTLINE"},
     points = {
-      {"BOTTOMRIGHT", -1, 4 },
-    },
+      {"BOTTOMRIGHT", -1, 4}
+    }
   }
 
   rButtonTemplate:StyleAllActionButtons(actionButtonConfig)
-  --style rActionBar vehicle exit button
-  rButtonTemplate:StyleActionButton(_G["rActionBarVehicleExitButton"],actionButtonConfig)
+  rButtonTemplate:StyleActionButton(_G["rActionBarVehicleExitButton"], actionButtonConfig)
 
   -----------------------------
   -- itemButtonConfig
@@ -198,7 +205,13 @@ function f:styleButtons()
   itemButtonConfig.normalTexture = copyTable(actionButtonConfig.normalTexture)
 
   --rButtonTemplate:StyleItemButton
-  local itemButtons = { MainMenuBarBackpackButton, CharacterBag0Slot, CharacterBag1Slot, CharacterBag2Slot, CharacterBag3Slot }
+  local itemButtons = {
+    MainMenuBarBackpackButton,
+    CharacterBag0Slot,
+    CharacterBag1Slot,
+    CharacterBag2Slot,
+    CharacterBag3Slot
+  }
   for i, button in next, itemButtons do
     rButtonTemplate:StyleItemButton(button, itemButtonConfig)
   end
@@ -208,7 +221,7 @@ function f:styleButtons()
   -----------------------------
 
   local extraButtonConfig = copyTable(actionButtonConfig)
-  extraButtonConfig.buttonstyle = { file = "" }
+  extraButtonConfig.buttonstyle = {file = ""}
 
   --rButtonTemplate:StyleExtraActionButton
   rButtonTemplate:StyleExtraActionButton(extraButtonConfig)

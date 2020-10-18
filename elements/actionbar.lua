@@ -9,6 +9,7 @@ local A, ns = ...
 local L, C, G = unpack(ns)
 
 local settings = C.settings
+local _G = _G
 
 L.dragFrames = {}
 

@@ -44,6 +44,8 @@ local actionBars = {
   buttonSize = 33,
   buttonMargin = 3,
   padding = 2,
+  keybindsAlpha = 1,
+  macroTextAlpha = 0,
   fader = {
     fadeInAlpha = 1,
     fadeInDuration = 0.2,
@@ -53,10 +55,6 @@ local actionBars = {
     fadeOutSmooth = "OUT"
   }
 }
-
--- actionBars.bar1.framePoint = {"BOTTOM", UIParent, "BOTTOM", 0, 22}
--- actionBars.bar2.framePoint = {"BOTTOM", A .. "Bar1", "TOP", 0, 0}
--- actionBars.petbar.framePoint = {"BOTTOMRIGHT", A .. "Bar2", "TOPRIGHT", 0, 10}
 
 -- Bags
 -- Main Actionbar
