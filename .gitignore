@@ -12,5 +12,4 @@ Desktop.ini
 .DS_Store
 
 # Project Files
-libs/
 .release/

@@ -9,3 +9,7 @@ CooldownCount:
 
 Frames:
   ☐ Raid Frames
+
+Settings:
+  ☐ Review all the .lua settings and consolidate the defaults across the modules
+  ☐ Do something useful with the GUI options!
