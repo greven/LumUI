@@ -6,32 +6,7 @@ local _, ns = ...
 
 local L, C, G = unpack(select(2, ...))
 
--- local lb = CreateFrame("Frame")
-
--- ---------------------------------
--- > Variables
--- ---------------------------------
-
-local font = G.font
-local shadow_tex = G.media.glow
-local border_tex = G.media.buffsBorder
-
-local outline = "THINOUTLINE" -- Font Outline
-local bColor = C.color.border -- Default Border Color
-
-local scale = 1
-local buffSize = 30 -- Size of the Buff Icons
-local debuffSize = 30 -- Size of the Debuff Icons
-local iconsPerRow = 12 -- Number of Icons per Row
-local iconSpacing = 8 -- Spacing between buffs
-local iconborder = 3 -- Icon Texture Border Size
-local shadowAlpha = 0.5 -- The Alpha of The buttons shadow
-
-local posX = -20
-local posY = -14
-local buffAnchor = {"BOTTOMRIGHT", "Minimap", "BOTTOMLEFT", posX, posY}
-local buffAnchor2ndRow = {"BOTTOMRIGHT", "Minimap", "BOTTOMLEFT", posX, posY + buffSize + 20}
-local debuffAnchor = {"BOTTOMRIGHT", "Minimap", "TOPRIGHT", 4, 28}
+local cfg = C.settings.auras
 
 -- ---------------------------------
 -- > Variables
@@ -45,33 +20,33 @@ local _G = _G
 -- ---------------------------------
 
 do
-  TemporaryEnchantFrame:SetScale(scale)
-  BuffFrame:SetScale(scale)
-  buffSize = buffSize * scale
-  debuffSize = debuffSize * scale
+  TemporaryEnchantFrame:SetScale(cfg.scale)
+  BuffFrame:SetScale(cfg.scale)
+  cfg.buffSize = cfg.buffSize * cfg.scale
+  cfg.debuffSize = cfg.debuffSize * cfg.scale
 
   TicketStatusFrame:ClearAllPoints() -- Move the Ticket from the default place
   TicketStatusFrame:SetPoint("TOPRIGHT", Minimap, "TOPLEFT", -15, -50)
 
   TemporaryEnchantFrame:ClearAllPoints()
-  TemporaryEnchantFrame:SetPoint(unpack(buffAnchor))
+  TemporaryEnchantFrame:SetPoint(unpack(cfg.buffAnchor))
   TemporaryEnchantFrame.SetPoint = function()
   end
 
   TempEnchant1:ClearAllPoints()
   TempEnchant2:ClearAllPoints()
   TempEnchant3:ClearAllPoints()
-  TempEnchant1:SetPoint(unpack(buffAnchor))
-  TempEnchant2:SetPoint("RIGHT", TempEnchant1, "LEFT", -iconSpacing, 0)
-  TempEnchant3:SetPoint("RIGHT", TempEnchant2, "LEFT", -iconSpacing, 0)
+  TempEnchant1:SetPoint(unpack(cfg.buffAnchor))
+  TempEnchant2:SetPoint("RIGHT", TempEnchant1, "LEFT", -cfg.iconSpacing, 0)
+  TempEnchant3:SetPoint("RIGHT", TempEnchant2, "LEFT", -cfg.iconSpacing, 0)
 
   for i = 1, 3 do
     local f = CreateFrame("Frame", "TempEnchant" .. i .. "Container", _G["TempEnchant" .. i], "BackdropTemplate")
-    f:SetSize(buffSize, buffSize)
+    f:SetSize(cfg.buffSize, cfg.buffSize)
     f:SetPoint("CENTER", _G["TempEnchant" .. i], "CENTER", 0, 0)
     f:SetBackdrop {
       bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
-      edgeFile = border_tex,
+      edgeFile = cfg.border_tex,
       tile = true,
       tileSize = 32,
       edgeSize = 16,
@@ -86,7 +61,7 @@ do
     s:SetBackdrop(
       {
         bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
-        edgeFile = shadow_tex,
+        edgeFile = cfg.shadow_tex,
         tile = false,
         tileSize = 32,
         edgeSize = 5,
@@ -94,17 +69,17 @@ do
       }
     )
     s:SetBackdropColor(0, 0, 0, 0)
-    s:SetBackdropBorderColor(0, 0, 0, shadowAlpha)
+    s:SetBackdropBorderColor(0, 0, 0, cfg.shadowAlpha)
 
     _G["TempEnchant" .. i .. "Border"]:Hide()
-    _G["TempEnchant" .. i]:SetHeight(buffSize)
-    _G["TempEnchant" .. i]:SetWidth(buffSize)
+    _G["TempEnchant" .. i]:SetHeight(cfg.buffSize)
+    _G["TempEnchant" .. i]:SetWidth(cfg.buffSize)
     _G["TempEnchant" .. i .. "Icon"]:SetTexCoord(.08, .92, .08, .92)
-    _G["TempEnchant" .. i .. "Icon"]:SetPoint("TOPLEFT", _G["TempEnchant" .. i], iconborder, -iconborder)
-    _G["TempEnchant" .. i .. "Icon"]:SetPoint("BOTTOMRIGHT", _G["TempEnchant" .. i], -iconborder, iconborder)
+    _G["TempEnchant" .. i .. "Icon"]:SetPoint("TOPLEFT", _G["TempEnchant" .. i], cfg.iconborder, -cfg.iconborder)
+    _G["TempEnchant" .. i .. "Icon"]:SetPoint("BOTTOMRIGHT", _G["TempEnchant" .. i], -cfg.iconborder, cfg.iconborder)
     _G["TempEnchant" .. i .. "Duration"]:ClearAllPoints()
     _G["TempEnchant" .. i .. "Duration"]:SetPoint("BOTTOM", 1, -13)
-    _G["TempEnchant" .. i .. "Duration"]:SetFont(font, 12, outline)
+    _G["TempEnchant" .. i .. "Duration"]:SetFont(cfg.font, 12, cfg.outline)
   end
 end
 
@@ -119,39 +94,39 @@ local function StyleBuffs(buttonName, index)
     local container = CreateFrame("Frame", buttonName .. index .. "Container", buff, "BackdropTemplate")
 
     icon:SetTexCoord(.08, .92, .08, .92)
-    icon:SetPoint("TOPLEFT", buff, iconborder, -iconborder)
-    icon:SetPoint("BOTTOMRIGHT", buff, -iconborder, iconborder)
+    icon:SetPoint("TOPLEFT", buff, cfg.iconborder, -cfg.iconborder)
+    icon:SetPoint("BOTTOMRIGHT", buff, -cfg.iconborder, cfg.iconborder)
 
     duration:ClearAllPoints()
     duration:SetPoint("BOTTOM", 2, -16)
-    duration:SetFont(font, 13, outline)
+    duration:SetFont(cfg.font, 13, cfg.outline)
     duration:SetJustifyH("CENTER")
 
     count:ClearAllPoints()
     count:SetPoint("TOPRIGHT", 6, 1)
-    count:SetFont(font, 12, "THICKOUTLINE")
+    count:SetFont(cfg.font, 12, "THICKOUTLINE")
 
     container:SetPoint("CENTER", buff, "CENTER", 0, 0)
     container:SetBackdrop {
       bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
-      edgeFile = border_tex,
+      edgeFile = cfg.border_tex,
       tile = true,
       tileSize = 32,
       edgeSize = 16,
       insets = {left = 0, right = 0, top = 0, bottom = 0}
     }
-    container:SetBackdropBorderColor(bColor.r, bColor.g, bColor.b)
+    container:SetBackdropBorderColor(cfg.borderColor.r, cfg.borderColor.g, cfg.borderColor.b)
     container:SetFrameLevel(buff:GetFrameLevel() - 1)
     container:SetFrameStrata(buff:GetFrameStrata())
 
     if buttonName == "BuffButton" then
-      buff:SetHeight(buffSize)
-      buff:SetWidth(buffSize)
-      container:SetSize(buffSize, buffSize)
+      buff:SetHeight(cfg.buffSize)
+      buff:SetWidth(cfg.buffSize)
+      container:SetSize(cfg.buffSize, cfg.buffSize)
     elseif buttonName == "DebuffButton" then
-      buff:SetHeight(debuffSize)
-      buff:SetWidth(debuffSize)
-      container:SetSize(debuffSize, debuffSize)
+      buff:SetHeight(cfg.debuffSize)
+      buff:SetWidth(cfg.debuffSize)
+      container:SetSize(cfg.debuffSize, cfg.debuffSize)
     end
 
     local s = CreateFrame("Frame", buttonName .. index .. "Shadow", container, "BackdropTemplate")
@@ -161,7 +136,7 @@ local function StyleBuffs(buttonName, index)
     s:SetBackdrop(
       {
         bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
-        edgeFile = shadow_tex,
+        edgeFile = cfg.shadow_tex,
         tile = false,
         tileSize = 32,
         edgeSize = 5,
@@ -169,7 +144,7 @@ local function StyleBuffs(buttonName, index)
       }
     )
     s:SetBackdropColor(0, 0, 0, 0)
-    s:SetBackdropBorderColor(0, 0, 0, shadowAlpha)
+    s:SetBackdropBorderColor(0, 0, 0, cfg.shadowAlpha)
   end
 
   if border then
@@ -194,34 +169,34 @@ local function UpdateBuffs()
       numBuffs = numBuffs + 1
       index = numBuffs
       buff:ClearAllPoints()
-      if ((index > 1) and (mod(index, iconsPerRow) == 1)) then
-        if (index == iconsPerRow + 1) then
-          buff:SetPoint(unpack(buffAnchor2ndRow))
+      if ((index > 1) and (mod(index, cfg.iconsPerRow) == 1)) then
+        if (index == cfg.iconsPerRow + 1) then
+          buff:SetPoint(unpack(cfg.buffAnchor2ndRow))
         else
-          buff:SetPoint(unpack(buffAnchor))
+          buff:SetPoint(unpack(cfg.buffAnchor))
         end
         aboveBuff = buff
       elseif (index == 1) then
         if (hasMainHandEnchant and hasOffHandEnchant and hasThrownEnchant) and not UnitHasVehicleUI("player") then
-          buff:SetPoint("RIGHT", TempEnchant3, "LEFT", -iconSpacing, 0)
+          buff:SetPoint("RIGHT", TempEnchant3, "LEFT", -cfg.iconSpacing, 0)
         elseif
           ((hasMainHandEnchant and hasOffHandEnchant) or (hasMainHandEnchant and hasThrownEnchant) or
             (hasOffHandEnchant and hasThrownEnchant)) and
             not UnitHasVehicleUI("player")
          then
-          buff:SetPoint("RIGHT", TempEnchant2, "LEFT", -iconSpacing, 0)
+          buff:SetPoint("RIGHT", TempEnchant2, "LEFT", -cfg.iconSpacing, 0)
         elseif
           ((hasMainHandEnchant and not hasOffHandEnchant and not hasThrownEnchant) or
             (hasOffHandEnchant and not hasMainHandEnchant and not hasThrownEnchant) or
             (hasThrownEnchant and not hasMainHandEnchant and not hasOffHandEnchant)) and
             not UnitHasVehicleUI("player")
          then
-          buff:SetPoint("RIGHT", TempEnchant1, "LEFT", -iconSpacing, 0)
+          buff:SetPoint("RIGHT", TempEnchant1, "LEFT", -cfg.iconSpacing, 0)
         else
-          buff:SetPoint(unpack(buffAnchor))
+          buff:SetPoint(unpack(cfg.buffAnchor))
         end
       else
-        buff:SetPoint("RIGHT", previousBuff, "LEFT", -iconSpacing, 0)
+        buff:SetPoint("RIGHT", previousBuff, "LEFT", -cfg.iconSpacing, 0)
       end
       previousBuff = buff
     end
@@ -245,9 +220,9 @@ local function UpdateDebuffs(buttonName, index)
   debuff:ClearAllPoints()
 
   if index == 1 then
-    debuff:SetPoint(unpack(debuffAnchor))
+    debuff:SetPoint(unpack(cfg.debuffAnchor))
   else
-    debuff:SetPoint("RIGHT", _G[buttonName .. (index - 1)], "LEFT", -iconSpacing, 0)
+    debuff:SetPoint("RIGHT", _G[buttonName .. (index - 1)], "LEFT", -cfg.iconSpacing, 0)
   end
 end
 

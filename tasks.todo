@@ -7,8 +7,11 @@ CooldownCount:
   ☐ Read CVars to see if we should display it or not
   ☐ Use NDui as reference
 
-Frames:
-  ☐ Raid Frames
+Chat:
+  ☐ Add a current char counter to the input frame (like ElvUI)
+
+bags:
+  ☐ Implement bags using cargBags and nDUI?
 
 Settings:
   ☐ Review all the .lua settings and consolidate the defaults across the modules

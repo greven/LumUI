@@ -11,10 +11,8 @@ C.color = {
 C.settings = {
   -- Mods
   actionbar = true,
-  auras = true,
   buttons = true,
   combatText = true,
-  minimap = true,
   tooltip = true,
   tweaks = true,
   -- Elements
@@ -38,13 +36,63 @@ C.settings = {
   }
 }
 
+-- Minimap
+
+C.settings.minimap = {
+  enabled = true,
+  width = 200, -- Minimap Width
+  height = 200, -- Minimap Height
+  scale = 1.0, -- Minimap Scale
+  font = G.font, -- Font type
+  fontSize = 14, -- Font Size
+  fontOutline = "THINOUTLINE", -- Font Outline
+  parent = "UIParent", -- Minimap Parent
+  parentPoint = "BOTTOMRIGHT", -- Minimap Anchor
+  point = "BOTTOMRIGHT", -- Minimap Set Point
+  posX = -20, -- Minimap Horizontal Position
+  posY = 38, -- Minimap Vertical Position
+  showZone = true, -- Shows the Zone Location
+  pvpColor = true, -- Colors the Location zone based on zone pvp info
+  locationTextOnHover = false, -- Location text is hidden, shows on mouse hover
+  clockOnHover = true, -- Clock is hidden, shows on mouse hover
+  customizeQuestTracker = true, -- Move and customize the quest tracker frame
+  questTrackerAnchor = "TOPRIGHT", -- Quest Tracker anchor point
+  questTrackerAnchorParent = "TOPRIGHT", -- Quest Tracker parent anchor point
+  questTrackerPosX = -64, -- Quest Tracker Horizontal Position
+  questTrackerPosY = -52 -- Quest Tracker Vertical Position
+}
+
+-- Auras
+local AurasbuffSize = 30
+local AurasPosX = -20
+local AurasPosY = -4
+
+C.settings.auras = {
+  enabled = true,
+  font = G.font,
+  shadow_tex = G.media.glow,
+  border_tex = G.media.buffsBorder,
+  outline = "THINOUTLINE", -- Font Outline
+  borderColor = C.color.border, -- Default Border Color
+  scale = 1,
+  buffSize = AurasbuffSize, -- Size of the Buff Icons
+  debuffSize = 30, -- Size of the Debuff Icons
+  iconsPerRow = 12, -- Number of Icons per Row
+  iconSpacing = 8, -- Spacing between buffs
+  iconborder = 3, -- Icon Texture Border Size
+  shadowAlpha = 0.5, -- The Alpha of The buttons shadow
+  buffAnchor = {"BOTTOMRIGHT", "Minimap", "BOTTOMLEFT", AurasPosX, AurasPosY},
+  buffAnchor2ndRow = {"BOTTOMRIGHT", "Minimap", "BOTTOMLEFT", AurasPosX, AurasPosY + AurasbuffSize + 20},
+  debuffAnchor = {"BOTTOMRIGHT", "Minimap", "TOPRIGHT", 4, 28}
+}
+
 -- Action Bar
 
 local actionBars = {
   buttonSize = 33,
   buttonMargin = 3,
   padding = 2,
-  keybindsAlpha = 1,
+  keybindsAlpha = 0,
   macroTextAlpha = 0,
   fader = {
     fadeInAlpha = 1,
@@ -111,13 +159,13 @@ actionBars.bar4 = {
 
 -- MultiActionBar Right 2
 actionBars.bar5 = {
-  framePoint = {"BOTTOMRIGHT", A .. "Bar1", "BOTTOMLEFT", -8, 10},
-  frameScale = 0.8,
+  framePoint = {"RIGHT", A .. "Bar4", "LEFT", 0, 0},
+  frameScale = 1,
   framePadding = actionBars.padding,
   buttonWidth = actionBars.buttonSize,
   buttonHeight = actionBars.buttonSize,
   buttonMargin = actionBars.buttonMargin,
-  numCols = 6,
+  numCols = 1,
   startPoint = "TOPRIGHT",
   fader = actionBars.fader
 }

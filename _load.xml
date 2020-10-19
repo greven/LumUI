@@ -25,6 +25,7 @@
 	<Script file='mods\minimap.lua' />
 	<!-- <Script file='mods\skins.lua' /> -->
 	<Script file='mods\tooltip.lua' />
+	<Script file='mods\blizzard.lua' />
 	<Script file='mods\tweaks.lua' />
 
 	<Script file='settings.lua' />
