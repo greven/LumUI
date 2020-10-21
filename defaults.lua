@@ -172,7 +172,7 @@ actionBars.bar5 = {
 
 -- StanceBar
 actionBars.stancebar = {
-  framePoint = {"BOTTOMLEFT", A .. "Bar2", "TOPLEFT", 1, 7},
+  framePoint = {"BOTTOMLEFT", A .. "Bar2", "TOPLEFT", 0, 7},
   frameScale = 0.8,
   framePadding = actionBars.padding,
   buttonWidth = actionBars.buttonSize,
@@ -186,7 +186,7 @@ actionBars.stancebar = {
 
 -- PetBar
 actionBars.petbar = {
-  framePoint = {"BOTTOMRIGHT", A .. "Bar3", "TOPRIGHT", -1, 7},
+  framePoint = {"BOTTOMRIGHT", A .. "Bar3", "TOPRIGHT", 0, 7},
   frameScale = 0.8,
   framePadding = actionBars.padding,
   buttonWidth = actionBars.buttonSize,

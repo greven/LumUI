@@ -16,19 +16,20 @@ eventframe:SetScript(
 )
 
 -- Binding UI
-local function SetupBindingUI()
+local function SkinBindingUI()
   -- QuickKeybind Mode
 
   local QuickFrame = _G.QuickKeybindFrame
   QuickFrame.phantomExtraActionButton:ClearAllPoints()
   QuickFrame.phantomExtraActionButton:SetPoint("RIGHT", "LumUIBar1", "LEFT", -8, 0)
 
-  -- QuickFrame.MultiBarBottomLeft.QuickKeybindGlow:SetAlpha(0)
+  MultiBarBottomLeft.QuickKeybindGlow:SetAlpha(0)
+  MultiBarBottomRight.QuickKeybindGlow:SetAlpha(0)
 end
 
 function eventframe:ADDON_LOADED(addon)
   if addon == "Blizzard_BindingUI" then
-    SetupBindingUI()
+    SkinBindingUI()
   end
 end
 
