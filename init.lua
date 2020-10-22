@@ -14,19 +14,6 @@ L.addonName = A
 
 lumuiDB = {}
 
-G.font = "Interface\\AddOns\\lumUI\\media\\Fonts\\Myriad.ttf"
-G.numFont = "Interface\\AddOns\\lumUI\\media\\Fonts\\Expressway.ttf"
-G.symbolsFont = "Interface\\AddOns\\lumUI\\media\\Fonts\\FontAwesomeProSolid.otf"
-G.symbolsLightFont = "Interface\\AddOns\\lumUI\\media\\Fonts\\FontAwesomeProLight.otf"
-
-G.media = {
-  statusbar = "Interface\\AddOns\\lumUI\\media\\Textures\\statusbar",
-  bg = "Interface\\AddOns\\lumUI\\media\\Textures\\background_flat",
-  border = "Interface\\AddOns\\lumUI\\media\\Textures\\border_squared",
-  glow = "Interface\\AddOns\\lumUI\\media\\Textures\\texture_glow",
-  buffsBorder = "Interface\\AddOns\\lumUI\\media\\Textures\\border_buffs"
-}
-
 G.playerName = UnitName("player")
 G.playerClass = select(2, UnitClass("player"))
 

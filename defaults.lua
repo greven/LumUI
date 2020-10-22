@@ -2,6 +2,21 @@ local A, ns = ...
 
 local L, C, G = unpack(select(2, ...))
 
+-- Fonts and Media
+G.font = "Interface\\AddOns\\lumUI\\media\\Fonts\\Myriad.ttf"
+G.numFont = "Interface\\AddOns\\lumUI\\media\\Fonts\\Expressway.ttf"
+G.symbolsFont = "Interface\\AddOns\\lumUI\\media\\Fonts\\FontAwesomeProSolid.otf"
+G.symbolsLightFont = "Interface\\AddOns\\lumUI\\media\\Fonts\\FontAwesomeProLight.otf"
+
+G.media = {
+  statusbar = "Interface\\AddOns\\lumUI\\media\\Textures\\statusbar",
+  bg = "Interface\\AddOns\\lumUI\\media\\Textures\\background_flat",
+  border = "Interface\\AddOns\\lumUI\\media\\Textures\\border_squared",
+  glow = "Interface\\AddOns\\lumUI\\media\\Textures\\texture_glow",
+  buffsBorder = "Interface\\AddOns\\lumUI\\media\\Textures\\border_buffs"
+}
+
+-- Colors
 C.color = {
   bg = {r = 0, g = 0, b = 0, a = 0.8}, -- background color
   border = {r = 0.1, g = 0.1, b = 0.1, a = 1} -- default border color
