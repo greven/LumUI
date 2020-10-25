@@ -92,7 +92,7 @@ C.settings.auras = {
   scale = 1,
   buffSize = AurasbuffSize, -- Size of the Buff Icons
   debuffSize = 30, -- Size of the Debuff Icons
-  iconsPerRow = 12, -- Number of Icons per Row
+  iconsPerRow = 10, -- Number of Icons per Row
   iconSpacing = 8, -- Spacing between buffs
   iconborder = 3, -- Icon Texture Border Size
   shadowAlpha = 0.5, -- The Alpha of The buttons shadow
@@ -195,8 +195,7 @@ actionBars.stancebar = {
   buttonMargin = actionBars.buttonMargin,
   numCols = 12,
   startPoint = "BOTTOMLEFT",
-  fader = nil,
-  frameVisibility = "[petbattle][overridebar][vehicleui][possessbar][shapeshift][nomod] hide; show"
+  frameVisibility = "[petbattle][overridebar][vehicleui][possessbar][shapeshift][channeling] hide; [mod][harm][combat]show; hide"
 }
 
 -- PetBar
@@ -214,7 +213,7 @@ actionBars.petbar = {
 
 -- ExtraBar
 actionBars.extrabar = {
-  framePoint = {"BOTTOMRIGHT", A .. "Bar1", "BOTTOMLEFT", -5, 0},
+  framePoint = {"BOTTOMRIGHT", A .. "Bar1", "BOTTOMLEFT", -8, actionBars.buttonSize / 2},
   frameScale = 1,
   framePadding = actionBars.padding,
   buttonWidth = actionBars.buttonSize,
@@ -227,8 +226,8 @@ actionBars.extrabar = {
 
 -- VechicleExitBar
 actionBars.vehicleexitbar = {
-  framePoint = {"BOTTOMLEFT", A .. "Bar1", "BOTTOMRIGHT", 5, 0},
-  frameScale = 1,
+  framePoint = {"BOTTOMLEFT", A .. "Bar3", "BOTTOMRIGHT", 8, actionBars.buttonSize / 2},
+  frameScale = 0.8,
   framePadding = actionBars.padding,
   buttonWidth = actionBars.buttonSize,
   buttonHeight = actionBars.buttonSize,
@@ -240,8 +239,8 @@ actionBars.vehicleexitbar = {
 
 -- PossessExitBar
 actionBars.possessexitbar = {
-  framePoint = {"BOTTOMLEFT", A .. "Bar1", "BOTTOMRIGHT", 5, 0},
-  frameScale = 1,
+  framePoint = {"BOTTOMLEFT", A .. "Bar3", "BOTTOMRIGHT", 8, actionBars.buttonSize / 2},
+  frameScale = 0.8,
   framePadding = actionBars.padding,
   buttonWidth = actionBars.buttonSize,
   buttonHeight = actionBars.buttonSize,

@@ -172,7 +172,7 @@ local function SetTooltipStatusBar()
 	Background = GameTooltipStatusBar:CreateTexture(nil, "BACKGROUND", nil, -8)
 	Background:SetAllPoints()
 	Background:SetColorTexture(1, 1, 1)
-	Background:SetVertexColor(0, 0, 0, 0.8)
+	Background:SetVertexColor(0, 0, 0, 0.3)
 
 	-- GameTooltip Statusbar text
 	-- GameTooltip.StatusBar.text = GameTooltip.StatusBar:CreateFontString(nil, 'OVERLAY')

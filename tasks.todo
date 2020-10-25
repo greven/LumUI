@@ -7,6 +7,9 @@ CooldownCount:
   ☐ Read CVars to see if we should display it or not
   ☐ Use NDui as reference
 
+Auras:
+  ☐ Fix weapon enchangs (try on Shaman) SetPoints
+
 Chat:
   ☐ Add a current char counter to the input frame (like ElvUI)
 

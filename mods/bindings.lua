@@ -83,28 +83,15 @@ Button:SetScript(
 	end
 )
 
--- Eject Button
--- CreateFrame("Button", addon .. "EjectButton"):SetScript(
--- 	"OnClick",
--- 	function()
--- 		for index = 1, UnitVehicleSeatCount("player") do
--- 			if (CanEjectPassengerFromSeat(index)) then
--- 				EjectPassengerFromSeat(index)
--- 			end
--- 		end
--- 	end
--- )
-
 -- Bind keys
 function b:PLAYER_LOGIN()
 	SetBinding("END", "DISMOUNT") -- Dismount
 	SetBindingSpell("ALT-`", GetSpellInfo(131474)) -- Fishing
 	SetBindingSpell("CTRL-`", GetSpellInfo(80451)) -- Survey (Archaelogy)
-	-- SetBindingClick("`", addon .. "EjectButton") -- Eject
 	SetBindingClick("ALT-w", addon .. "SummonRandomMount") -- Summon Random Mount
 	SetBindingClick("ALT-s", addon .. "SummonYak") -- Summon Grand Expedition Yak
 	SetBindingClick("HOME", addon .. "HearthstoneButton") -- Hearthstone
-	SetBindingClick("ALT-r", addon .. "ReloadButton") -- Reload UI
+	SetBindingClick("CTRL-r", addon .. "ReloadButton") -- Reload UI
 end
 
 b:RegisterEvent("PLAYER_LOGIN")

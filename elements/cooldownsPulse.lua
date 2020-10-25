@@ -22,9 +22,7 @@ local maxAlpha = 1.0
 local animScale = 1.25
 
 -- Spells to Ignore
-local blacklist = {
-
-}
+local blacklist = {}
 
 -- Threshold to watch spells (seconds)
 local thresholdByClass = {
@@ -46,27 +44,44 @@ local threshold = thresholdByClass[G.playerClass] or 3.0
 
 -- ---------------------------------
 
-local cooldowns, animating, watching, ignoredSpells = { }, { }, { }, { }
+local cooldowns, animating, watching, ignoredSpells = {}, {}, {}, {}
 local GetTime = GetTime
 
-local f = CreateFrame('Frame', 'LumPulse')
-f:SetScript('OnEvent', function(self, event, ...) self[event](self, ...) end)
+local f = CreateFrame("Frame", "LumPulse")
+f:SetScript(
+	"OnEvent",
+	function(self, event, ...)
+		self[event](self, ...)
+	end
+)
 
 f:SetSize(size, size)
-f:SetPoint('CENTER', UIParent,'CENTER', posX, posY)
+f:SetPoint("CENTER", UIParent, "CENTER", posX, posY)
 
-f.text = L:createText(f, 'ARTWORK', fontSize, 'OUTLINE', 'CENTER')
+f.text = L:createText(f, "ARTWORK", fontSize, "OUTLINE", "CENTER")
 f.text:SetTextColor(1, 1, 1)
-f.text:SetShadowOffset(1,-1)
+f.text:SetShadowOffset(1, -1)
 f.text:SetShadowColor(0, 0, 0, 1)
-f.text:SetPoint('TOP', f, 'BOTTOM', 1, -6)
+f.text:SetPoint("TOP", f, "BOTTOM", 1, -6)
 
-f.icon = f:CreateTexture(nil, 'BACKGROUND')
+f.icon = f:CreateTexture(nil, "BACKGROUND")
 f.icon:SetTexCoord(.08, .92, .08, .92)
 f.icon:SetAllPoints(f)
 
-f.border = L:CreatePanel(true, true, 'LumPulse', 'LumPulse', f:GetWidth() + 6, f:GetHeight() + 6,
-	{{'TOPLEFT', f, 'TOPLEFT', -3, 3}}, 32, 8, 0, 0.6)
+f.border =
+	L:CreatePanel(
+	false,
+	true,
+	"LumPulse",
+	"LumPulse",
+	f:GetWidth() + 6,
+	f:GetHeight() + 6,
+	{{"TOPLEFT", f, "TOPLEFT", -3, 3}},
+	32,
+	8,
+	0,
+	0.6
+)
 f.border:Hide()
 
 -- ---------------------------------
@@ -75,13 +90,13 @@ f.border:Hide()
 local function tcount(tab)
 	local n = 0
 	for _ in pairs(tab) do
-			n = n + 1
+		n = n + 1
 	end
 	return n
 end
 
 local function setIgnoredSpells()
-	for i=1, #blacklist do
+	for i = 1, #blacklist do
 		ignoredSpells[strtrim(blacklist[i])] = true
 	end
 end
@@ -93,7 +108,7 @@ local runtimer = 0
 local function OnUpdate(_, update)
 	elapsed = elapsed + update
 	if (elapsed > 0.05) then
-		for i,v in pairs(watching) do
+		for i, v in pairs(watching) do
 			if (GetTime() >= v[1] + 0.5) then
 				local start, duration, enabled, texture, isPet, name
 				if (v[2] == "spell") then
@@ -107,70 +122,70 @@ local function OnUpdate(_, update)
 				end
 
 				if ignoredSpells[name] then
-						watching[i] = nil
+					watching[i] = nil
 				else
 					if (enabled ~= 0) then
-							if (duration and duration > threshold and texture) then
-									cooldowns[i] = { texture, isPet, name }
-							end
+						if (duration and duration > threshold and texture) then
+							cooldowns[i] = {texture, isPet, name}
+						end
 					end
 					if (not (enabled == 0 and v[2] == "spell")) then
-							watching[i] = nil
+						watching[i] = nil
 					end
 				end
 			end
 		end
 
-		for i,v in pairs(cooldowns) do
-				local start, duration = GetSpellCooldown(v[3])
-				if (start and duration) then
-					local remaining = start + duration - GetTime()
-					if (remaining <= 0) then
-							tinsert(animating, {v[1],v[2],v[3]})
-							cooldowns[i] = nil
-					end
+		for i, v in pairs(cooldowns) do
+			local start, duration = GetSpellCooldown(v[3])
+			if (start and duration) then
+				local remaining = start + duration - GetTime()
+				if (remaining <= 0) then
+					tinsert(animating, {v[1], v[2], v[3]})
+					cooldowns[i] = nil
 				end
+			end
 		end
 
 		elapsed = 0
 		if (#animating == 0 and tcount(watching) == 0 and tcount(cooldowns) == 0) then
-				f:SetScript("OnUpdate", nil)
-				return
+			f:SetScript("OnUpdate", nil)
+			return
 		end
 	end
 
 	if (#animating > 0) then
 		runtimer = runtimer + update
 		if (runtimer > (fadeInTime + holdTime + fadeOutTime)) then
-				tremove(animating,1)
-				runtimer = 0
-				f.text:SetText(nil)
-				f.icon:SetTexture(nil)
-				f.icon:SetVertexColor(1,1,1)
-				f.border:Hide()
+			tremove(animating, 1)
+			runtimer = 0
+			f.text:SetText(nil)
+			f.icon:SetTexture(nil)
+			f.icon:SetVertexColor(1, 1, 1)
+			f.border:Hide()
 		else
-				if (not f.icon:GetTexture()) then
-						if (animating[1][3] ~= nil and showSpellName) then
-							f.text:SetText(animating[1][3])
-						end
-						f.icon:SetTexture(animating[1][1])
-						f.border:Show()
-						if animating[1][2] then
-							f.icon:SetVertexColor(unpack({1, 1, 1}))
-						end
+			if (not f.icon:GetTexture()) then
+				if (animating[1][3] ~= nil and showSpellName) then
+					f.text:SetText(animating[1][3])
 				end
-				local alpha = maxAlpha
-				if (runtimer < fadeInTime) then
-						alpha = maxAlpha * (runtimer / fadeInTime)
-				elseif (runtimer >= fadeInTime + holdTime) then
-						alpha = maxAlpha - ( maxAlpha * ((runtimer - holdTime - fadeInTime) / fadeOutTime))
+				f.icon:SetTexture(animating[1][1])
+				f.border:Show()
+				if animating[1][2] then
+					f.icon:SetVertexColor(unpack({1, 1, 1}))
 				end
-				f:SetAlpha(alpha)
-				local scale = size+(size*((animScale-1)*(runtimer/(fadeInTime+holdTime+fadeOutTime))))
-				f:SetWidth(scale)
-				f:SetHeight(scale)
-				f.border:SetWidth(scale + 6)
-				f.border:SetHeight(scale + 6)
+			end
+			local alpha = maxAlpha
+			if (runtimer < fadeInTime) then
+				alpha = maxAlpha * (runtimer / fadeInTime)
+			elseif (runtimer >= fadeInTime + holdTime) then
+				alpha = maxAlpha - (maxAlpha * ((runtimer - holdTime - fadeInTime) / fadeOutTime))
+			end
+			f:SetAlpha(alpha)
+			local scale = size + (size * ((animScale - 1) * (runtimer / (fadeInTime + holdTime + fadeOutTime))))
+			f:SetWidth(scale)
+			f:SetHeight(scale)
+			f.border:SetWidth(scale + 6)
+			f.border:SetHeight(scale + 6)
 		end
 	end
 end
@@ -183,21 +198,21 @@ end
 f:RegisterEvent("ADDON_LOADED")
 
 function f:UNIT_SPELLCAST_SUCCEEDED(unit, lineID, spellID)
-	if (unit == 'player') then
-		watching[spellID] = {GetTime(), 'spell', spellID}
+	if (unit == "player") then
+		watching[spellID] = {GetTime(), "spell", spellID}
 		if (not self:IsMouseEnabled()) then
-				self:SetScript("OnUpdate", OnUpdate)
+			self:SetScript("OnUpdate", OnUpdate)
 		end
 	end
 end
-f:RegisterEvent('UNIT_SPELLCAST_SUCCEEDED')
+f:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
 
 function f:PLAYER_ENTERING_WORLD()
 	local inInstance, instanceType = IsInInstance()
 	if (inInstance and instanceType == "arena") then
-			self:SetScript("OnUpdate", nil)
-			wipe(cooldowns)
-			wipe(watching)
+		self:SetScript("OnUpdate", nil)
+		wipe(cooldowns)
+		wipe(watching)
 	end
 end
 f:RegisterEvent("PLAYER_ENTERING_WORLD")
@@ -208,26 +223,35 @@ function f:PLAYER_TALENT_UPDATE()
 end
 f:RegisterEvent("PLAYER_TALENT_UPDATE")
 
-hooksecurefunc("UseAction", function(slot)
-	local actionType, itemID = GetActionInfo(slot)
-	if (actionType == "item") then
+hooksecurefunc(
+	"UseAction",
+	function(slot)
+		local actionType, itemID = GetActionInfo(slot)
+		if (actionType == "item") then
 			local texture = GetActionTexture(slot)
 			watching[itemID] = {GetTime(), "item", texture}
+		end
 	end
-end)
+)
 
-hooksecurefunc("UseInventoryItem", function(slot)
-	local itemID = GetInventoryItemID("player", slot)
-	if (itemID) then
+hooksecurefunc(
+	"UseInventoryItem",
+	function(slot)
+		local itemID = GetInventoryItemID("player", slot)
+		if (itemID) then
 			local texture = GetInventoryItemTexture("player", slot)
 			watching[itemID] = {GetTime(), "item", texture}
+		end
 	end
-end)
+)
 
-hooksecurefunc("UseContainerItem", function(bag, slot)
-	local itemID = GetContainerItemID(bag, slot)
-	if (itemID) then
+hooksecurefunc(
+	"UseContainerItem",
+	function(bag, slot)
+		local itemID = GetContainerItemID(bag, slot)
+		if (itemID) then
 			local texture = select(10, GetItemInfo(itemID))
 			watching[itemID] = {GetTime(), "item", texture}
+		end
 	end
-end)
+)
