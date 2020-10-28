@@ -85,13 +85,18 @@ Button:SetScript(
 
 -- Bind keys
 function b:PLAYER_LOGIN()
+	-- Keybinds
 	SetBinding("END", "DISMOUNT") -- Dismount
+
+	-- Buttons
+	SetBindingClick("ALT-w", addon .. "SummonRandomMount") -- Summon Random Mount
+	SetBindingClick("ALT-x", addon .. "SummonYak") -- Summon Grand Expedition Yak
+	SetBindingClick("HOME", addon .. "HearthstoneButton") -- Hearthstone
+	SetBindingClick("F12", addon .. "ReloadButton") -- Reload UI
+
+	-- Spells
 	SetBindingSpell("ALT-`", GetSpellInfo(131474)) -- Fishing
 	SetBindingSpell("CTRL-`", GetSpellInfo(80451)) -- Survey (Archaelogy)
-	SetBindingClick("ALT-w", addon .. "SummonRandomMount") -- Summon Random Mount
-	SetBindingClick("ALT-s", addon .. "SummonYak") -- Summon Grand Expedition Yak
-	SetBindingClick("HOME", addon .. "HearthstoneButton") -- Hearthstone
-	SetBindingClick("CTRL-r", addon .. "ReloadButton") -- Reload UI
 end
 
 b:RegisterEvent("PLAYER_LOGIN")

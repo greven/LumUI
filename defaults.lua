@@ -18,8 +18,8 @@ G.media = {
 
 -- Colors
 C.color = {
-  bg = {r = 0, g = 0, b = 0, a = 0.8}, -- background color
-  border = {r = 0.1, g = 0.1, b = 0.1, a = 1} -- default border color
+  bg = {r = 0, g = 0, b = 0, a = 0.9}, -- background color
+  border = {r = 1 / 8, g = 1 / 8, b = 1 / 8, a = 1} -- default border color
 }
 
 -- Default Settings
@@ -107,7 +107,7 @@ local actionBars = {
   buttonSize = 33,
   buttonMargin = 3,
   padding = 2,
-  keybindsAlpha = 0,
+  keybindsAlpha = 1,
   macroTextAlpha = 0,
   fader = {
     fadeInAlpha = 1,
@@ -169,7 +169,8 @@ actionBars.bar4 = {
   buttonMargin = actionBars.buttonMargin,
   numCols = 1,
   startPoint = "TOPRIGHT",
-  fader = actionBars.fader
+  frameVisibility = "[petbattle][overridebar][vehicleui][possessbar][shapeshift][channeling] hide; [mod][harm][combat]show; hide"
+  -- fader = actionBars.fader
 }
 
 -- MultiActionBar Right 2

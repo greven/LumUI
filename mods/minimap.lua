@@ -247,113 +247,144 @@ end
 
 -- Quest Tracker (Credit: Nibelheim)
 function lm:MoveQuestTracker()
-  local anchor = CreateFrame("Frame", "A..WatchFrame", UIParent)
   local tracker = ObjectiveTrackerFrame
-  local tint = 1.6
-
-  anchor:SetSize(250, 20)
-  anchor:SetPoint(
-    cfg.questTrackerAnchor,
-    "UIParent",
-    cfg.questTrackerAnchorParent,
-    cfg.questTrackerPosX,
-    cfg.questTrackerPosY
-  )
-
-  tracker:ClearAllPoints()
-  tracker:SetPoint("TOPLEFT", anchor, "TOPLEFT")
-  -- tracker:SetHeight(G.screenheight - 600)
-  -- tracker:SetFrameStrata("MEDIUM")
-  tracker:SetFrameLevel(15)
-  tracker.ClearAllPoints = function()
-  end
-  tracker.SetPoint = function()
-  end
+  local tint = 1.25
 
   if IsAddOnLoaded("Blizzard_ObjectiveTracker") then
     hooksecurefunc(
       "ObjectiveTracker_Update",
-      function(reason, id)
+      function(_, id)
         if tracker.MODULES then
           for i = 1, #tracker.MODULES do
             tracker.MODULES[i].Header.Background:SetAtlas(nil)
-            -- tracker.MODULES[i].Header.Text:SetFont(cfg.font, 14, "OUTLINE")
-            -- tracker.MODULES[i].Header.Text:SetShadowColor(0, 0, 0, 0.1)
-            tracker.MODULES[i].Header.Text:SetTextColor(0.9, 0.9, 0.9)
-            -- tracker.MODULES[i].Header.Text:ClearAllPoints()
-            -- tracker.MODULES[i].Header.Text:SetPoint("LEFT", tracker.MODULES[i].Header, 10, 0)
-            -- tracker.MODULES[i].Header.Text:SetJustifyH("LEFT")
+            tracker.MODULES[i].Header.Text:SetTextColor(0.8, 0.8, 0.8)
           end
         end
-        -- tracker.HeaderMenu.Title:SetFont(cfg.font, 16, "OUTLINE")
       end
     )
-  end
 
-  hooksecurefunc(
-    QUEST_TRACKER_MODULE,
-    "SetBlockHeader",
-    function(_, block)
-      block.HeaderText:SetFont(cfg.font, 14, "OUTLINE")
-      block.HeaderText:SetShadowColor(0, 0, 0, 1)
+    hooksecurefunc(
+      QUEST_TRACKER_MODULE,
+      "SetBlockHeader",
+      function(_, block)
+        block.HeaderText:SetFont(cfg.font, 14, "OUTLINE")
+        block.HeaderText:SetShadowColor(0, 0, 0, 0.4)
+        block.HeaderText:SetTextColor(G.classColor.r * tint, G.classColor.g * tint, G.classColor.b * tint)
+        block.HeaderText:SetJustifyH("LEFT")
+      end
+    )
+
+    local function hoverquest(_, block)
       block.HeaderText:SetTextColor(G.classColor.r * tint, G.classColor.g * tint, G.classColor.b * tint)
-      block.HeaderText:SetJustifyH("LEFT")
     end
-  )
+    hooksecurefunc(QUEST_TRACKER_MODULE, "OnBlockHeaderEnter", hoverquest)
+    hooksecurefunc(QUEST_TRACKER_MODULE, "OnBlockHeaderLeave", hoverquest)
 
-  local function hoverquest(_, block)
-    block.HeaderText:SetTextColor(G.classColor.r * tint, G.classColor.g * tint, G.classColor.b * tint)
-  end
-
-  hooksecurefunc(QUEST_TRACKER_MODULE, "OnBlockHeaderEnter", hoverquest)
-  hooksecurefunc(QUEST_TRACKER_MODULE, "OnBlockHeaderLeave", hoverquest)
-
-  hooksecurefunc(
-    ACHIEVEMENT_TRACKER_MODULE,
-    "SetBlockHeader",
-    function(_, block)
-      local trackedAchievements = {GetTrackedAchievements()}
-
-      for i = 1, #trackedAchievements do
-        local achieveID = trackedAchievements[i]
-        local _, achievementName, _, completed, _, _, _, description, _, icon, _, _, wasEarnedByMe =
-          GetAchievementInfo(achieveID)
-
-        if not wasEarnedByMe then
-          block.HeaderText:SetFont(cfg.font, 14, "OUTLINE")
-          block.HeaderText:SetShadowColor(0, 0, 0, 1)
-          block.HeaderText:SetTextColor(0, 0.5, 0.9)
-          block.HeaderText:SetJustifyH("LEFT")
-          block.HeaderText:SetWidth(200)
+    hooksecurefunc(
+      ACHIEVEMENT_TRACKER_MODULE,
+      "SetBlockHeader",
+      function(_, block)
+        local trackedAchievements = {GetTrackedAchievements()}
+        for i = 1, #trackedAchievements do
+          local achieveID = trackedAchievements[i]
+          local _, achievementName, _, completed, _, _, _, description, _, icon, _, _, wasEarnedByMe =
+            GetAchievementInfo(achieveID)
+          if not wasEarnedByMe then
+            block.HeaderText:SetFont(cfg.font, 14, "OUTLINE")
+            block.HeaderText:SetShadowColor(0, 0, 0, 1)
+            block.HeaderText:SetTextColor(0, 0.5, 0.9)
+            block.HeaderText:SetJustifyH("LEFT")
+            block.HeaderText:SetWidth(200)
+          end
         end
       end
-    end
-  )
+    )
 
-  local function hoverachieve(_, block)
-    block.HeaderText:SetTextColor(0, 0.5, 0.9)
+    local function hoverachieve(_, block)
+      block.HeaderText:SetTextColor(0, 0.5, 0.9)
+    end
+    hooksecurefunc(ACHIEVEMENT_TRACKER_MODULE, "OnBlockHeaderEnter", hoverachieve)
+    hooksecurefunc(ACHIEVEMENT_TRACKER_MODULE, "OnBlockHeaderLeave", hoverachieve)
   end
 
-  hooksecurefunc(ACHIEVEMENT_TRACKER_MODULE, "OnBlockHeaderEnter", hoverachieve)
-  hooksecurefunc(ACHIEVEMENT_TRACKER_MODULE, "OnBlockHeaderLeave", hoverachieve)
-
-  -- ScenarioStageBlock:HookScript("OnShow", function()
-  -- 	if not ScenarioStageBlock.skinned then
-  --     ScenarioStageBlock.NormalBG:SetAlpha(0)
-  --     ScenarioStageBlock.FinalBG:SetAlpha(0)
-  --     ScenarioStageBlock.GlowTexture:SetTexture(nil)
-
-  --     ScenarioStageBlock.Stage:SetFont(cfg.font, 16, "OUTLINE")
-  --     ScenarioStageBlock.Stage:SetTextColor(1, 1, 1)
-
-  --     ScenarioStageBlock.Name:SetFont(cfg.font, 14, "OUTLINE")
-
-  --     ScenarioStageBlock.CompleteLabel:SetFont(cfg.font, 16, "OUTLINE")
-  --     ScenarioStageBlock.CompleteLabel:SetTextColor(1, 1, 1)
-  --     ScenarioStageBlock.skinned = true
-  -- 	end
-  -- end)
-
+  -- local anchor = CreateFrame("Frame", "A..WatchFrame", UIParent)
+  -- local tracker = ObjectiveTrackerFrame
+  -- local tint = 1.6
+  -- anchor:SetSize(250, 20)
+  -- anchor:SetPoint(
+  --   cfg.questTrackerAnchor,
+  --   "UIParent",
+  --   cfg.questTrackerAnchorParent,
+  --   cfg.questTrackerPosX,
+  --   cfg.questTrackerPosY
+  -- )
+  -- tracker:ClearAllPoints()
+  -- tracker:SetPoint("TOPLEFT", anchor, "TOPLEFT")
+  -- -- tracker:SetHeight(G.screenheight - 600)
+  -- -- tracker:SetFrameStrata("MEDIUM")
+  -- tracker:SetFrameLevel(15)
+  -- tracker.ClearAllPoints = function()
+  -- end
+  -- tracker.SetPoint = function()
+  -- end
+  -- if IsAddOnLoaded("Blizzard_ObjectiveTracker") then
+  --   hooksecurefunc(
+  --     "ObjectiveTracker_Update",
+  --     function(reason, id)
+  --       if tracker.MODULES then
+  --         for i = 1, #tracker.MODULES do
+  --           tracker.MODULES[i].Header.Background:SetAtlas(nil)
+  --           -- tracker.MODULES[i].Header.Text:SetFont(cfg.font, 14, "OUTLINE")
+  --           -- tracker.MODULES[i].Header.Text:SetShadowColor(0, 0, 0, 0.1)
+  --           tracker.MODULES[i].Header.Text:SetTextColor(0.9, 0.9, 0.9)
+  --           -- tracker.MODULES[i].Header.Text:ClearAllPoints()
+  --           -- tracker.MODULES[i].Header.Text:SetPoint("LEFT", tracker.MODULES[i].Header, 10, 0)
+  --           -- tracker.MODULES[i].Header.Text:SetJustifyH("LEFT")
+  --         end
+  --       end
+  --       -- tracker.HeaderMenu.Title:SetFont(cfg.font, 16, "OUTLINE")
+  --     end
+  --   )
+  -- end
+  -- hooksecurefunc(
+  --   QUEST_TRACKER_MODULE,
+  --   "SetBlockHeader",
+  --   function(_, block)
+  --     block.HeaderText:SetFont(cfg.font, 14, "OUTLINE")
+  --     block.HeaderText:SetShadowColor(0, 0, 0, 1)
+  --     block.HeaderText:SetTextColor(G.classColor.r * tint, G.classColor.g * tint, G.classColor.b * tint)
+  --     block.HeaderText:SetJustifyH("LEFT")
+  --   end
+  -- )
+  -- local function hoverquest(_, block)
+  --   block.HeaderText:SetTextColor(G.classColor.r * tint, G.classColor.g * tint, G.classColor.b * tint)
+  -- end
+  -- hooksecurefunc(QUEST_TRACKER_MODULE, "OnBlockHeaderEnter", hoverquest)
+  -- hooksecurefunc(QUEST_TRACKER_MODULE, "OnBlockHeaderLeave", hoverquest)
+  -- hooksecurefunc(
+  --   ACHIEVEMENT_TRACKER_MODULE,
+  --   "SetBlockHeader",
+  --   function(_, block)
+  --     local trackedAchievements = {GetTrackedAchievements()}
+  --     for i = 1, #trackedAchievements do
+  --       local achieveID = trackedAchievements[i]
+  --       local _, achievementName, _, completed, _, _, _, description, _, icon, _, _, wasEarnedByMe =
+  --         GetAchievementInfo(achieveID)
+  --       if not wasEarnedByMe then
+  --         block.HeaderText:SetFont(cfg.font, 14, "OUTLINE")
+  --         block.HeaderText:SetShadowColor(0, 0, 0, 1)
+  --         block.HeaderText:SetTextColor(0, 0.5, 0.9)
+  --         block.HeaderText:SetJustifyH("LEFT")
+  --         block.HeaderText:SetWidth(200)
+  --       end
+  --     end
+  --   end
+  -- )
+  -- local function hoverachieve(_, block)
+  --   block.HeaderText:SetTextColor(0, 0.5, 0.9)
+  -- end
+  -- hooksecurefunc(ACHIEVEMENT_TRACKER_MODULE, "OnBlockHeaderEnter", hoverachieve)
+  -- hooksecurefunc(ACHIEVEMENT_TRACKER_MODULE, "OnBlockHeaderLeave", hoverachieve)
   -- Collapse Quest Tracker in instance
   -- Callback PLAYER_ENTERING_WORLD
   -- L:RegisterCallback("PLAYER_ENTERING_WORLD", function()

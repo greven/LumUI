@@ -87,7 +87,7 @@ function f:styleButtons()
 
   --icon
   actionButtonConfig.icon = {
-    texCoord = {0, 1, 0, 1},
+    texCoord = {0.05, 0.95, 0.05, 0.95},
     points = {
       {"TOPLEFT", 1, -1},
       {"BOTTOMRIGHT", -1, 1}

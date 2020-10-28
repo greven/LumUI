@@ -1,3 +1,6 @@
+General:
+  ☐ Big refactor
+
 ActionBars:
 ☐ When we hide bottom right bar
   ☐ Make stats bottom bar read the CVar and adjust its width
@@ -15,6 +18,9 @@ Chat:
 
 bags:
   ☐ Implement bags using cargBags and nDUI?
+
+Quest Tracker:
+  ☐ Redesign / re-implement / re-skin
 
 Settings:
   ☐ Review all the .lua settings and consolidate the defaults across the modules
