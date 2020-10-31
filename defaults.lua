@@ -5,6 +5,7 @@ local L, C, G = unpack(select(2, ...))
 -- Fonts and Media
 G.font = "Interface\\AddOns\\lumUI\\media\\Fonts\\Myriad.ttf"
 G.numFont = "Interface\\AddOns\\lumUI\\media\\Fonts\\Expressway.ttf"
+G.bigFont = "Interface\\AddOns\\lumUI\\media\\Fonts\\BigNoodleTitling.ttf"
 G.symbolsFont = "Interface\\AddOns\\lumUI\\media\\Fonts\\FontAwesomeProSolid.otf"
 G.symbolsLightFont = "Interface\\AddOns\\lumUI\\media\\Fonts\\FontAwesomeProLight.otf"
 
@@ -111,10 +112,10 @@ local actionBars = {
   macroTextAlpha = 0,
   fader = {
     fadeInAlpha = 1,
-    fadeInDuration = 0.2,
-    fadeInSmooth = "OUT",
     fadeOutAlpha = 0,
-    fadeOutDuration = 0.2,
+    fadeInDuration = 0.2,
+    fadeOutDuration = 0.4,
+    fadeInSmooth = "OUT",
     fadeOutSmooth = "OUT"
   }
 }
@@ -169,8 +170,7 @@ actionBars.bar4 = {
   buttonMargin = actionBars.buttonMargin,
   numCols = 1,
   startPoint = "TOPRIGHT",
-  frameVisibility = "[petbattle][overridebar][vehicleui][possessbar][shapeshift][channeling] hide; [mod][harm][combat]show; hide"
-  -- fader = actionBars.fader
+  fader = actionBars.fader
 }
 
 -- MultiActionBar Right 2
@@ -196,7 +196,7 @@ actionBars.stancebar = {
   buttonMargin = actionBars.buttonMargin,
   numCols = 12,
   startPoint = "BOTTOMLEFT",
-  frameVisibility = "[petbattle][overridebar][vehicleui][possessbar][shapeshift][channeling] hide; [mod][harm][combat]show; hide"
+  frameVisibility = "[petbattle][overridebar][vehicleui][possessbar][shapeshift][channeling] hide; [mod][harm][combat] show; hide"
 }
 
 -- PetBar
