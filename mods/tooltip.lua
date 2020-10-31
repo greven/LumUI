@@ -7,8 +7,13 @@ local L, C, G = unpack(select(2, ...))
 -----------------------------
 
 local cfg = {
-	fontFamily = STANDARD_TEXT_FONT,
-	pos = {"TOPRIGHT", "Minimap", "TOPLEFT", -16, 4}, -- "ANCHOR_CURSOR"
+	font = G.font,
+	fontSize = {
+		header = 15,
+		text = 13,
+		small = 11
+	},
+	pos = {"BOTTOMRIGHT", "Minimap", "TOPRIGHT", 4, 16}, -- "ANCHOR_CURSOR"
 	scale = 1,
 	textColor = {0.4, 0.4, 0.4},
 	bossColor = {1, 0, 0},
@@ -127,8 +132,7 @@ local function SetBackdropStyle(self, style)
 	local _, itemLink = self:GetItem()
 
 	if itemLink then
-		local azerite =
-			C_AzeriteEmpoweredItem.IsAzeriteEmpoweredItemByID(itemLink) or C_AzeriteItem.IsAzeriteItemByID(itemLink) or false
+		local azerite = C_AzeriteEmpoweredItem.IsAzeriteEmpoweredItemByID(itemLink) or C_AzeriteItem.IsAzeriteItemByID(itemLink) or false
 		local _, _, itemRarity = GetItemInfo(itemLink)
 		local r, g, b = 1, 1, 1
 		if itemRarity then
@@ -148,13 +152,13 @@ local function SetBackdropStyle(self, style)
 end
 
 local function SetTooltipFonts()
-	GameTooltipHeaderText:SetFont(cfg.fontFamily, 14, "NONE")
+	GameTooltipHeaderText:SetFont(cfg.font, cfg.fontSize.header, "NONE")
 	GameTooltipHeaderText:SetShadowOffset(1, -1)
 	GameTooltipHeaderText:SetShadowColor(0, 0, 0, 0.9)
-	GameTooltipText:SetFont(cfg.fontFamily, 12, "NONE")
+	GameTooltipText:SetFont(cfg.font, cfg.fontSize.text, "NONE")
 	GameTooltipText:SetShadowOffset(1, -1)
 	GameTooltipText:SetShadowColor(0, 0, 0, 0.9)
-	Tooltip_Small:SetFont(cfg.fontFamily, 11, "NONE")
+	Tooltip_Small:SetFont(cfg.font, cfg.fontSize.small, "NONE")
 	Tooltip_Small:SetShadowOffset(1, -1)
 	Tooltip_Small:SetShadowColor(0, 0, 0, 0.9)
 end
@@ -177,7 +181,7 @@ local function SetTooltipStatusBar()
 	-- GameTooltip Statusbar text
 	-- GameTooltip.StatusBar.text = GameTooltip.StatusBar:CreateFontString(nil, 'OVERLAY')
 	-- GameTooltip.StatusBar.text:Point('CENTER', GameTooltip.StatusBar, 0, 0)
-	-- GameTooltip.StatusBar.text:SetFont(cfg.fontFamily, 11, "NONE")
+	-- GameTooltip.StatusBar.text:SetFont(cfg.font, 11, "NONE")
 end
 
 local function SetStatusBarColor(self, r, g, b)
@@ -435,8 +439,7 @@ local function OnTooltipSetUnit(self)
 		-- Queue an inspect request
 		if (CanInspect(unit)) and (not IsInspectFrameOpen()) then
 			local lastInspectTime = (GetTime() - lastInspectRequest)
-			tt.nextUpdate =
-				(lastInspectTime > INSPECT_FREQ) and INSPECT_DELAY or (INSPECT_FREQ - lastInspectTime + INSPECT_DELAY)
+			tt.nextUpdate = (lastInspectTime > INSPECT_FREQ) and INSPECT_DELAY or (INSPECT_FREQ - lastInspectTime + INSPECT_DELAY)
 			tt:Show()
 			if (not cacheLoaded) then
 				self:AddLine(TALENTS_PREFIX .. "Loading...")
@@ -506,18 +509,15 @@ if not C.settings.tooltip then
 	return
 end
 
+SetBackdropStyle(GameTooltip)
+
 StyleTooltips()
-
 SetTooltipFonts()
-
 SetColors()
-
 SetTooltipStatusBar()
-
 SetTooltipSpellID()
 
 -- Hooks
-
 hooksecurefunc("GameTooltip_SetDefaultAnchor", SetDefaultAnchor)
 hooksecurefunc("SharedTooltip_SetBackdropStyle", SetBackdropStyle)
 hooksecurefunc(GameTooltipStatusBar, "SetStatusBarColor", SetStatusBarColor)
