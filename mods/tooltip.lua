@@ -9,8 +9,8 @@ local L, C, G = unpack(select(2, ...))
 local cfg = {
 	font = G.font,
 	fontSize = {
-		header = 15,
-		text = 13,
+		header = 14,
+		text = 12,
 		small = 11
 	},
 	pos = {"BOTTOMRIGHT", "Minimap", "TOPRIGHT", 4, 16}, -- "ANCHOR_CURSOR"
