@@ -125,23 +125,7 @@ end
 --1. p1, f, fp1, fp2
 --2. p2, rb-1, p3, bm1, bm2
 --3. p4, b-1, p5, bm3, bm4
-local function SetupButtonPoints(
-  frame,
-  buttonList,
-  buttonWidth,
-  buttonHeight,
-  numCols,
-  p1,
-  fp1,
-  fp2,
-  p2,
-  p3,
-  bm1,
-  bm2,
-  p4,
-  p5,
-  bm3,
-  bm4)
+local function SetupButtonPoints(frame, buttonList, buttonWidth, buttonHeight, numCols, p1, fp1, fp2, p2, p3, bm1, bm2, p4, p5, bm3, bm4)
   for index, button in next, buttonList do
     if not frame.__blizzardBar then
       button:SetParent(frame)
@@ -158,15 +142,7 @@ local function SetupButtonPoints(
   end
 end
 
-local function SetupButtonFrame(
-  frame,
-  framePadding,
-  buttonList,
-  buttonWidth,
-  buttonHeight,
-  buttonMargin,
-  numCols,
-  startPoint)
+local function SetupButtonFrame(frame, framePadding, buttonList, buttonWidth, buttonHeight, buttonMargin, numCols, startPoint)
   local numButtons = #buttonList
   numCols = min(numButtons, numCols)
   local numRows = ceil(numButtons / numCols)
@@ -281,29 +257,11 @@ function L:CreateButtonFrame(cfg, buttonList, delaySetup)
   frame.__blizzardBar = cfg.blizzardBar
   if delaySetup then
     local function OnLogin(...)
-      SetupButtonFrame(
-        frame,
-        cfg.framePadding,
-        buttonList,
-        cfg.buttonWidth,
-        cfg.buttonHeight,
-        cfg.buttonMargin,
-        cfg.numCols,
-        cfg.startPoint
-      )
+      SetupButtonFrame(frame, cfg.framePadding, buttonList, cfg.buttonWidth, cfg.buttonHeight, cfg.buttonMargin, cfg.numCols, cfg.startPoint)
     end
     L:RegisterCallback("PLAYER_LOGIN", OnLogin)
   else
-    SetupButtonFrame(
-      frame,
-      cfg.framePadding,
-      buttonList,
-      cfg.buttonWidth,
-      cfg.buttonHeight,
-      cfg.buttonMargin,
-      cfg.numCols,
-      cfg.startPoint
-    )
+    SetupButtonFrame(frame, cfg.framePadding, buttonList, cfg.buttonWidth, cfg.buttonHeight, cfg.buttonMargin, cfg.numCols, cfg.startPoint)
   end
   -- reparent the Blizzard bar
   if cfg.blizzardBar then
@@ -379,17 +337,12 @@ function L:CreateActionBar1(addonName, cfg)
   for i, button in next, buttonList do
     frame:SetFrameRef(buttonName .. i, button)
   end
-  frame:Execute(
-    ([[
+  frame:Execute(([[
     buttons = table.new()
     for i=1, %d do
       table.insert(buttons, self:GetFrameRef("%s"..i))
     end
-  ]]):format(
-      numButtons,
-      buttonName
-    )
-  )
+  ]]):format(numButtons, buttonName))
   frame:SetAttribute(
     "_onstate-page",
     [[
@@ -477,8 +430,7 @@ function L:CreatePetBar(addonName, cfg)
   cfg.frameName = addonName .. "PetBar"
   cfg.frameParent = cfg.frameParent or UIParent
   cfg.frameTemplate = "SecureHandlerStateTemplate"
-  cfg.frameVisibility =
-    cfg.frameVisibility or "[petbattle][overridebar][vehicleui][possessbar][shapeshift] hide; [pet] show; hide"
+  cfg.frameVisibility = cfg.frameVisibility or "[petbattle][overridebar][vehicleui][possessbar][shapeshift] hide; [pet] show; hide"
   local buttonName = "PetActionButton"
   local numButtons = NUM_PET_ACTION_SLOTS
   local buttonList = L:GetButtonList(buttonName, numButtons)
@@ -512,8 +464,7 @@ function L:CreateVehicleExitBar(addonName, cfg)
   cfg.frameVisibility = cfg.frameVisibility or "[canexitvehicle]c;[mounted]m;n"
   cfg.frameVisibilityFunc = "exit"
   --create vehicle exit button
-  local button =
-    CreateFrame("CHECKBUTTON", A .. "VehicleExitButton", nil, "ActionButtonTemplate, SecureHandlerClickTemplate")
+  local button = CreateFrame("CHECKBUTTON", A .. "VehicleExitButton", nil, "ActionButtonTemplate, SecureHandlerClickTemplate")
   button.icon:SetTexture("interface\\addons\\" .. A .. "\\media\\Textures\\vehicleexit")
   button:RegisterForClicks("AnyUp")
   local function OnClick(self)
