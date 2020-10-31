@@ -103,7 +103,6 @@ C.settings.auras = {
 }
 
 -- Action Bar
-
 local actionBars = {
   buttonSize = 33,
   buttonMargin = 3,
@@ -116,7 +115,17 @@ local actionBars = {
     fadeInDuration = 0.2,
     fadeOutDuration = 0.4,
     fadeInSmooth = "OUT",
-    fadeOutSmooth = "OUT"
+    fadeOutSmooth = "OUT",
+    showInCombat = false
+  },
+  combatFader = {
+    fadeInAlpha = 1,
+    fadeOutAlpha = 0,
+    fadeInDuration = 0.2,
+    fadeOutDuration = 0.4,
+    fadeInSmooth = "OUT",
+    fadeOutSmooth = "OUT",
+    showInCombat = true
   }
 }
 
@@ -161,6 +170,7 @@ actionBars.bar3 = {
 }
 
 -- MultiActionBar Right 1
+
 actionBars.bar4 = {
   framePoint = {"RIGHT", UIParent, "RIGHT", -5, 0},
   frameScale = 1,
@@ -170,7 +180,7 @@ actionBars.bar4 = {
   buttonMargin = actionBars.buttonMargin,
   numCols = 1,
   startPoint = "TOPRIGHT",
-  fader = actionBars.fader
+  fader = actionBars.combatFader
 }
 
 -- MultiActionBar Right 2
@@ -183,7 +193,15 @@ actionBars.bar5 = {
   buttonMargin = actionBars.buttonMargin,
   numCols = 1,
   startPoint = "TOPRIGHT",
-  fader = actionBars.fader
+  fader = {
+    fadeInAlpha = 1,
+    fadeOutAlpha = 0,
+    fadeInDuration = 0.2,
+    fadeOutDuration = 0.4,
+    fadeInSmooth = "OUT",
+    fadeOutSmooth = "OUT",
+    showInCombat = true
+  }
 }
 
 -- StanceBar

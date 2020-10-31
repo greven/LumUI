@@ -1,4 +1,3 @@
-
 -- rLib: framefader
 -- zork, 2016
 
@@ -27,8 +26,10 @@ local function FaderOnUpdate(self)
 end
 
 local function CreateFaderAnimation(frame)
-  if frame.fader then return end
-  local animFrame = CreateFrame("Frame",nil,frame)
+  if frame.fader then
+    return
+  end
+  local animFrame = CreateFrame("Frame", nil, frame)
   animFrame.__owner = frame
   frame.fader = animFrame:CreateAnimationGroup()
   frame.fader.__owner = frame
@@ -41,7 +42,9 @@ local function CreateFaderAnimation(frame)
 end
 
 function L:StartFadeIn(frame)
-  if frame.fader.direction == "in" then return end
+  if frame.fader.direction == "in" then
+    return
+  end
   frame.fader:Pause()
   frame.fader.anim:SetFromAlpha(frame.faderConfig.fadeOutAlpha or 0)
   frame.fader.anim:SetToAlpha(frame.faderConfig.fadeInAlpha or 1)
@@ -55,7 +58,9 @@ function L:StartFadeIn(frame)
 end
 
 function L:StartFadeOut(frame)
-  if frame.fader.direction == "out" then return end
+  if frame.fader.direction == "out" or (InCombatLockdown() and frame.faderConfig.showInCombat) then
+    return
+  end
   frame.fader:Pause()
   frame.fader.anim:SetFromAlpha(frame.faderConfig.fadeInAlpha or 1)
   frame.fader.anim:SetToAlpha(frame.faderConfig.fadeOutAlpha or 0)
@@ -69,10 +74,18 @@ function L:StartFadeOut(frame)
 end
 
 local function IsMouseOverFrame(frame)
-  if MouseIsOver(frame) then return true end
-  if not SpellFlyout:IsShown() then return false end
-  if not SpellFlyout.__faderParent then return false end
-  if SpellFlyout.__faderParent == frame and MouseIsOver(SpellFlyout) then return true end
+  if MouseIsOver(frame) then
+    return true
+  end
+  if not SpellFlyout:IsShown() then
+    return false
+  end
+  if not SpellFlyout.__faderParent then
+    return false
+  end
+  if SpellFlyout.__faderParent == frame and MouseIsOver(SpellFlyout) then
+    return true
+  end
   return false
 end
 
@@ -85,13 +98,17 @@ local function FrameHandler(frame)
 end
 
 local function OffFrameHandler(self)
-  if not self.__faderParent then return end
+  if not self.__faderParent then
+    return
+  end
   FrameHandler(self.__faderParent)
 end
 
 local function SpellFlyoutOnShow(self)
   local frame = self:GetParent():GetParent():GetParent()
-  if not frame.fader then return end
+  if not frame.fader then
+    return
+  end
   --set new frame parent
   self.__faderParent = frame
   if not self.__faderHook then
@@ -99,9 +116,11 @@ local function SpellFlyoutOnShow(self)
     SpellFlyout:HookScript("OnLeave", OffFrameHandler)
     self.__faderHook = true
   end
-  for i=1, NUM_ACTIONBAR_BUTTONS do --hopefully 12 is enough
-    local button = _G["SpellFlyoutButton"..i]
-    if not button then break end
+  for i = 1, NUM_ACTIONBAR_BUTTONS do --hopefully 12 is enough
+    local button = _G["SpellFlyoutButton" .. i]
+    if not button then
+      break
+    end
     button.__faderParent = frame
     if not button.__faderHook then
       button:HookScript("OnEnter", OffFrameHandler)
@@ -112,8 +131,32 @@ local function SpellFlyoutOnShow(self)
 end
 SpellFlyout:HookScript("OnShow", SpellFlyoutOnShow)
 
+local function onCombatEvent(self, event, ...)
+  local frame = self
+  if event == "PLAYER_REGEN_DISABLED" then
+    L:StartFadeIn(frame)
+  elseif event == "PLAYER_REGEN_ENABLED" then
+    L:StartFadeOut(frame)
+  end
+end
+
 function L:CreateFrameFader(frame, faderConfig)
-  if frame.faderConfig then return end
+  if frame.faderConfig then
+    return
+  end
+
+  -- Show / Hide when in combat
+  if faderConfig.showInCombat then
+    frame:SetScript(
+      "OnEvent",
+      function(self, event, ...)
+        onCombatEvent(self, event, ...)
+      end
+    )
+    frame:RegisterEvent("PLAYER_REGEN_ENABLED")
+    frame:RegisterEvent("PLAYER_REGEN_DISABLED")
+  end
+
   frame.faderConfig = faderConfig
   frame:EnableMouse(true)
   CreateFaderAnimation(frame)
