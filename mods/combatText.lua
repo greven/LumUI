@@ -7,7 +7,7 @@ local _, ns = ...
 local L, C, G = unpack(select(2, ...))
 
 local font = G.bigFont
-local fontSize = 14
+local fontSize = 12
 local startY = 325
 local endY = 500
 local scrollSpeed = 2.5
@@ -21,8 +21,8 @@ CombatTextFontOutline:SetFont(font, fontSize, "OUTLINE")
 CombatTextFontOutline:SetShadowColor(0, 0, 0, 0.8)
 
 COMBAT_TEXT_HEIGHT = fontSize
-COMBAT_TEXT_CRIT_MAXHEIGHT = 16
-COMBAT_TEXT_CRIT_MINHEIGHT = 16
+COMBAT_TEXT_CRIT_MAXHEIGHT = 14
+COMBAT_TEXT_CRIT_MINHEIGHT = 14
 COMBAT_TEXT_SCROLLSPEED = scrollSpeed
 
 local function UpdateDisplayMessages()

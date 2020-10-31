@@ -140,7 +140,8 @@ actionBars.bar1 = {
   buttonMargin = actionBars.buttonMargin,
   numCols = 12,
   startPoint = "BOTTOMLEFT",
-  fader = nil
+  fader = nil,
+  frameVisibility = "[mod][combat][harm,nodead] show; [flying] hide; show"
 }
 
 -- MultiActionBar Bottom Left
@@ -153,7 +154,8 @@ actionBars.bar2 = {
   buttonMargin = actionBars.buttonMargin,
   numCols = 12,
   startPoint = "BOTTOMLEFT",
-  fader = nil
+  fader = nil,
+  frameVisibility = "[mod][combat][harm,nodead] show; [flying] hide; show"
 }
 
 -- MultiActionBar Bottom Right
@@ -166,7 +168,8 @@ actionBars.bar3 = {
   buttonMargin = actionBars.buttonMargin,
   numCols = 6,
   startPoint = "TOPLEFT",
-  fader = nil
+  fader = nil,
+  frameVisibility = "[mod][combat][harm,nodead] show; [flying] hide; show"
 }
 
 -- MultiActionBar Right 1

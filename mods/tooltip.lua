@@ -13,7 +13,7 @@ local cfg = {
 		text = 12,
 		small = 11
 	},
-	pos = {"BOTTOMRIGHT", "Minimap", "TOPRIGHT", 4, 16}, -- "ANCHOR_CURSOR"
+	pos = {"BOTTOMRIGHT", "Minimap", "TOPRIGHT", 4, 12}, -- "ANCHOR_CURSOR"
 	scale = 1,
 	textColor = {0.4, 0.4, 0.4},
 	bossColor = {1, 0, 0},
