@@ -21,8 +21,8 @@ CombatTextFontOutline:SetFont(font, fontSize, "OUTLINE")
 CombatTextFontOutline:SetShadowColor(0, 0, 0, 0.8)
 
 COMBAT_TEXT_HEIGHT = fontSize
-COMBAT_TEXT_CRIT_MAXHEIGHT = fontSize * 1.2
-COMBAT_TEXT_CRIT_MINHEIGHT = fontSize * 1.2
+COMBAT_TEXT_CRIT_MAXHEIGHT = 16
+COMBAT_TEXT_CRIT_MINHEIGHT = 16
 COMBAT_TEXT_SCROLLSPEED = scrollSpeed
 
 local function UpdateDisplayMessages()
