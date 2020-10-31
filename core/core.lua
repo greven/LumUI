@@ -6,6 +6,10 @@ local L, C, G = unpack(ns)
 -- > FUNCTIONS
 -- -----------------------------------
 
+function L:MergeTables(t1, t2)
+  for k,v in pairs(t2) do t1[k] = v end
+end
+
 function L:RegisterCallback(event, callback, ...)
   if not self.eventFrame then
     self.eventFrame = CreateFrame("Frame")
@@ -45,7 +49,7 @@ end
 
 -- rLib
 
---copyTable
+-- copyTable
 local function copyTable(orig)
   local orig_type = type(orig)
   local copy
