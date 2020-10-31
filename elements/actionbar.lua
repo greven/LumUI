@@ -51,6 +51,32 @@ local framesToDisable = {
   OverrideActionBarPitchFrame
 }
 
+local keyButton = gsub(KEY_BUTTON4, "%d", "")
+local keyNumpad = gsub(KEY_NUMPAD1, "%d", "")
+
+local keysText = {
+  {"(" .. keyButton .. ")", "M"},
+  {"(" .. keyNumpad .. ")", "N"},
+  {"(a%-)", "A"},
+  {"(c%-)", "C"},
+  {"(s%-)", "S"},
+  {KEY_BUTTON3, "M3"},
+  {KEY_MOUSEWHEELUP, "MU"},
+  {KEY_MOUSEWHEELDOWN, "MD"},
+  {KEY_SPACE, "Sp"},
+  {CAPSLOCK_KEY_TEXT, "CL"},
+  {"BUTTON", "M"},
+  {"NUMPAD", "N"},
+  {"(ALT%-)", "A"},
+  {"(CTRL%-)", "C"},
+  {"(SHIFT%-)", "S"},
+  {"MOUSEWHEELUP", "MU"},
+  {"MOUSEWHEELDOWN", "MD"},
+  {"SPACE", "Sp"},
+  {"PAGEUP", "PU"},
+  {"PAGEDOWN", "PD"}
+}
+
 -----------------------------
 -- rActionBar Global
 -----------------------------
@@ -63,8 +89,6 @@ rActionBar.addonColor = "0000FF00"
 -----------------------------
 -- Functions
 -----------------------------
-
--- Blizzard
 
 -- DisableAllScripts
 local function DisableAllScripts(frame)
@@ -108,6 +132,32 @@ end
 hooksecurefunc(getmetatable(ActionButton1Cooldown).__index, "SetCooldown", FixCooldownFlash)
 
 -- Core
+
+function L:UpdateHotKey()
+  local hotkey = _G[self:GetName() .. "HotKey"]
+  local text = hotkey:GetText()
+
+  if not text then
+    return
+  end
+
+  for _, value in pairs(keysText) do
+    text = gsub(text, value[1], value[2])
+  end
+
+  if text == RANGE_INDICATOR then
+    hotkey:SetText("")
+  else
+    hotkey:SetText(text)
+  end
+end
+
+function L:HookHotKey(button)
+  L.UpdateHotKey(button)
+  if button.UpdateHotkeys then
+    hooksecurefunc(button, "UpdateHotkeys", L.UpdateHotKey)
+  end
+end
 
 function L:GetButtonList(buttonName, numButtons)
   local buttonList = {}
@@ -799,20 +849,22 @@ function rButtonTemplate:StyleActionButton(button, cfg)
   -- no clue why but blizzard created count and duration on background layer, need to fix that
   local overlay = CreateFrame("Frame", nil, button)
   overlay:SetAllPoints()
+
   if count then
     count:SetParent(overlay)
-  end
-  if hotkey then
-    hotkey:SetParent(overlay)
-  end
-  if name then
-    name:SetParent(overlay)
+    SetupFontString(count, cfg.count)
   end
 
-  -- hotkey+count+name
-  SetupFontString(hotkey, cfg.hotkey)
-  SetupFontString(count, cfg.count)
-  SetupFontString(name, cfg.name)
+  if hotkey then
+    hotkey:SetParent(overlay)
+    L:HookHotKey(button)
+    SetupFontString(hotkey, cfg.hotkey)
+  end
+
+  if name then
+    name:SetParent(overlay)
+    SetupFontString(name, cfg.name)
+  end
 
   button.__styled = true
 end
