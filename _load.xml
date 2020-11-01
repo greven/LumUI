@@ -15,6 +15,7 @@
 	<Script file='elements\cooldownsPulse.lua' />
 	<Script file='elements\stacks.lua' />
 	<Script file='elements\stats.lua' />
+	<Script file='elements\name.lua' />
 
 	<!-- <Script file='mods\addons.lua' /> -->
 	<Script file='mods\auras.lua' />

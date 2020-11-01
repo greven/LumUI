@@ -83,18 +83,7 @@ function L:Gradient(perc)
 end
 
 -- Create Panel
-function L:CreatePanel(
-  classColored,
-  hasShadow,
-  fname,
-  fparent,
-  fwidth,
-  fheight,
-  fpoints,
-  ftilesize,
-  fedgesize,
-  finsect,
-  shadowalpha)
+function L:CreatePanel(classColored, hasShadow, fname, fparent, fwidth, fheight, fpoints, ftilesize, fedgesize, finsect, shadowalpha)
   local f = CreateFrame("Frame", fname .. "Border", UIParent, "BackdropTemplate")
   if classColored then
     bColor = G.classColor

@@ -23,6 +23,8 @@ C.color = {
   border = {r = 1 / 8, g = 1 / 8, b = 1 / 8, a = 1} -- default border color
 }
 
+local visibility = "[mod][combat][harm,nodead] show; [flying] hide; show"
+
 -- Default Settings
 C.settings = {
   -- Mods
@@ -48,7 +50,14 @@ C.settings = {
     classColored = true,
     textColor = {r = 0.92, g = 0.92, b = 0.92, a = 1},
     fontShadow = true,
-    clock24 = true
+    clock24 = true,
+    frameVisibility = visibility,
+    fader = {
+      fadeInAlpha = 1,
+      fadeInDuration = 0.3,
+      fadeOutAlpha = 0,
+      fadeOutDuration = 0.3
+    }
   }
 }
 
@@ -107,7 +116,7 @@ local actionBars = {
   buttonSize = 33,
   buttonMargin = 3,
   padding = 2,
-  keybindsAlpha = 1,
+  keybindsAlpha = 0.9,
   macroTextAlpha = 0,
   fader = {
     fadeInAlpha = 1,
@@ -141,7 +150,7 @@ actionBars.bar1 = {
   numCols = 12,
   startPoint = "BOTTOMLEFT",
   fader = nil,
-  frameVisibility = "[mod][combat][harm,nodead] show; [flying] hide; show"
+  frameVisibility = visibility
 }
 
 -- MultiActionBar Bottom Left
@@ -155,7 +164,7 @@ actionBars.bar2 = {
   numCols = 12,
   startPoint = "BOTTOMLEFT",
   fader = nil,
-  frameVisibility = "[mod][combat][harm,nodead] show; [flying] hide; show"
+  frameVisibility = visibility
 }
 
 -- MultiActionBar Bottom Right
@@ -169,7 +178,7 @@ actionBars.bar3 = {
   numCols = 6,
   startPoint = "TOPLEFT",
   fader = nil,
-  frameVisibility = "[mod][combat][harm,nodead] show; [flying] hide; show"
+  frameVisibility = visibility
 }
 
 -- MultiActionBar Right 1

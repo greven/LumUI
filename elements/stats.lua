@@ -90,9 +90,7 @@ local classColor = RAID_CLASS_COLORS[select(2, UnitClass("player"))]
 
 -- Repair Slots
 local SLOTS = {}
-for _, slot in pairs(
-	{"Head", "Shoulder", "Chest", "Waist", "Legs", "Feet", "Wrist", "Hands", "MainHand", "SecondaryHand"}
-) do
+for _, slot in pairs({"Head", "Shoulder", "Chest", "Waist", "Legs", "Feet", "Wrist", "Hands", "MainHand", "SecondaryHand"}) do
 	SLOTS[slot] = GetInventorySlotInfo(slot .. "Slot")
 end
 
@@ -222,19 +220,7 @@ function ls:BuildBNetFriendsTable()
 	local realmName, faction, race, class, zoneName, level
 
 	for i = 1, totalFriends do
-		presenceID,
-			accountName,
-			battleTag,
-			_,
-			characterName,
-			bnetIDGameAccount,
-			client,
-			isOnline,
-			_,
-			isAFK,
-			isDND,
-			_,
-			noteText = BNGetFriendInfo(i)
+		presenceID, accountName, battleTag, _, characterName, bnetIDGameAccount, client, isOnline, _, isAFK, isDND, _, noteText = BNGetFriendInfo(i)
 
 		if isOnline then
 			BNetTable[i] = {
@@ -360,16 +346,7 @@ function ls:SetLeftTooltip()
 		GameTooltip:AddDoubleLine("Crit", format("%d%%", (floor(GetCritChance() + 0.5))), 1, 1, 1, 0.75, 0.75, 0.75)
 		GameTooltip:AddDoubleLine("Haste", format("%d%%", (floor(GetHaste() + 0.5))), 1, 1, 1, 0.75, 0.75, 0.75)
 		GameTooltip:AddDoubleLine("Mastery", format("%d%%", select(1, GetMasteryEffect())), 1, 1, 1, 0.75, 0.75, 0.75)
-		GameTooltip:AddDoubleLine(
-			"Versatility",
-			format("%d%% / %d%%", GetCombatRatingBonus(29), GetCombatRatingBonus(31)),
-			1,
-			1,
-			1,
-			0.75,
-			0.75,
-			0.75
-		)
+		GameTooltip:AddDoubleLine("Versatility", format("%d%% / %d%%", GetCombatRatingBonus(29), GetCombatRatingBonus(31)), 1, 1, 1, 0.75, 0.75, 0.75)
 
 		GameTooltip:AddLine(" ")
 		GameTooltip:AddLine("Left click to open Talents")
@@ -407,16 +384,7 @@ function ls:SetCenterTooltip()
 			-- BNet friends
 			if numBNetOnline > 0 then
 				GameTooltip:AddLine(" ")
-				GameTooltip:AddDoubleLine(
-					"BNet Friends",
-					format("%s (%s)", numBNetOnline, numBNetFavoriteOnline),
-					0,
-					0.6,
-					0.9,
-					1,
-					1,
-					1
-				)
+				GameTooltip:AddDoubleLine("BNet Friends", format("%s (%s)", numBNetOnline, numBNetFavoriteOnline), 0, 0.6, 0.9, 1, 1, 1)
 				GameTooltip:AddLine("-------------", 0.3, 0.3, 0.3)
 
 			-- for i = 1, #BNetTable do
@@ -532,19 +500,7 @@ function ls:Init()
 	ls:SetupTooltips()
 
 	-- Create the Panel
-	L:CreatePanel(
-		cfg.classColored,
-		true,
-		"BottomPanel",
-		"UIParent",
-		width,
-		cfg.height,
-		{{"BOTTOM", "UIParent", "BOTTOM", 0, -4}},
-		32,
-		12,
-		0,
-		0.5
-	)
+	L:CreatePanel(cfg.classColored, true, "Stats", ls, width, cfg.height, {{"BOTTOM", "UIParent", "BOTTOM", 0, -4}}, 32, 12, 0, 0.5)
 
 	self:SetScript("OnUpdate", self.Update)
 end
@@ -682,6 +638,9 @@ function ls:ADDON_LOADED(event, ...)
 	-- ls:RegisterEvent("CVAR_UPDATE")
 	-- ls:RegisterEvent("CALENDAR_UPDATE_PENDING_INVITES")
 	ls:UnregisterEvent("ADDON_LOADED")
+
+	-- Frame Visibility
+	RegisterStateDriver(ls, "visibility", C.settings.stats.frameVisibility)
 end
 
 ls:Init() -- Begins the Magic!
