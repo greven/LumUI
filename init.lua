@@ -27,5 +27,9 @@ end
 
 -- Screen size
 G.resolution = GetCVar("gxFullscreenResolution")
-G.screenheight = tonumber(string.match(G.resolution, "%d+x(%d+)"))
-G.screenwidth = tonumber(string.match(G.resolution, "(%d+)x+%d"))
+G.screenWidth, G.screenHeight = GetPhysicalScreenSize()
+
+-- UI scale
+-- SetCVar("useuiscale", 0.53)
+-- SetCVar("uiscale", 0.53)
+-- UIParent:SetScale(768 / G.screenHeight)

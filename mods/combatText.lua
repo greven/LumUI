@@ -13,16 +13,16 @@ local endY = 500
 local scrollSpeed = 2.5
 
 CombatTextFont:SetFont(font, fontSize, "OUTLINE")
--- CombatTextFont:SetShadowOffset(1, -1)
+CombatTextFont:SetShadowOffset(1, -1)
 CombatTextFont:SetShadowColor(0, 0, 0, 0.8)
 
 CombatTextFontOutline:SetFont(font, fontSize, "OUTLINE")
--- CombatTextFontOutline:SetShadowOffset(1, -1)
+CombatTextFontOutline:SetShadowOffset(1, -1)
 CombatTextFontOutline:SetShadowColor(0, 0, 0, 0.8)
 
 COMBAT_TEXT_HEIGHT = fontSize
-COMBAT_TEXT_CRIT_MAXHEIGHT = 14
-COMBAT_TEXT_CRIT_MINHEIGHT = 14
+COMBAT_TEXT_CRIT_MAXHEIGHT = 12
+COMBAT_TEXT_CRIT_MINHEIGHT = 12
 COMBAT_TEXT_SCROLLSPEED = scrollSpeed
 
 local function UpdateDisplayMessages()
