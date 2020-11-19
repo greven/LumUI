@@ -14,7 +14,7 @@ G.media = {
   bg = "Interface\\AddOns\\lumUI\\media\\Textures\\background_flat",
   border = "Interface\\AddOns\\lumUI\\media\\Textures\\border_squared",
   glow = "Interface\\AddOns\\lumUI\\media\\Textures\\texture_glow",
-  buffsBorder = "Interface\\AddOns\\lumUI\\media\\Textures\\border_buffs"
+  buffsBorder = "Interface\\AddOns\\lumUI\\media\\Textures\\aura_border"
 }
 
 -- Colors
@@ -184,7 +184,7 @@ actionBars.bar3 = {
 -- MultiActionBar Right 1
 
 actionBars.bar4 = {
-  framePoint = {"RIGHT", UIParent, "RIGHT", -5, 0},
+  framePoint = {"RIGHT", UIParent, "RIGHT", -4, -16},
   frameScale = 1,
   framePadding = actionBars.padding,
   buttonWidth = actionBars.buttonSize,
@@ -252,7 +252,8 @@ actionBars.extrabar = {
   buttonMargin = actionBars.buttonMargin,
   numCols = 1,
   startPoint = "BOTTOMLEFT",
-  fader = nil
+  fader = nil,
+  frameVisibility = visibility
 }
 
 -- VechicleExitBar

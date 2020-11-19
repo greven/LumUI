@@ -171,47 +171,48 @@ end
 -- ---------------------------------
 
 if acceptFriendlyInvites then
-	eventframe:RegisterEvent("PARTY_INVITE_REQUEST")
-	function eventframe:PARTY_INVITE_REQUEST(arg1)
-		if QueueStatusMinimapButton:IsShown() then
-			return
-		end
-		if IsInGroup() then
-			return
-		end
-		local accept = false
-		for index = 1, GetNumFriends() do
-			if GetFriendInfo(index) == arg1 then
-				accept = true
-				break
-			end
-		end
-		if not accept and IsInGuild() then
-			GuildRoster()
-			for index = 1, GetNumGuildMembers() do
-				if GetGuildRosterInfo(index) == arg1 then
-					accept = true
-					break
-				end
-			end
-		end
-		if not accept then
-			for index = 1, BNGetNumFriends() do
-				local toonName = select(5, BNGetFriendInfo(index))
-				if toonName == arg1 then
-					accept = true
-					break
-				end
-			end
-		end
-		if accept then
-			local pop = StaticPopup_Visible("PARTY_INVITE")
-			if pop then
-				StaticPopup_OnClick(_G[pop], 1)
-				return
-			end
-		end
-	end
+	-- TODO: Fix this!
+	-- eventframe:RegisterEvent("PARTY_INVITE_REQUEST")
+	-- function eventframe:PARTY_INVITE_REQUEST(arg1)
+	-- 	if QueueStatusMinimapButton:IsShown() then
+	-- 		return
+	-- 	end
+	-- 	if IsInGroup() then
+	-- 		return
+	-- 	end
+	-- 	local accept = false
+	-- 	for index = 1, GetNumFriends() do
+	-- 		if GetFriendInfo(index) == arg1 then
+	-- 			accept = true
+	-- 			break
+	-- 		end
+	-- 	end
+	-- 	if not accept and IsInGuild() then
+	-- 		GuildRoster()
+	-- 		for index = 1, GetNumGuildMembers() do
+	-- 			if GetGuildRosterInfo(index) == arg1 then
+	-- 				accept = true
+	-- 				break
+	-- 			end
+	-- 		end
+	-- 	end
+	-- 	if not accept then
+	-- 		for index = 1, BNGetNumFriends() do
+	-- 			local toonName = select(5, BNGetFriendInfo(index))
+	-- 			if toonName == arg1 then
+	-- 				accept = true
+	-- 				break
+	-- 			end
+	-- 		end
+	-- 	end
+	-- 	if accept then
+	-- 		local pop = StaticPopup_Visible("PARTY_INVITE")
+	-- 		if pop then
+	-- 			StaticPopup_OnClick(_G[pop], 1)
+	-- 			return
+	-- 		end
+	-- 	end
+	-- end
 end
 
 -- ---------------------------------

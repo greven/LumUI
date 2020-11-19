@@ -66,8 +66,8 @@ function f:styleButtons()
 
   --backdrop
   actionButtonConfig.backdrop = {
-    bgFile = mediapath .. "backdrop",
-    edgeFile = mediapath .. "backdropBorder",
+    bgFile = mediapath .. "button_backdrop",
+    edgeFile = mediapath .. "button_shadow",
     tile = false,
     tileSize = 32,
     edgeSize = 5,
@@ -106,7 +106,7 @@ function f:styleButtons()
 
   --border
   actionButtonConfig.border = {
-    file = mediapath .. "border",
+    file = mediapath .. "button_border",
     blendMode = "ADD",
     texCoord = {0, 1, 0, 1},
     points = {

@@ -744,6 +744,7 @@ local function SetupTexture(texture, cfg, func, button)
   if not texture or not cfg then
     return
   end
+
   ApplyTexCoord(texture, cfg.texCoord)
   ApplyBlendMode(texture, cfg.blendMode)
   ApplySizeFactor(texture, cfg.sizeFactor)

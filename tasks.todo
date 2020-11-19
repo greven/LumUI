@@ -22,6 +22,9 @@ bags:
 Quest Tracker:
   ☐ Redesign / re-implement / re-skin
 
+Combat Text:
+  ☐ Does this even work? Try to reduce font size, etc.
+
 Settings:
   ☐ Review all the .lua settings and consolidate the defaults across the modules
   ☐ Do something useful with the GUI options!
