@@ -134,7 +134,8 @@ local actionBars = {
     fadeOutDuration = 0.4,
     fadeInSmooth = "OUT",
     fadeOutSmooth = "OUT",
-    showInCombat = true
+    showInCombat = true,
+    showInGroup = true
   }
 }
 
@@ -193,6 +194,7 @@ actionBars.bar4 = {
   numCols = 1,
   startPoint = "TOPRIGHT",
   fader = actionBars.combatFader
+  -- frameVisibility = visibility
 }
 
 -- MultiActionBar Right 2
@@ -212,7 +214,7 @@ actionBars.bar5 = {
     fadeOutDuration = 0.4,
     fadeInSmooth = "OUT",
     fadeOutSmooth = "OUT",
-    showInCombat = true
+    showInCombat = false
   }
 }
 

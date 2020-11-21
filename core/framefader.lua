@@ -11,17 +11,17 @@ local L, C, G = unpack(select(2, ...))
 
 local SpellFlyout = SpellFlyout
 
+local isInGroup = IsInGroup()
+
 -----------------------------
 -- Functions
 -----------------------------
 
 local function FaderOnFinished(self)
-  --print("FaderOnFinished",self.__owner:GetName(),self.finAlpha)
   self.__owner:SetAlpha(self.finAlpha)
 end
 
 local function FaderOnUpdate(self)
-  --print("FaderOnUpdate",self.__owner:GetName(),self.__animFrame:GetAlpha())
   self.__owner:SetAlpha(self.__animFrame:GetAlpha())
 end
 
@@ -50,7 +50,7 @@ function L:StartFadeIn(frame)
   frame.fader.anim:SetToAlpha(frame.faderConfig.fadeInAlpha or 1)
   frame.fader.anim:SetDuration(frame.faderConfig.fadeInDuration or 0.3)
   frame.fader.anim:SetSmoothing(frame.faderConfig.fadeInSmooth or "OUT")
-  --start right away
+  -- start right away
   frame.fader.anim:SetStartDelay(frame.faderConfig.fadeInDelay or 0)
   frame.fader.finAlpha = frame.faderConfig.fadeInAlpha
   frame.fader.direction = "in"
@@ -58,15 +58,16 @@ function L:StartFadeIn(frame)
 end
 
 function L:StartFadeOut(frame)
-  if frame.fader.direction == "out" or (InCombatLockdown() and frame.faderConfig.showInCombat) then
+  if frame.fader.direction == "out" or (InCombatLockdown() and frame.faderConfig.showInCombat) or isInGroup then
     return
   end
+
   frame.fader:Pause()
   frame.fader.anim:SetFromAlpha(frame.faderConfig.fadeInAlpha or 1)
   frame.fader.anim:SetToAlpha(frame.faderConfig.fadeOutAlpha or 0)
   frame.fader.anim:SetDuration(frame.faderConfig.fadeOutDuration or 0.3)
   frame.fader.anim:SetSmoothing(frame.faderConfig.fadeOutSmooth or "OUT")
-  --wait for some time before starting the fadeout
+  -- wait for some time before starting the fadeout
   frame.fader.anim:SetStartDelay(frame.faderConfig.fadeOutDelay or 0)
   frame.fader.finAlpha = frame.faderConfig.fadeOutAlpha
   frame.fader.direction = "out"
@@ -109,7 +110,7 @@ local function SpellFlyoutOnShow(self)
   if not frame.fader then
     return
   end
-  --set new frame parent
+
   self.__faderParent = frame
   if not self.__faderHook then
     SpellFlyout:HookScript("OnEnter", OffFrameHandler)
@@ -140,21 +141,48 @@ local function onCombatEvent(self, event, ...)
   end
 end
 
+local function isPlayerGrouped(self, event, ...)
+  local frame = self
+  isInGroup = IsInGroup()
+  print(isInGroup)
+  if isInGroup then
+    L:StartFadeIn(frame)
+  else
+    L:StartFadeOut(frame)
+  end
+end
+
 function L:CreateFrameFader(frame, faderConfig)
   if frame.faderConfig then
     return
   end
 
   -- Show / Hide when in combat
-  if faderConfig.showInCombat then
+  if faderConfig.showInCombat or faderConfig.showInGroup then
     frame:SetScript(
       "OnEvent",
       function(self, event, ...)
-        onCombatEvent(self, event, ...)
+        if faderConfig.showInCombat then
+          onCombatEvent(self, event, ...)
+        end
+
+        if faderConfig.showInGroup then
+          isPlayerGrouped(self, event, ...)
+        end
       end
     )
-    frame:RegisterEvent("PLAYER_REGEN_ENABLED")
-    frame:RegisterEvent("PLAYER_REGEN_DISABLED")
+
+    if faderConfig.showInCombat then
+      frame:RegisterEvent("PLAYER_REGEN_ENABLED")
+      frame:RegisterEvent("PLAYER_REGEN_DISABLED")
+    end
+
+    if faderConfig.showInGroup then
+      frame:RegisterEvent("PLAYER_LOGIN")
+      frame:RegisterEvent("PLAYER_ENTERING_WORLD")
+      frame:RegisterEvent("GROUP_JOINED")
+      frame:RegisterEvent("GROUP_LEFT")
+    end
   end
 
   frame.faderConfig = faderConfig
