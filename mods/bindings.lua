@@ -90,7 +90,7 @@ function b:PLAYER_LOGIN()
 
 	-- Buttons
 	SetBindingClick("ALT-W", addon .. "SummonRandomMount") -- Summon Random Mount
-	SetBindingClick("ALT-X", addon .. "SummonYak") -- Summon Grand Expedition Yak
+	SetBindingClick("ALT-S", addon .. "SummonYak") -- Summon Grand Expedition Yak
 	SetBindingClick("HOME", addon .. "HearthstoneButton") -- Hearthstone
 	SetBindingClick("F12", addon .. "ReloadButton") -- Reload UI
 

@@ -144,7 +144,7 @@ end
 local function isPlayerGrouped(self, event, ...)
   local frame = self
   isInGroup = IsInGroup()
-  print(isInGroup)
+
   if isInGroup then
     L:StartFadeIn(frame)
   else
