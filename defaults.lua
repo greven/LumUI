@@ -198,7 +198,7 @@ actionBars.bar4 = {
     buttonMargin = actionBars.buttonMargin,
     numCols = 1,
     startPoint = "TOPRIGHT",
-    frameVisibility = visibility
+    frameVisibility = "[mod][combat][harm,nodead] show; hide"
 }
 
 -- MultiActionBar Right 2
