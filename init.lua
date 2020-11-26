@@ -1,7 +1,6 @@
 -- --------------------------------------------
 -- > lumUI (Kreoss @ Quel'Thalas EU) <
 -- --------------------------------------------
-
 local A, ns = ...
 
 ns[1] = {} -- functions, constants, variables
@@ -20,16 +19,27 @@ G.playerClass = select(2, UnitClass("player"))
 -- Colors
 G.classColor = RAID_CLASS_COLORS[G.playerClass] -- Class Colors
 
--- !ClassColors addon
-if (IsAddOnLoaded("!ClassColors") and CUSTOM_CLASS_COLORS) then
-  G.classColor = CUSTOM_CLASS_COLORS[G.playerClass]
+-- Functions
+local function Round(number, idp)
+    idp = idp or 0
+    local mult = 10 ^ idp
+    return floor(number * mult + .5) / mult
 end
 
--- Screen size
-G.resolution = GetCVar("gxFullscreenResolution")
-G.screenWidth, G.screenHeight = GetPhysicalScreenSize()
+-- !ClassColors addon
+if (IsAddOnLoaded("!ClassColors") and CUSTOM_CLASS_COLORS) then
+    G.classColor = CUSTOM_CLASS_COLORS[G.playerClass]
+end
 
--- UI scale
--- SetCVar("useuiscale", 0.53)
--- SetCVar("uiscale", 0.53)
--- UIParent:SetScale(768 / G.screenHeight)
+-- Screen Size and UI Scale
+G.ScreenWidth, G.ScreenHeight = GetPhysicalScreenSize()
+local function GetBestScale()
+    local scale = max(.4, min(1.15, 768 / G.ScreenHeight))
+    return Round(scale, 2)
+end
+
+local pixel = 1
+local scale = GetBestScale()
+local ratio = 768 / G.ScreenHeight
+G.mult = (pixel / scale) - ((pixel - ratio) / scale)
+

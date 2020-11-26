@@ -10,6 +10,12 @@ function L:MergeTables(t1, t2)
   for k,v in pairs(t2) do t1[k] = v end
 end
 
+function L:Round(number, idp)
+  idp = idp or 0
+  local mult = 10 ^ idp
+  return floor(number * mult + .5) / mult
+end
+
 function L:RegisterCallback(event, callback, ...)
   if not self.eventFrame then
     self.eventFrame = CreateFrame("Frame")

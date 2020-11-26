@@ -8,6 +8,9 @@ local L, C, G = unpack(select(2, ...))
 
 -- Important: Override each property individually or copy all the defaults
 
+-- Example: Disable a LumUI module
+C.settings.actionbar = false
+
 -- local actionBars = {
 --   buttonSize = 33,
 --   buttonMargin = 3,

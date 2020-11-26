@@ -85,8 +85,8 @@ C.settings.minimap = {
     customizeQuestTracker = true, -- Move and customize the quest tracker frame
     questTrackerAnchor = "TOPRIGHT", -- Quest Tracker anchor point
     questTrackerAnchorParent = "TOPRIGHT", -- Quest Tracker parent anchor point
-    questTrackerPosX = -64, -- Quest Tracker Horizontal Position
-    questTrackerPosY = -52 -- Quest Tracker Vertical Position
+    questTrackerPosX = -100, -- Quest Tracker Horizontal Position
+    questTrackerPosY = -100 -- Quest Tracker Vertical Position
 }
 
 -- Auras
