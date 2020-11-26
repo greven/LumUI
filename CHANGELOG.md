@@ -1,3 +1,9 @@
+### Version 9.0.5
+
+- Add option to disable action bars module
+- Quest log tweaking
+- Tweaks
+
 ### Version 9.0.4
 
 - Small Fixes
