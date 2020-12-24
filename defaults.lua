@@ -25,8 +25,6 @@ C.color = {
     border = {r = 1 / 8, g = 1 / 8, b = 1 / 8, a = 1} -- default border color
 }
 
-local visibility = "[mod][combat][harm,nodead] show; [flying] hide; show"
-
 -- Default Settings
 C.settings = {
     -- Mods
@@ -53,7 +51,7 @@ C.settings = {
         textColor = {r = 0.92, g = 0.92, b = 0.92, a = 1},
         fontShadow = true,
         clock24 = true,
-        frameVisibility = visibility,
+        frameVisibility = "[mod][combat][harm,nodead] show; [flying] hide; show",
         fader = {
             fadeInAlpha = 1,
             fadeInDuration = 0.3,
@@ -156,7 +154,7 @@ actionBars.bar1 = {
     numCols = 12,
     startPoint = "BOTTOMLEFT",
     fader = nil,
-    frameVisibility = visibility
+    frameVisibility = "[mod][combat][harm,nodead] show; [flying] hide; show"
 }
 
 -- MultiActionBar Bottom Left
@@ -170,7 +168,7 @@ actionBars.bar2 = {
     numCols = 12,
     startPoint = "BOTTOMLEFT",
     fader = nil,
-    frameVisibility = visibility
+    frameVisibility = "[mod][combat][harm,nodead] show; [flying] hide; show"
 }
 
 -- MultiActionBar Bottom Right
@@ -184,7 +182,7 @@ actionBars.bar3 = {
     numCols = 6,
     startPoint = "TOPLEFT",
     fader = nil,
-    frameVisibility = visibility
+    frameVisibility = "[mod][combat][harm,nodead] show; [flying] hide; show"
 }
 
 -- MultiActionBar Right 1
@@ -261,7 +259,7 @@ actionBars.extrabar = {
     numCols = 1,
     startPoint = "BOTTOMLEFT",
     fader = nil,
-    frameVisibility = visibility
+    frameVisibility = "[mod][combat][harm,nodead] show; [flying] hide; show"
 }
 
 -- VechicleExitBar

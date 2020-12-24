@@ -168,16 +168,15 @@ function lm:Init(event)
     -- Garrison Report
     GarrisonLandingPageMinimapButton:ClearAllPoints()
     GarrisonLandingPageMinimapButton:SetParent(Minimap)
-    GarrisonLandingPageMinimapButton:SetPoint("BOTTOMRIGHT", Minimap,
-                                              "BOTTOMRIGHT", 0, 0)
+    GarrisonLandingPageMinimapButton:SetPoint("BOTTOMRIGHT", Minimap, "BOTTOMRIGHT", 0, 0)
     GarrisonLandingPageMinimapButton:SetScale(0.7)
-    GarrisonLandingPageMinimapButton:SetAlpha(0)
-    GarrisonLandingPageMinimapButton:SetScript("OnEnter", function(self)
-        self:SetAlpha(100)
-    end) -- Hover it Appears! Magic!!
-    GarrisonLandingPageMinimapButton:SetScript("OnLeave", function(self)
-        self:SetAlpha(0)
-    end) -- Hover Disapears!
+    -- GarrisonLandingPageMinimapButton:SetAlpha(0)
+    -- GarrisonLandingPageMinimapButton:SetScript("OnEnter", function(self)
+    --     self:SetAlpha(100)
+    -- end)
+    -- GarrisonLandingPageMinimapButton:SetScript("OnLeave", function(self)
+    --     self:SetAlpha(0)
+    -- end)
 end
 
 -- Set Minimap Position

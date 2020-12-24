@@ -53,7 +53,11 @@ local hearthstoneToys = {
 	168907, -- Holographic Digitalization Hearthstone
 	165802, -- Noble Gardener's Hearthstone
 	165670, -- Peddlefeet's Lovely Hearthstone
-	172179 -- Eternal Traveler's Hearthstone
+	172179, -- Eternal Traveler's Hearthstone
+	184353, -- Kyrian Hearthstone
+	183716, -- Venthyr Sinstone
+	182773, -- Necrolord Hearthstone
+	180290 -- Night Fae Hearthstone
 }
 
 local Button = CreateFrame("Button", addon .. "HearthstoneButton", nil, "SecureActionButtonTemplate")
